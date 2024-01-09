@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <vector>
 #include "Engine/IApplication.h"
 
 class IGraphics;
@@ -34,6 +35,8 @@ private:
 	void UpdateRingTestSelection();
 	void TestRingSolution();
 
+	void SwitchToNextRingHolder(int direction);
+
 	void OnSuccess();
 
 	//IRenderable* Rings[NumberOfRings];
@@ -41,8 +44,7 @@ private:
 	//RingLayer SelectedRing;
 	GameState State;
 
+	std::vector<RingHolder*> RingHolders;
 	RingHolder* CurrentRingHolder;
-
-	RingHolder* TestRingHolder;
 };
 

@@ -39,15 +39,36 @@ bool Game::IsValid()
 
 bool Game::Load()
 {
-	CurrentRingHolder = new RingHolder(Graphics);	
-	CurrentRingHolder->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
-	CurrentRingHolder->SetPosition(0, 0);
-	CurrentRingHolder->SetScale(0.5f, 0.5f);
+	// left top
+	RingHolder* TestRingHolder0 = new RingHolder(Graphics);
+	TestRingHolder0->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
+	TestRingHolder0->SetPosition(-100,100);
+	TestRingHolder0->SetScale(0.5f, 0.5f);
 
-	TestRingHolder = new RingHolder(Graphics);
-	TestRingHolder->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
-	TestRingHolder->SetPosition(300, 0);
-	TestRingHolder->SetScale(0.5f, 0.5f);
+	// left buttom
+	RingHolder* TestRingHolder1 = new RingHolder(Graphics);
+	TestRingHolder1->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
+	TestRingHolder1->SetPosition(-100,-100);
+	TestRingHolder1->SetScale(0.5f, 0.5f);
+
+	// right top
+	RingHolder* TestRingHolder2 = new RingHolder(Graphics);
+	TestRingHolder2->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
+	TestRingHolder2->SetPosition(100, 100);
+	TestRingHolder2->SetScale(0.5f, 0.5f);
+
+	// right buttom
+	RingHolder* TestRingHolder3 = new RingHolder(Graphics);
+	TestRingHolder3->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
+	TestRingHolder3->SetPosition(100, -100);
+	TestRingHolder3->SetScale(0.5f, 0.5f);
+
+	RingHolders.push_back(TestRingHolder0);
+	RingHolders.push_back(TestRingHolder1);
+	RingHolders.push_back(TestRingHolder2);
+	RingHolders.push_back(TestRingHolder3);
+
+	CurrentRingHolder = RingHolders[0];
 
 	State = GameState::Setup;
 
@@ -104,8 +125,11 @@ void Game::UpdateRingSelection()
 
 	if (Input->IsPressed(InputAction::DirectionPadTop))
 	{
-		// X on controller
-		CurrentRingHolder->UpdateRingSelection(-1);
+		SwitchToNextRingHolder(-1);
+	}
+	else if (Input->IsPressed(InputAction::DirectionPadBottom))
+	{
+		SwitchToNextRingHolder(1);
 	}
 }
 
@@ -126,6 +150,23 @@ void Game::UpdateRingTestSelection()
 void Game::TestRingSolution()
 {
 	CurrentRingHolder->CheckForSuccess();
+}
+
+void Game::SwitchToNextRingHolder(int direction)
+{
+	int currentRingHolderIndex = 0;
+
+	for (unsigned int RingHolder = 0; RingHolder < RingHolders.size(); ++RingHolder)
+	{
+		if (RingHolders[RingHolder] == CurrentRingHolder)
+		{
+			currentRingHolderIndex = RingHolder;
+			break;
+		}
+	}
+
+	int nextRingHolderIndex = CLAMP(currentRingHolderIndex + direction, 0, RingHolders.size() - 1);
+	CurrentRingHolder = RingHolders[nextRingHolderIndex];
 }
 
 void Game::OnSuccess()
