@@ -100,6 +100,10 @@ DirectX11Graphics::DirectX11Graphics(HWND hwndIn) : Device(nullptr), Context(nul
         Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
         Device->CreateBlendState(&Desc, &BlendState);
     }
+
+    // For text rendering
+    SpriteBatch = std::unique_ptr<DirectX::SpriteBatch>(new DirectX::SpriteBatch(Context));
+    SpriteFont = std::unique_ptr<DirectX::SpriteFont>(new DirectX::SpriteFont(Device, L"Resource\\Fonts\\myfileb.spritefont"));
 }
 
 DirectX11Graphics::~DirectX11Graphics()
@@ -160,7 +164,12 @@ void DirectX11Graphics::Update()
             }
         }
 
-        SwapChain->Present(0, 0);
+        // For text rendering
+        SpriteBatch->Begin();
+        SpriteFont->DrawString(SpriteBatch.get(), L"Hello World", DirectX::XMFLOAT2(0, 0), DirectX::Colors::DarkRed, 0.0f, DirectX::XMFLOAT2(0, 0), DirectX::XMFLOAT2(1.0f, 1.0f));
+        SpriteBatch->End();
+
+        SwapChain->Present(0, 0); 
     }
 }
 

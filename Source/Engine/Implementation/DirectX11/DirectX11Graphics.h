@@ -6,6 +6,10 @@
 #include <d3dcommon.h>
 #include <DirectXMath.h>
 
+// for text rendering
+#include <SpriteBatch.h>
+#include <SpriteFont.h>
+
 struct ID3D11Device;
 struct ID3D11DeviceContext;
 struct IDXGISwapChain;
@@ -52,5 +56,8 @@ private:
 	int width;
 	int height;
 
+	// For text rendering
+	std::unique_ptr<DirectX::SpriteBatch> SpriteBatch;
+	std::unique_ptr<DirectX::SpriteFont> SpriteFont;
 };
 
