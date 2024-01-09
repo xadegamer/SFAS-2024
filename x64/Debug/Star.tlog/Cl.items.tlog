@@ -1,0 +1,13 @@
+D:\Competition\Star\Source\Engine\IApplication.cpp;D:\Competition\Star\x64\Debug\IApplication.obj
+D:\Competition\Star\Source\Engine\IGraphics.cpp;D:\Competition\Star\x64\Debug\IGraphics.obj
+D:\Competition\Star\Source\Engine\IInput.cpp;D:\Competition\Star\x64\Debug\IInput.obj
+D:\Competition\Star\Source\Engine\Implementation\DirectX11\DirectX11Billboard.cpp;D:\Competition\Star\x64\Debug\DirectX11Billboard.obj
+D:\Competition\Star\Source\Engine\Implementation\DirectX11\DirectX11Graphics.cpp;D:\Competition\Star\x64\Debug\DirectX11Graphics.obj
+D:\Competition\Star\Source\Engine\Implementation\DirectX11\DirectX11Shader.cpp;D:\Competition\Star\x64\Debug\DirectX11Shader.obj
+D:\Competition\Star\Source\Engine\Implementation\DirectX11\DirectX11Texture.cpp;D:\Competition\Star\x64\Debug\DirectX11Texture.obj
+D:\Competition\Star\Source\Engine\Implementation\XInput\DirectXInput.cpp;D:\Competition\Star\x64\Debug\DirectXInput.obj
+D:\Competition\Star\Source\Engine\IRenderable.cpp;D:\Competition\Star\x64\Debug\IRenderable.obj
+D:\Competition\Star\Source\Engine\IShader.cpp;D:\Competition\Star\x64\Debug\IShader.obj
+D:\Competition\Star\Source\Engine\ITexture.cpp;D:\Competition\Star\x64\Debug\ITexture.obj
+D:\Competition\Star\Source\EntryPoints\WindowsMain.cpp;D:\Competition\Star\x64\Debug\WindowsMain.obj
+D:\Competition\Star\Source\Game\Game.cpp;D:\Competition\Star\x64\Debug\Game.obj
