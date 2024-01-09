@@ -92,6 +92,10 @@ void RingHolder::CheckForSuccess()
 	{
 		if (OnSuccessEvent) OnSuccessEvent();
 	}
+	else
+	{
+		SetupRings();
+	}
 }
 
 void RingHolder::SetPosition(float x, float y)

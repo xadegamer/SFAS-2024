@@ -107,7 +107,11 @@ void Game::Cleanup()
 
 void Game::SetupEachRing()
 {
-	RingHolders[CurrentRingHolderIndex]->SetupRings();
+
+	for (size_t i = 0; i < RingHolders.size(); i++)
+	{
+		RingHolders[i]->SetupRings();
+	}
 }
 
 void Game::UpdateRingSelection()
