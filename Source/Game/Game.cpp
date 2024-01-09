@@ -6,6 +6,8 @@
 #include "Engine/IRenderable.h"
 #include "Engine/IInput.h"
 
+#include "RingHolder.h"
+
 #include <ctime>
 #include <math.h>
 
@@ -22,7 +24,7 @@ IApplication* GetApplication(IGraphics* Graphics, IInput* Input)
 	return new Game(Graphics, Input);
 }
 
-Game::Game(IGraphics* GraphicsIn, IInput* InputIn) : IApplication(GraphicsIn, InputIn), Rings(), Arrow(nullptr), SelectedRing(), State()
+Game::Game(IGraphics* GraphicsIn, IInput* InputIn) : IApplication(GraphicsIn, InputIn), State()
 {
 }
 
@@ -37,24 +39,16 @@ bool Game::IsValid()
 
 bool Game::Load()
 {
-	ITexture* InnerTexture = Graphics->CreateTexture(L"Resource/Textures/InnerRing.dds");
-	ITexture* MiddleTexture = Graphics->CreateTexture(L"Resource/Textures/MiddleRing.dds");
-	ITexture* OuterTexture = Graphics->CreateTexture(L"Resource/Textures/OuterRing.dds");
-	ITexture* ArrowTexture = Graphics->CreateTexture(L"Resource/Textures/Arrow.dds");
+	CurrentRingHolder = new RingHolder(Graphics);	
+	CurrentRingHolder->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
+	CurrentRingHolder->SetPosition(0, 0);
+	CurrentRingHolder->SetScale(0.5f, 0.5f);
 
-	IShader* InnerShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", InnerTexture);
-	IShader* MiddleShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", MiddleTexture);
-	IShader* OuterShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", OuterTexture);
-	IShader* ArrowShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", ArrowTexture);
+	TestRingHolder = new RingHolder(Graphics);
+	TestRingHolder->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
+	TestRingHolder->SetPosition(300, 0);
+	TestRingHolder->SetScale(0.5f, 0.5f);
 
-	Rings[static_cast<unsigned int>(RingLayer::Inner)] = Graphics->CreateBillboard(InnerShader);
-	Rings[static_cast<unsigned int>(RingLayer::Middle)] = Graphics->CreateBillboard(MiddleShader);
-	Rings[static_cast<unsigned int>(RingLayer::Outer)] = Graphics->CreateBillboard(OuterShader);
-	Arrow = Graphics->CreateBillboard(ArrowShader);
-
-	std::srand(static_cast<unsigned int>(std::time(0)));
-
-	SelectedRing = RingLayer::Outer;
 	State = GameState::Setup;
 
 	return true;
@@ -92,12 +86,7 @@ void Game::Cleanup()
 
 void Game::SetupEachRing()
 {
-	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
-	{
-		Rings[Ring]->SetRotation(static_cast<float>(fmod(rand(), Pie)));
-	}
-
-	Arrow->SetRotation(static_cast<float>(fmod(rand(), Pie)));
+	CurrentRingHolder->SetupRings();
 }
 
 void Game::UpdateRingSelection()
@@ -105,23 +94,18 @@ void Game::UpdateRingSelection()
 	if (Input->IsPressed(InputAction::ShoulderButtonLeft))
 	{
 		// Change ring selection towards outer
-		int selectionChange = -1;
-		SelectedRing = static_cast<RingLayer>(CLAMP(static_cast<int>(SelectedRing) + selectionChange, 0, NumberOfRings - 1));
+		CurrentRingHolder->UpdateRingSelection(-1);
 	}
 	else if (Input->IsPressed(InputAction::ShoulderButtonRight))
 	{
 		// Change ring selection towards inner
-		int selectionChange = 1;
-		SelectedRing = static_cast<RingLayer>(CLAMP(static_cast<int>(SelectedRing) + selectionChange, 0, NumberOfRings - 1));
+		CurrentRingHolder->UpdateRingSelection(1);
 	}
 }
 
 void Game::UpdateSelectedRingRotation()
 {
-	float delta = Input->GetValue(InputAction::RightStickXAxis) * SpinSpeed * DeltaTime;
-	float rotation = Rings[static_cast<int>(SelectedRing)]->GetTransform().Rotation;
-	float newRotation = static_cast<float>(fmod(rotation + delta, TwoPies));
-	Rings[static_cast<int>(SelectedRing)]->SetRotation(newRotation);
+	CurrentRingHolder->UpdateSelectedRingRotation(Input->GetValue(InputAction::RightStickXAxis));
 }
 
 void Game::UpdateRingTestSelection()
@@ -135,26 +119,10 @@ void Game::UpdateRingTestSelection()
 
 void Game::TestRingSolution()
 {
-	float totalRotationDifference = 0.0f;
-	float arrowRotation = Arrow->GetTransform().Rotation + TwoPies;
+	CurrentRingHolder->CheckForSuccess();
+}
 
-	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
-	{
-		totalRotationDifference += abs(arrowRotation - (Rings[Ring]->GetTransform().Rotation + TwoPies));
-	}
-
-	float averageRotationDifference = totalRotationDifference / NumberOfRings;
-
-	if (averageRotationDifference < WinTolerance)
-	{		
-		// Win
-		totalRotationDifference = 0.0f;
-
-	}
-	else
-	{		
-		// Lose
-		totalRotationDifference = 0.0f;
-
-	}
+void Game::OnSuccess()
+{
+	IsValid();
 }

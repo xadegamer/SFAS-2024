@@ -7,10 +7,12 @@ class IGraphics;
 class ITexture;
 class IShader;
 class IRenderable;
+class RingHolder;
 
-enum RingLayer { Outer, Middle, Inner, NumRings };
+//enum RingLayer { Outer, Middle, Inner, NumRings };
+//static const unsigned int NumberOfRings = static_cast<int>(NumRings);
+
 enum GameState { Setup, Playing, Test, NumModes };
-static const unsigned int NumberOfRings = static_cast<int>(NumRings);
 
 class Game : public IApplication
 {
@@ -32,9 +34,15 @@ private:
 	void UpdateRingTestSelection();
 	void TestRingSolution();
 
-	IRenderable* Rings[NumberOfRings];
-	IRenderable* Arrow;
-	RingLayer SelectedRing;
+	void OnSuccess();
+
+	//IRenderable* Rings[NumberOfRings];
+	//IRenderable* Arrow;
+	//RingLayer SelectedRing;
 	GameState State;
+
+	RingHolder* CurrentRingHolder;
+
+	RingHolder* TestRingHolder;
 };
 

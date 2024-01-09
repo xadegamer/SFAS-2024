@@ -3,3 +3,8 @@ D:\Competition\Star\x64\Debug\Star.exe
 D:\Competition\Star\x64\Debug\xapobaseredist.pdb
 D:\Competition\Star\x64\Debug\xaudio2_9redist.pdb
 D:\Competition\Star\x64\Debug\xaudio2_9redist.dll
+D:\Competition\SFAS-2024\x64\Debug\Star.vcxproj.CopyComplete
+D:\Competition\SFAS-2024\x64\Debug\Star.exe
+D:\Competition\SFAS-2024\x64\Debug\xapobaseredist.pdb
+D:\Competition\SFAS-2024\x64\Debug\xaudio2_9redist.pdb
+D:\Competition\SFAS-2024\x64\Debug\xaudio2_9redist.dll
