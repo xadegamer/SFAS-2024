@@ -10,9 +10,6 @@ class IShader;
 class IRenderable;
 class RingHolder;
 
-//enum RingLayer { Outer, Middle, Inner, NumRings };
-//static const unsigned int NumberOfRings = static_cast<int>(NumRings);
-
 enum GameState { Setup, Playing, Test, NumModes };
 
 class Game : public IApplication
@@ -29,6 +26,10 @@ public:
 
 private:
 
+	GameState State;
+	std::vector<RingHolder*> RingHolders;
+	int CurrentRingHolderIndex;
+
 	void SetupEachRing();
 	void UpdateRingSelection();
 	void UpdateSelectedRingRotation();
@@ -39,12 +40,5 @@ private:
 
 	void OnSuccess();
 
-	//IRenderable* Rings[NumberOfRings];
-	//IRenderable* Arrow;
-	//RingLayer SelectedRing;
-	GameState State;
-
-	std::vector<RingHolder*> RingHolders;
-	int CurrentRingHolderIndex;
 };
 
