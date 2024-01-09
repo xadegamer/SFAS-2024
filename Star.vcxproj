@@ -146,6 +146,7 @@
     <ClCompile Include="Source\EntryPoints\WindowsMain.cpp" />
     <ClCompile Include="Source\Game\Game.cpp" />
     <ClCompile Include="Source\Game\RingHolder.cpp" />
+    <ClCompile Include="Source\Game\SoundSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\IApplication.h" />
@@ -162,6 +163,8 @@
     <ClInclude Include="Source\Engine\Transform2D.h" />
     <ClInclude Include="Source\Game\Game.h" />
     <ClInclude Include="Source\Game\RingHolder.h" />
+    <ClInclude Include="Source\Game\SoundSystem.h" />
+    <ClInclude Include="Source\Game\TypeHelpers.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

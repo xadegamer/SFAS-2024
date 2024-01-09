@@ -19,6 +19,7 @@
     <ClCompile Include="Source\Game\RingHolder.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\SoundSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\IApplication.h" />
@@ -39,6 +40,8 @@
     <ClInclude Include="Source\Game\RingHolder.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\TypeHelpers.h" />
+    <ClInclude Include="Source\Game\SoundSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -42,7 +42,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return 0;
 	}
 
-	hwnd = CreateWindowEx( WS_EX_CLIENTEDGE, WindowClassName, WindowTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, WindowWidth, WindowHeight, NULL, NULL, hInstance, NULL);
+	int centreScreenX = GetSystemMetrics(SM_CXSCREEN) / 2 - WindowWidth / 2;
+	int centreScreenY = GetSystemMetrics(SM_CYSCREEN) / 2 - WindowHeight / 2;
+
+	RECT WindowRect;
+	WindowRect.left = centreScreenX;
+	WindowRect.top = centreScreenY;
+	WindowRect.right = WindowRect.left + WindowWidth;
+	WindowRect.bottom = WindowRect.top + WindowHeight;
+	AdjustWindowRect (&WindowRect, WS_OVERLAPPEDWINDOW, FALSE);
+
+	hwnd = CreateWindowEx(0, WindowClassName, WindowTitle, WS_OVERLAPPEDWINDOW,
+		WindowRect.left, WindowRect.top, WindowRect.right - WindowRect.left, WindowRect.bottom - WindowRect.top,NULL,NULL, hInstance, NULL);
+
+	//hwnd = CreateWindowEx( WS_EX_CLIENTEDGE, WindowClassName, WindowTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, WindowWidth, WindowHeight, NULL, NULL, hInstance, NULL);
 
 	if (hwnd == NULL)
 	{
