@@ -68,7 +68,7 @@ bool Game::Load()
 	RingHolders.push_back(TestRingHolder2);
 	RingHolders.push_back(TestRingHolder3);
 
-	CurrentRingHolder = RingHolders[0];
+	RingHolders[CurrentRingHolderIndex]->Activate();
 
 	State = GameState::Setup;
 
@@ -107,7 +107,7 @@ void Game::Cleanup()
 
 void Game::SetupEachRing()
 {
-	CurrentRingHolder->SetupRings();
+	RingHolders[CurrentRingHolderIndex]->SetupRings();
 }
 
 void Game::UpdateRingSelection()
@@ -115,12 +115,12 @@ void Game::UpdateRingSelection()
 	if (Input->IsPressed(InputAction::ShoulderButtonLeft))
 	{
 		// Change ring selection towards outer
-		CurrentRingHolder->UpdateRingSelection(-1);
+		RingHolders[CurrentRingHolderIndex]->UpdateRingSelection(-1);
 	}
 	else if (Input->IsPressed(InputAction::ShoulderButtonRight))
 	{
 		// Change ring selection towards inner
-		CurrentRingHolder->UpdateRingSelection(1);
+		RingHolders[CurrentRingHolderIndex]->UpdateRingSelection(1);
 	}
 
 	if (Input->IsPressed(InputAction::DirectionPadTop))
@@ -135,7 +135,7 @@ void Game::UpdateRingSelection()
 
 void Game::UpdateSelectedRingRotation()
 {
-	CurrentRingHolder->UpdateSelectedRingRotation(Input->GetValue(InputAction::RightStickXAxis));
+	RingHolders[CurrentRingHolderIndex]->UpdateSelectedRingRotation(Input->GetValue(InputAction::RightStickXAxis));
 }
 
 void Game::UpdateRingTestSelection()
@@ -149,24 +149,18 @@ void Game::UpdateRingTestSelection()
 
 void Game::TestRingSolution()
 {
-	CurrentRingHolder->CheckForSuccess();
+	RingHolders[CurrentRingHolderIndex]->CheckForSuccess();
 }
 
 void Game::SwitchToNextRingHolder(int direction)
 {
-	int currentRingHolderIndex = 0;
-
-	for (unsigned int RingHolder = 0; RingHolder < RingHolders.size(); ++RingHolder)
-	{
-		if (RingHolders[RingHolder] == CurrentRingHolder)
-		{
-			currentRingHolderIndex = RingHolder;
-			break;
-		}
-	}
-
+	int currentRingHolderIndex = CurrentRingHolderIndex;
 	int nextRingHolderIndex = CLAMP(currentRingHolderIndex + direction, 0, RingHolders.size() - 1);
-	CurrentRingHolder = RingHolders[nextRingHolderIndex];
+	if (nextRingHolderIndex == currentRingHolderIndex) return;
+
+	RingHolders[CurrentRingHolderIndex]->Deactivate();
+	CurrentRingHolderIndex = nextRingHolderIndex;
+	RingHolders[CurrentRingHolderIndex]->Activate();
 }
 
 void Game::OnSuccess()

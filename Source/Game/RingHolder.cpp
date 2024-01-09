@@ -15,15 +15,20 @@ constexpr float WinTolerance = Pie / 90.0f;
 
 RingHolder::RingHolder(IGraphics* Graphics) : Rings(), Arrow(nullptr), SelectedRing()
 {
+	ITexture* CentreTexture = Graphics->CreateTexture(L"Resource/Textures/Centre.dds");
+
 	ITexture* InnerTexture = Graphics->CreateTexture(L"Resource/Textures/InnerRing.dds");
 	ITexture* MiddleTexture = Graphics->CreateTexture(L"Resource/Textures/MiddleRing.dds");
 	ITexture* OuterTexture = Graphics->CreateTexture(L"Resource/Textures/OuterRing.dds");
 	ITexture* ArrowTexture = Graphics->CreateTexture(L"Resource/Textures/Arrow.dds");
 
+	IShader* CentreShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", CentreTexture);
 	IShader* InnerShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", InnerTexture);
 	IShader* MiddleShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", MiddleTexture);
 	IShader* OuterShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", OuterTexture);
 	IShader* ArrowShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", ArrowTexture);
+
+	Centre = Graphics->CreateBillboard(CentreShader);
 
 	Rings[static_cast<unsigned int>(RingLayer::Inner)] = Graphics->CreateBillboard(InnerShader);
 	Rings[static_cast<unsigned int>(RingLayer::Middle)] = Graphics->CreateBillboard(MiddleShader);
@@ -33,6 +38,8 @@ RingHolder::RingHolder(IGraphics* Graphics) : Rings(), Arrow(nullptr), SelectedR
 	std::srand(static_cast<unsigned int>(std::time(0)));
 
 	SelectedRing = RingLayer::Outer;
+
+	Centre->SetVisible(false);
 }
 
 RingHolder::~RingHolder()
@@ -95,6 +102,7 @@ void RingHolder::SetPosition(float x, float y)
 	}
 
 	Arrow->SetPosition(x, y);
+	Centre->SetPosition(x, y);
 }
 
 void RingHolder::SetScale(float x, float y)
@@ -105,4 +113,15 @@ void RingHolder::SetScale(float x, float y)
 	}
 
 	Arrow->SetScale(x, y);
+	Centre->SetScale(x, y);
+}
+
+void RingHolder::Activate()
+{
+	Centre->SetVisible(true);
+}
+
+void RingHolder::Deactivate()
+{
+	Centre->SetVisible(false);
 }

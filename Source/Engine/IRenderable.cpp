@@ -21,3 +21,8 @@ void IRenderable::SetScale(float sx, float sy)
 	Transform.ScaleX = sx;
 	Transform.ScaleY = sy;
 }
+
+void IRenderable::SetVisible(bool visible)
+{
+	IsVisible = visible;
+}

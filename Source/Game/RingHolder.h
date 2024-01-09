@@ -16,6 +16,7 @@ class RingHolder
 
 private:
 
+	IRenderable* Centre;
 	IRenderable* Rings[NumberOfRings];
 	IRenderable* Arrow;
 	RingLayer SelectedRing;
@@ -35,5 +36,8 @@ public:
 
 	void SetPosition(float x, float y);
 	void SetScale(float x, float y);
+
+	void Activate();
+	void Deactivate();
 };
 

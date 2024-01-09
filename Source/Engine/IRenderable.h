@@ -14,10 +14,10 @@ public:
 	void SetPosition(float x, float y);
 	void SetRotation(float r);
 	void SetScale(float sx, float sy);
-
-private:
+	void SetVisible(bool visible);
+protected:
 	
 	Transform2D Transform;
-
+	bool IsVisible = true;
 };
 

@@ -45,6 +45,6 @@ private:
 	GameState State;
 
 	std::vector<RingHolder*> RingHolders;
-	RingHolder* CurrentRingHolder;
+	int CurrentRingHolderIndex;
 };
 
