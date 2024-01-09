@@ -101,6 +101,12 @@ void Game::UpdateRingSelection()
 		// Change ring selection towards inner
 		CurrentRingHolder->UpdateRingSelection(1);
 	}
+
+	if (Input->IsPressed(InputAction::DirectionPadTop))
+	{
+		// X on controller
+		CurrentRingHolder->UpdateRingSelection(-1);
+	}
 }
 
 void Game::UpdateSelectedRingRotation()

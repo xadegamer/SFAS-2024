@@ -83,14 +83,7 @@ void RingHolder::CheckForSuccess()
 
 	if (averageRotationDifference < WinTolerance)
 	{
-		// Win
 		if (OnSuccessEvent) OnSuccessEvent();
-
-	}
-	else
-	{
-		// Lose
-		totalRotationDifference = 0.0f;
 	}
 }
 
