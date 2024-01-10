@@ -13,13 +13,18 @@ constexpr float DeltaTime = 0.016f;
 constexpr float SpinSpeed = 0.1f;
 constexpr float WinTolerance = Pie / 90.0f;
 
-RingHolder::RingHolder(IGraphics* Graphics) : Rings(), Arrow(nullptr), SelectedRing()
+RingHolder::RingHolder(IGraphics* Graphics, std::wstring  ringName) : Rings(), Arrow(nullptr), SelectedRing()
 {
-	ITexture* CentreTexture = Graphics->CreateTexture(L"Resource/Textures/Centre.dds");
+	ITexture* CentreTexture = Graphics->CreateTexture(L"Resource/Textures/Centre_Black.dds");
 
-	ITexture* InnerTexture = Graphics->CreateTexture(L"Resource/Textures/InnerRing.dds");
-	ITexture* MiddleTexture = Graphics->CreateTexture(L"Resource/Textures/MiddleRing.dds");
-	ITexture* OuterTexture = Graphics->CreateTexture(L"Resource/Textures/OuterRing.dds");
+	std::wstring InnerTRingPath = L"Resource/Textures/" + ringName + L"/1.dds";
+	std::wstring MiddleTRingPath = L"Resource/Textures/" + ringName + L"/2.dds";
+	std::wstring OuterTRingPath = L"Resource/Textures/" + ringName + L"/3.dds";
+
+	ITexture* InnerTexture = Graphics->CreateTexture (InnerTRingPath.c_str());
+	ITexture* MiddleTexture = Graphics->CreateTexture (MiddleTRingPath.c_str());
+	ITexture* OuterTexture = Graphics->CreateTexture( OuterTRingPath.c_str());
+
 	ITexture* ArrowTexture = Graphics->CreateTexture(L"Resource/Textures/Arrow.dds");
 
 	IShader* CentreShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", CentreTexture);
@@ -56,7 +61,8 @@ void RingHolder::SetupRings()
 {
 	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
 	{
-		Rings[Ring]->SetRotation(static_cast<float>(fmod(rand(), Pie)));
+	/*	Rings[Ring]->SetRotation(static_cast<float>(fmod(rand(), Pie)));*/
+		Rings[Ring]->SetRotation(0.0f);
 	}
 
 	Arrow->SetRotation(static_cast<float>(fmod(rand(), Pie)));
@@ -94,7 +100,7 @@ void RingHolder::CheckForSuccess()
 	}
 	else
 	{
-		SetupRings();
+		//SetupRings();
 	}
 }
 
@@ -128,4 +134,9 @@ void RingHolder::Activate()
 void RingHolder::Deactivate()
 {
 	Centre->SetVisible(false);
+}
+
+float RingHolder::GetSelectedRingRotation()
+{
+	return Rings[static_cast<int>(SelectedRing)]->GetTransform().Rotation;
 }

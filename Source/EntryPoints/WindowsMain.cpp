@@ -9,11 +9,15 @@
 #include "Engine/ITexture.h"
 #include "Engine/IShader.h"
 #include "Engine/IApplication.h"
+#include "UI/UISystem.h"
+#include "Game/SoundManager.h"
+#include "Engine/Time.h"
 
 const char WindowClassName[] = "Star";
 const char WindowTitle[] = "Search for a Star 2024";
 const int WindowWidth = 1920 / 2;
 const int WindowHeight = 1080 / 2;
+const std::string MainMenuCanvasID = "MainMenuCanvas";
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 IApplication* GetApplication(IGraphics* Graphics, IInput* Input);
@@ -72,12 +76,37 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	msg.wParam = -1;
 	IGraphics * Graphics = new DirectX11Graphics(hwnd);
 	IInput* Input = new DirectXInput();
+
+	UISystem::Init(Graphics, Input);
+
 	IApplication* Application = GetApplication(Graphics, Input);
+
+	Button* StartButton = UISystem::GetCanvasUIByID(MainMenuCanvasID)->GetUIObjectByID<Button>("Start_B");
+	if (StartButton)
+	{
+		StartButton->AddSelectEventListener([Application]()
+		{
+			Application->Load();
+		});
+	}
+
+	Button* QuitButton = UISystem::GetCanvasUIByID(MainMenuCanvasID)->GetUIObjectByID<Button>("Quit_B");
+	if (QuitButton)
+	{
+		QuitButton->AddSelectEventListener([]()
+		{
+			PostQuitMessage(0);
+		});
+	}
+
+	SoundManager::Initialize();
+
+	SoundManager::PlayMusic("MainMenu");
+
+	Time::Initialize();
 
 	if (Graphics && Graphics->IsValid() && Application)
 	{
-		Application->Load();
-
 		while (msg.message != WM_QUIT && Application->IsValid())
 		{
 			if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
@@ -86,9 +115,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				DispatchMessage(&msg);
 			}
 
+			Time::Update();
+
 			Input->Update();
 			Application->Update();
 			Graphics->Update();
+			UISystem::Update(0.0f);
+			SoundManager::Update();
 		}
 
 		Application->Cleanup();
@@ -103,6 +136,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		delete Graphics;
 	}
+
+	SoundManager::Clear();
 
 	return static_cast<int>(msg.wParam);
 }

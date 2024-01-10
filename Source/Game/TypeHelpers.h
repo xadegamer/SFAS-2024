@@ -11,3 +11,5 @@ typedef DirectX::SimpleMath::Quaternion Quaternion;
 
 
 typedef std::string Name;
+
+#define CLAMP(v, x, y) fmin(fmax(v, x), y)

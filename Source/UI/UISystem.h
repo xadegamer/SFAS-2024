@@ -4,9 +4,16 @@
 #include <string>
 #include <functional>
 #include <vector>
+
 #include "CanvasUI.h"
+#include "UIObject.h"
+#include "Text.h"
+#include "Image.h"	
+#include "Button.h"
+#include "ButtonNavigator.h"
 
 class IGraphics;
+class IInput;
 
 class UISystem
 {
@@ -20,10 +27,11 @@ private:
 	static std::vector<CanvasUI*> Canvases;
 
 	static IGraphics* Graphics;
+	static IInput* Input;
 
 public:
 
-	static void Init(IGraphics* graphics);
+	static void Init(IGraphics* graphics, IInput* input);
 
 	static void SetUpMainMenuCanvas();
 

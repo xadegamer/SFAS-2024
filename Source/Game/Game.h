@@ -9,8 +9,9 @@ class ITexture;
 class IShader;
 class IRenderable;
 class RingHolder;
+class WaterTank;
 
-enum GameState { Setup, Playing, Test, NumModes };
+enum GameState { Setup, Playing};
 
 class Game : public IApplication
 {
@@ -32,15 +33,22 @@ private:
 
 	IRenderable* CentrebGG;
 
+	WaterTank* WaterTank1;
+	WaterTank* WaterTank2;
+
+	bool IsConnected;
+
+	void StartGame();
+
 	void SetupEachRing();
 	void UpdateRingSelection();
 	void UpdateSelectedRingRotation();
-	void UpdateRingTestSelection();
-	void TestRingSolution();
 
 	void SwitchToNextRingHolder(int direction);
 
 	void OnSuccess();
+	void OnFailure();
 
+	void TransferWater();
 };
 

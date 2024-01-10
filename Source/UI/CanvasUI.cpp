@@ -30,8 +30,21 @@ void CanvasUI::AddUIObject(UIObject* uiObject)
 
 void CanvasUI::Update(float deltaTime)
 {
+	if (!Active) return;
 	for (size_t i = 0; i < UiObjects.size(); i++)
 	{
 		UiObjects[i]->Update(deltaTime);
+	}
+}
+
+void CanvasUI::SetEnabled(bool enabled)
+{
+	Active = enabled;
+	for (size_t i = 0; i < UiObjects.size(); i++)
+	{
+		if (enabled)
+			UiObjects[i]->Enable();
+		else
+			UiObjects[i]->Disable();
 	}
 }

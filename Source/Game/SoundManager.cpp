@@ -23,8 +23,8 @@ void SoundManager::Initialize()
 
 	audioEngine = std::make_unique<DirectX::AudioEngine>(eflags);
 
-	LoadSFX("MainTheme", L"Resource\\Audio\\music.wav");
-	LoadSFX("Pickup", L"Resource\\Audio\\pickup.wav");
+	LoadSFX("MainMenu", L"Resource\\Audio\\puzzle2.wav");
+	LoadSFX("GameMenu", L"Resource\\Audio\\puzzle1.wav");
 
 	std::cout << "Sound Handler Initialized" << std::endl;
 	audioEngine->SetMasterVolume(0.1f);
@@ -64,6 +64,17 @@ void SoundManager::PlayMusic(Name name)
 	soundEffectInstances[name] = soundEffects[name]->CreateInstance();
 
 	soundEffectInstances[name]->Play(true);
+}
+
+void SoundManager::StopMusic(Name name)
+{
+	if (!soundEffectInstances[name])
+	{
+		std::cout << "Sound effect not found" << std::endl;
+		return;
+	}
+
+	soundEffectInstances[name]->Stop();
 }
 
 void SoundManager::SetVolume(Name name, float volume)

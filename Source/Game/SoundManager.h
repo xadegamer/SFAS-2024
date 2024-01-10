@@ -23,6 +23,7 @@ public:
 	static void PlayOneShot(Name name);
 			    
 	static void PlayMusic(Name name);
+	static void StopMusic(Name name);
 			    
 	static void SetVolume(Name name, float volume);
 

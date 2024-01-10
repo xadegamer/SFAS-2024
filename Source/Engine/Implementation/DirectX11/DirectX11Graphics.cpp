@@ -111,7 +111,6 @@ DirectX11Graphics::DirectX11Graphics(HWND hwndIn) : Device(nullptr), Context(nul
     // For text rendering
     SpriteBatch = std::unique_ptr<DirectX::SpriteBatch>(new DirectX::SpriteBatch(Context));
     SpriteFont = std::unique_ptr<DirectX::SpriteFont>(new DirectX::SpriteFont(Device, L"Resource\\Fonts\\myfileb.spritefont"));
-    UISystem::Init(this);
 }
 
 DirectX11Graphics::~DirectX11Graphics()

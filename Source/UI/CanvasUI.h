@@ -3,6 +3,7 @@
 #include "UIObject.h"
 #include "Game/TypeHelpers.h"
 #include "vector"
+#include "Button.h"
 
 class IGraphics;
 class ITexture;
@@ -27,6 +28,8 @@ public:
 
 	void Update(float deltaTime);
 
+	void SetEnabled(bool enabled);
+
 	UIObject* GetUIObjectByID(std::string id);
 
 	template <class T, typename = std::enable_if<std::is_base_of<UIObject, T>::value>>
@@ -46,6 +49,13 @@ public:
 		std::vector<T*> uiObjects;
 		for (size_t i = 0; i < UiObjects.size(); i++)
 		{
+			Button* button = dynamic_cast<Button*>(UiObjects[i]);
+			if (button)
+			{
+				if (dynamic_cast<T*>(dynamic_cast<Button*>(UiObjects[i])->GetText()))
+					uiObjects.push_back(dynamic_cast<T*>(button->GetText()));
+			}
+
 			if (dynamic_cast<T*>(UiObjects[i]))
 				uiObjects.push_back(dynamic_cast<T*>(UiObjects[i]));
 		}
@@ -54,5 +64,4 @@ public:
 
 	inline std::string GetID() { return Id; };
 	inline bool IsEnabled() { return Active; };
-	inline void SetEnabled(bool enabled) { Active = enabled; };
 };

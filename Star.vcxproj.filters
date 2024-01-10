@@ -37,6 +37,14 @@
     <ClCompile Include="Source\UI\CanvasUI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\UI\Button.cpp" />
+    <ClCompile Include="Source\UI\ButtonNavigator.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\WaterTank.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Time.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\IApplication.h" />
@@ -76,6 +84,14 @@
     <ClInclude Include="Source\UI\Image.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\UI\Button.h" />
+    <ClInclude Include="Source\UI\ButtonNavigator.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\WaterTank.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Time.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

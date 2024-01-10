@@ -9,10 +9,14 @@ D:\Competition\SFAS-2024\Source\Engine\Implementation\XInput\DirectXInput.cpp;D:
 D:\Competition\SFAS-2024\Source\Engine\IRenderable.cpp;D:\Competition\SFAS-2024\x64\Debug\IRenderable.obj
 D:\Competition\SFAS-2024\Source\Engine\IShader.cpp;D:\Competition\SFAS-2024\x64\Debug\IShader.obj
 D:\Competition\SFAS-2024\Source\Engine\ITexture.cpp;D:\Competition\SFAS-2024\x64\Debug\ITexture.obj
+D:\Competition\SFAS-2024\Source\Engine\Time.cpp;D:\Competition\SFAS-2024\x64\Debug\Time.obj
 D:\Competition\SFAS-2024\Source\EntryPoints\WindowsMain.cpp;D:\Competition\SFAS-2024\x64\Debug\WindowsMain.obj
 D:\Competition\SFAS-2024\Source\Game\Game.cpp;D:\Competition\SFAS-2024\x64\Debug\Game.obj
 D:\Competition\SFAS-2024\Source\Game\RingHolder.cpp;D:\Competition\SFAS-2024\x64\Debug\RingHolder.obj
 D:\Competition\SFAS-2024\Source\Game\SoundManager.cpp;D:\Competition\SFAS-2024\x64\Debug\SoundManager.obj
+D:\Competition\SFAS-2024\Source\Game\WaterTank.cpp;D:\Competition\SFAS-2024\x64\Debug\WaterTank.obj
+D:\Competition\SFAS-2024\Source\UI\Button.cpp;D:\Competition\SFAS-2024\x64\Debug\Button.obj
+D:\Competition\SFAS-2024\Source\UI\ButtonNavigator.cpp;D:\Competition\SFAS-2024\x64\Debug\ButtonNavigator.obj
 D:\Competition\SFAS-2024\Source\UI\CanvasUI.cpp;D:\Competition\SFAS-2024\x64\Debug\CanvasUI.obj
 D:\Competition\SFAS-2024\Source\UI\Image.cpp;D:\Competition\SFAS-2024\x64\Debug\Image.obj
 D:\Competition\SFAS-2024\Source\UI\Text.cpp;D:\Competition\SFAS-2024\x64\Debug\Text.obj

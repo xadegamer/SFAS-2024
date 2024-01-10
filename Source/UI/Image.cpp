@@ -14,6 +14,8 @@ Image::Image(std::string Id, IGraphics* Graphics, std::wstring texturePath, Vect
 	ITexture* texture = Graphics->CreateTexture(texturePath.c_str());
 	IShader* shader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", texture);
 	sprite = Graphics->CreateBillboard(shader, Layer);
+	sprite->SetPosition(pos.x, pos.y);
+	sprite->SetScale(scale.x, scale.y);
 }
 
 void Image::Enable()

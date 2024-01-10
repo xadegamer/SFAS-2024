@@ -2,6 +2,7 @@
 
 #include "Engine/IApplication.h"
 #include <functional>
+#include <string>
 
 class IGraphics;
 class ITexture;
@@ -25,7 +26,7 @@ private:
 
 public:
 
-	RingHolder(IGraphics* Graphics);
+	RingHolder(IGraphics* Graphics, std::wstring ringName);
 	virtual ~RingHolder();
 
 	void AddSuccessEventListener(std::function <void()> onSuccessEvent);
@@ -39,5 +40,7 @@ public:
 
 	void Activate();
 	void Deactivate();
+
+	float GetSelectedRingRotation();
 };
 
