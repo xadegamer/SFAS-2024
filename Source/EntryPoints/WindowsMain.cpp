@@ -42,6 +42,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return 0;
 	}
 
+	// Added to centre the window on the screen
 	int centreScreenX = GetSystemMetrics(SM_CXSCREEN) / 2 - WindowWidth / 2;
 	int centreScreenY = GetSystemMetrics(SM_CYSCREEN) / 2 - WindowHeight / 2;
 

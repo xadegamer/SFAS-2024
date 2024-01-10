@@ -41,6 +41,8 @@ protected:
 	virtual void SetWorldMatrix(const Transform2D& transform);
 	virtual bool CompileShader(LPCWSTR filepath, LPCSTR entry, LPCSTR shader, ID3DBlob** buffer);
 
+	void RenderUI();
+
 private:
 
 	ID3D11Device* Device;

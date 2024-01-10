@@ -12,4 +12,7 @@ D:\Competition\SFAS-2024\Source\Engine\ITexture.cpp;D:\Competition\SFAS-2024\x64
 D:\Competition\SFAS-2024\Source\EntryPoints\WindowsMain.cpp;D:\Competition\SFAS-2024\x64\Debug\WindowsMain.obj
 D:\Competition\SFAS-2024\Source\Game\Game.cpp;D:\Competition\SFAS-2024\x64\Debug\Game.obj
 D:\Competition\SFAS-2024\Source\Game\RingHolder.cpp;D:\Competition\SFAS-2024\x64\Debug\RingHolder.obj
-D:\Competition\SFAS-2024\Source\Game\SoundSystem.cpp;D:\Competition\SFAS-2024\x64\Debug\SoundSystem.obj
+D:\Competition\SFAS-2024\Source\Game\SoundManager.cpp;D:\Competition\SFAS-2024\x64\Debug\SoundManager.obj
+D:\Competition\SFAS-2024\Source\UI\CanvasUI.cpp;D:\Competition\SFAS-2024\x64\Debug\CanvasUI.obj
+D:\Competition\SFAS-2024\Source\UI\Text.cpp;D:\Competition\SFAS-2024\x64\Debug\Text.obj
+D:\Competition\SFAS-2024\Source\UI\UISystem.cpp;D:\Competition\SFAS-2024\x64\Debug\UISystem.obj

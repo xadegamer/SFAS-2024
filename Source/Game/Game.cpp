@@ -7,17 +7,15 @@
 #include "Engine/IInput.h"
 
 #include "RingHolder.h"
+#include "SoundManager.h"
+#include "UI/UISystem.h"
+#include "UI/CanvasUI.h"
+#include "UI/Text.h"
 
 #include <ctime>
 #include <math.h>
 
 #define CLAMP(v, x, y) fmin(fmax(v, x), y)
-
-constexpr float Pie = 3.14159265359f;
-constexpr float TwoPies = Pie * 2.0f;
-constexpr float DeltaTime = 0.016f;
-constexpr float SpinSpeed = 0.1f;
-constexpr float WinTolerance = Pie / 90.0f;
 
 IApplication* GetApplication(IGraphics* Graphics, IInput* Input)
 {
@@ -26,6 +24,7 @@ IApplication* GetApplication(IGraphics* Graphics, IInput* Input)
 
 Game::Game(IGraphics* GraphicsIn, IInput* InputIn) : IApplication(GraphicsIn, InputIn), State()
 {
+	SoundManager::Initialize();
 }
 
 Game::~Game()
@@ -72,6 +71,13 @@ bool Game::Load()
 
 	State = GameState::Setup;
 
+	SoundManager::PlayMusic("MainTheme");
+
+	ITexture* BGTexture = Graphics->CreateTexture(L"Resource/Textures/BG.dds");
+	IShader* BGShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", BGTexture);
+	CentrebGG = Graphics->CreateBillboard(BGShader);
+	CentrebGG->SetLayer(0);
+
 	return true;
 }
 
@@ -98,11 +104,13 @@ void Game::Update()
 		TestRingSolution();
 		//State = GameState::Setup;
 	}
+
+	SoundManager::Update();
 }
 
 void Game::Cleanup()
 {
-
+	SoundManager::Clear();
 }
 
 void Game::SetupEachRing()
@@ -130,6 +138,10 @@ void Game::UpdateRingSelection()
 	if (Input->IsPressed(InputAction::DirectionPadTop))
 	{
 		SwitchToNextRingHolder(-1);
+
+		int random = rand() % 100;
+		std::wstring str = std::to_wstring(random);
+		UISystem::GetActiveCanvas()->GetUIObjectByID<Text>("ScoreText")->SetText(str);
 	}
 	else if (Input->IsPressed(InputAction::DirectionPadBottom))
 	{

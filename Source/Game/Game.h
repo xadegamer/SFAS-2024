@@ -30,6 +30,8 @@ private:
 	std::vector<RingHolder*> RingHolders;
 	int CurrentRingHolderIndex;
 
+	IRenderable* CentrebGG;
+
 	void SetupEachRing();
 	void UpdateRingSelection();
 	void UpdateSelectedRingRotation();

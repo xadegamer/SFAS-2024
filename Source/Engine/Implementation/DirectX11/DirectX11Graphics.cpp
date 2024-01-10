@@ -1,5 +1,9 @@
 #include "DirectX11Graphics.h"
 
+#include "UI/UISystem.h"
+#include "UI/CanvasUI.h"
+#include "UI/Text.h"
+
 #include "DirectX11Billboard.h"
 #include "DirectX11Shader.h"
 #include "DirectX11Texture.h"
@@ -104,6 +108,7 @@ DirectX11Graphics::DirectX11Graphics(HWND hwndIn) : Device(nullptr), Context(nul
     // For text rendering
     SpriteBatch = std::unique_ptr<DirectX::SpriteBatch>(new DirectX::SpriteBatch(Context));
     SpriteFont = std::unique_ptr<DirectX::SpriteFont>(new DirectX::SpriteFont(Device, L"Resource\\Fonts\\myfileb.spritefont"));
+    UISystem::Init();
 }
 
 DirectX11Graphics::~DirectX11Graphics()
@@ -152,22 +157,28 @@ void DirectX11Graphics::Update()
 
         Context->OMSetRenderTargets(1, &BackbufferView, NULL);
 
-        for (auto bucket = Renderables.begin(); bucket != Renderables.end(); ++bucket)
+        int minLayer = 0;
+        int maxlayer = 2;
+
+        for (int layer = minLayer; layer <= maxlayer; layer++)
         {
-            bucket->first->Update();
- 
-            for (auto renderable = bucket->second.begin(); renderable != bucket->second.end(); ++renderable)
+            for (auto bucket = Renderables.begin(); bucket != Renderables.end(); ++bucket)
             {
-                SetWorldMatrix((*renderable)->GetTransform());
-                Context->OMSetBlendState(BlendState, NULL, ~0U);
-                (*renderable)->Update();
+                bucket->first->Update();
+
+                for (auto renderable = bucket->second.begin(); renderable != bucket->second.end(); ++renderable)
+                {
+                    if ((*renderable)->GetLayer() != layer) continue;
+
+                    SetWorldMatrix((*renderable)->GetTransform());
+                    Context->OMSetBlendState(BlendState, NULL, ~0U);
+                    (*renderable)->Update();
+                }
             }
         }
 
         // For text rendering
-        SpriteBatch->Begin();
-        SpriteFont->DrawString(SpriteBatch.get(), L"Hello World", DirectX::XMFLOAT2(0, 0), DirectX::Colors::DarkRed, 0.0f, DirectX::XMFLOAT2(0, 0), DirectX::XMFLOAT2(1.0f, 1.0f));
-        SpriteBatch->End();
+        RenderUI();
 
         SwapChain->Present(0, 0); 
     }
@@ -360,4 +371,24 @@ bool DirectX11Graphics::CompileShader(LPCWSTR filepath, LPCSTR entry, LPCSTR sha
     }
 
     return hr == S_OK;
+}
+
+void DirectX11Graphics::RenderUI()
+{
+    SpriteBatch->Begin();
+
+    for (auto& canvas : UISystem::GetCanvases())
+    {
+        if (!canvas->IsEnabled())
+            continue;
+
+        for (auto& text : canvas->GetUIObjectsOfType<Text>())
+        {
+            if (!text->IsEnabled())
+                continue;
+            SpriteFont->DrawString(SpriteBatch.get(), text->GetText().c_str(), text->GetPosition(), text->GetColor(), 0, DirectX::XMFLOAT2(0, 0), text->GetScale());
+        }
+        
+    }
+    SpriteBatch->End();
 }

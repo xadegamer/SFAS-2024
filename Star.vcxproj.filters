@@ -19,7 +19,16 @@
     <ClCompile Include="Source\Game\RingHolder.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\SoundSystem.cpp" />
+    <ClCompile Include="Source\Game\SoundManager.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\CanvasUI.cpp" />
+    <ClCompile Include="Source\UI\UISystem.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Text.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\IApplication.h" />
@@ -41,7 +50,21 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\TypeHelpers.h" />
-    <ClInclude Include="Source\Game\SoundSystem.h" />
+    <ClInclude Include="Source\UI\CanvasUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI\UIObject.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\SoundManager.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI\UISystem.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI\Text.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -49,6 +72,9 @@
   <ItemGroup>
     <Filter Include="Game">
       <UniqueIdentifier>{72edeedb-a3e5-4c98-87d8-3968050966ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{5fcb65dc-254e-49a5-b064-28e46dc85b79}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -15,9 +15,13 @@ public:
 	void SetRotation(float r);
 	void SetScale(float sx, float sy);
 	void SetVisible(bool visible);
+
+	inline int GetLayer() const { return layer; }
+	inline void SetLayer(int layer) { this->layer = layer; }
 protected:
 	
 	Transform2D Transform;
 	bool IsVisible = true;
+	int layer = 1;
 };
 
