@@ -16,12 +16,12 @@ public:
 	void SetScale(float sx, float sy);
 	void SetVisible(bool visible);
 
-	inline int GetLayer() const { return layer; }
-	inline void SetLayer(int layer) { this->layer = layer; }
+	inline int GetLayer() const { return Layer; }
+	inline void SetLayer(int layer) { this->Layer = layer; }
 protected:
 	
 	Transform2D Transform;
 	bool IsVisible = true;
-	int layer = 1;
+	int Layer = 1;
 };
 

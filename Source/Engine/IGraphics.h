@@ -20,7 +20,7 @@ public:
 
 	virtual ITexture* CreateTexture(const wchar_t* filepath) = 0;
 	virtual IShader* CreateShader(const wchar_t* filepath, const char* vsentry, const char* vsshader, const char* psentry, const char* psshader, ITexture* TextureIn) = 0;
-	virtual IRenderable* CreateBillboard(IShader* ShaderIn) = 0;
+	virtual IRenderable* CreateBillboard(IShader* ShaderIn,int layer = 1) = 0;
 
 
 protected:

@@ -33,7 +33,7 @@ RingHolder::RingHolder(IGraphics* Graphics) : Rings(), Arrow(nullptr), SelectedR
 	Rings[static_cast<unsigned int>(RingLayer::Inner)] = Graphics->CreateBillboard(InnerShader);
 	Rings[static_cast<unsigned int>(RingLayer::Middle)] = Graphics->CreateBillboard(MiddleShader);
 	Rings[static_cast<unsigned int>(RingLayer::Outer)] = Graphics->CreateBillboard(OuterShader);
-	Arrow = Graphics->CreateBillboard(ArrowShader);
+	Arrow = Graphics->CreateBillboard(ArrowShader,2);
 
 	std::srand(static_cast<unsigned int>(std::time(0)));
 

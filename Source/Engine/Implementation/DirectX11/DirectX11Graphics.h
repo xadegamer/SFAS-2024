@@ -31,7 +31,7 @@ public:
 
 	virtual ITexture* CreateTexture(const wchar_t* filepath);
 	virtual IShader* CreateShader(const wchar_t* filepath, const char* vsentry, const char* vsshader, const char* psentry, const char* psshader, ITexture* TextureIn);
-	virtual IRenderable* CreateBillboard(IShader* ShaderIn);
+	virtual IRenderable* CreateBillboard(IShader* ShaderIn, int layer = 1);
 
 	ID3D11Device* GetDevice() const { return Device; }
 	ID3D11DeviceContext* GetContext() const { return Context; }

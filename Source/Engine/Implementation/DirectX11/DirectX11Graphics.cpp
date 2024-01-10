@@ -288,7 +288,7 @@ IShader* DirectX11Graphics::CreateShader(const wchar_t* filepath, const char* vs
     return Result;
 }
 
-IRenderable* DirectX11Graphics::CreateBillboard(IShader* ShaderIn)
+IRenderable* DirectX11Graphics::CreateBillboard(IShader* ShaderIn, int layer)
 {
     IRenderable* Result = nullptr;
 
@@ -326,7 +326,7 @@ IRenderable* DirectX11Graphics::CreateBillboard(IShader* ShaderIn)
 
         if (SUCCEEDED(Device->CreateBuffer(&vertexDescription, &resourceData, &VertexBuffer)))
         {
-            Result = new DirectX11Billboard(Context, VertexBuffer, vertexStride, vertexOffset, vertexCount);
+            Result = new DirectX11Billboard(Context, VertexBuffer, vertexStride, vertexOffset, vertexCount, layer);
             Renderables[ShaderIn].push_back(Result);
         }
     }

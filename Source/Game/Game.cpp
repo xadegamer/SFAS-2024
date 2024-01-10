@@ -75,8 +75,7 @@ bool Game::Load()
 
 	ITexture* BGTexture = Graphics->CreateTexture(L"Resource/Textures/BG.dds");
 	IShader* BGShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", BGTexture);
-	CentrebGG = Graphics->CreateBillboard(BGShader);
-	CentrebGG->SetLayer(0);
+	CentrebGG = Graphics->CreateBillboard(BGShader,0);
 
 	return true;
 }
