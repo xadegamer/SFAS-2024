@@ -12,6 +12,9 @@
 #include <D3DCompiler.h>
 #include <DDSTextureLoader.h>
 
+const int Min_Layer = 0;
+const int Max_Layer = 10;
+
 DirectX11Graphics::DirectX11Graphics(HWND hwndIn) : Device(nullptr), Context(nullptr), SwapChain(nullptr), BackbufferView(nullptr), BackbufferTexture(nullptr), Mvp(nullptr), vpMatrix(), FeatureLevel(D3D_FEATURE_LEVEL_11_0), hwnd(hwndIn), width(0), height(0)
 {
     RECT dimensions;
@@ -108,7 +111,7 @@ DirectX11Graphics::DirectX11Graphics(HWND hwndIn) : Device(nullptr), Context(nul
     // For text rendering
     SpriteBatch = std::unique_ptr<DirectX::SpriteBatch>(new DirectX::SpriteBatch(Context));
     SpriteFont = std::unique_ptr<DirectX::SpriteFont>(new DirectX::SpriteFont(Device, L"Resource\\Fonts\\myfileb.spritefont"));
-    UISystem::Init();
+    UISystem::Init(this);
 }
 
 DirectX11Graphics::~DirectX11Graphics()
@@ -157,10 +160,7 @@ void DirectX11Graphics::Update()
 
         Context->OMSetRenderTargets(1, &BackbufferView, NULL);
 
-        int minLayer = 0;
-        int maxlayer = 2;
-
-        for (int layer = minLayer; layer <= maxlayer; layer++)
+        for (int layer = Min_Layer; layer <= Max_Layer; layer++)
         {
             for (auto bucket = Renderables.begin(); bucket != Renderables.end(); ++bucket)
             {
@@ -386,7 +386,17 @@ void DirectX11Graphics::RenderUI()
         {
             if (!text->IsEnabled())
                 continue;
-            SpriteFont->DrawString(SpriteBatch.get(), text->GetText().c_str(), text->GetPosition(), text->GetColor(), 0, DirectX::XMFLOAT2(0, 0), text->GetScale());
+
+            RECT textRect = SpriteFont->MeasureDrawBounds(text->GetText().c_str(), text->GetPosition(), false);
+
+            float scaledWidth = static_cast<float>(textRect.right - textRect.left) * text->GetScale().x;
+            float scaledHeight = static_cast<float>(textRect.bottom - textRect.top) * text->GetScale().y;
+
+            DirectX::XMFLOAT2 midPos;
+            midPos.x = text->GetPosition().x - scaledWidth / 2.0;
+            midPos.y = text->GetPosition().y - scaledHeight / 2.0f;
+
+            SpriteFont->DrawString(SpriteBatch.get(), text->GetText().c_str(), midPos, text->GetColor(), 0, DirectX::XMFLOAT2(0, 0), text->GetScale());
         }
         
     }

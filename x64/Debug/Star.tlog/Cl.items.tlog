@@ -14,5 +14,7 @@ D:\Competition\SFAS-2024\Source\Game\Game.cpp;D:\Competition\SFAS-2024\x64\Debug
 D:\Competition\SFAS-2024\Source\Game\RingHolder.cpp;D:\Competition\SFAS-2024\x64\Debug\RingHolder.obj
 D:\Competition\SFAS-2024\Source\Game\SoundManager.cpp;D:\Competition\SFAS-2024\x64\Debug\SoundManager.obj
 D:\Competition\SFAS-2024\Source\UI\CanvasUI.cpp;D:\Competition\SFAS-2024\x64\Debug\CanvasUI.obj
+D:\Competition\SFAS-2024\Source\UI\Image.cpp;D:\Competition\SFAS-2024\x64\Debug\Image.obj
 D:\Competition\SFAS-2024\Source\UI\Text.cpp;D:\Competition\SFAS-2024\x64\Debug\Text.obj
+D:\Competition\SFAS-2024\Source\UI\UIObject.cpp;D:\Competition\SFAS-2024\x64\Debug\UIObject.obj
 D:\Competition\SFAS-2024\Source\UI\UISystem.cpp;D:\Competition\SFAS-2024\x64\Debug\UISystem.obj

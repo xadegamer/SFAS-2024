@@ -2,7 +2,6 @@
 
 Text::Text(std::string Id, std::wstring text, Vector2 pos, Vector2 scale)
 {
-	SetEnabled(true);
 	this->Id = Id;
 	this->TextValue = text;
 	this->Position = pos;

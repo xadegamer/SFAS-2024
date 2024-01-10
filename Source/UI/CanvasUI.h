@@ -4,6 +4,11 @@
 #include "Game/TypeHelpers.h"
 #include "vector"
 
+class IGraphics;
+class ITexture;
+class IShader;
+class IRenderable;
+
 class CanvasUI
 {
 private:
@@ -12,8 +17,10 @@ private:
 	std::vector<UIObject*> UiObjects;
 	bool Active;
 
+	IGraphics* Graphics;
+
 public:
-	CanvasUI(std::string id, bool isActive = false);
+	CanvasUI(IGraphics* Graphics, std::string id, bool isActive = false);
 	~CanvasUI();
 
 	void AddUIObject(UIObject* uiObject);

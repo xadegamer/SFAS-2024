@@ -22,11 +22,19 @@
     <ClCompile Include="Source\Game\SoundManager.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\CanvasUI.cpp" />
     <ClCompile Include="Source\UI\UISystem.cpp">
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Source\UI\Text.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\UIObject.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Image.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\CanvasUI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -63,6 +71,9 @@
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="Source\UI\Text.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI\Image.h">
       <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>

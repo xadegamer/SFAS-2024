@@ -17,9 +17,10 @@ protected:
 public:
 
 	virtual void Update(float deltaTime) = 0;
+	virtual void Enable();
+	virtual void Disable();
 
 	inline bool IsEnabled() { return Enabled; };
-	inline void SetEnabled(bool enabled) { Enabled = enabled; };
 
 	inline void SetLayer(int layer) { Layer = layer; };
 	inline int GetLayer() { return Layer; };

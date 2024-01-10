@@ -148,7 +148,9 @@
     <ClCompile Include="Source\Game\RingHolder.cpp" />
     <ClCompile Include="Source\Game\SoundManager.cpp" />
     <ClCompile Include="Source\UI\CanvasUI.cpp" />
+    <ClCompile Include="Source\UI\Image.cpp" />
     <ClCompile Include="Source\UI\Text.cpp" />
+    <ClCompile Include="Source\UI\UIObject.cpp" />
     <ClCompile Include="Source\UI\UISystem.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +171,7 @@
     <ClInclude Include="Source\Game\SoundManager.h" />
     <ClInclude Include="Source\Game\TypeHelpers.h" />
     <ClInclude Include="Source\UI\CanvasUI.h" />
+    <ClInclude Include="Source\UI\Image.h" />
     <ClInclude Include="Source\UI\Text.h" />
     <ClInclude Include="Source\UI\UIObject.h" />
     <ClInclude Include="Source\UI\UISystem.h" />

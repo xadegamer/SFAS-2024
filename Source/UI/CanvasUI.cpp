@@ -1,10 +1,17 @@
 #include "CanvasUI.h"
+#include "UIObject.h"
 
-CanvasUI::CanvasUI(std::string id, bool isActive)
+#include "Engine/IGraphics.h"
+#include "Engine/IRenderable.h"
+#include "Engine/ITexture.h"
+#include "Engine/IShader.h"
+
+CanvasUI::CanvasUI(IGraphics* Graphics, std::string id, bool isActive)
 {
 	Id = id;
 	Active = isActive;
 	UiObjects = std::vector<UIObject*>();
+	this->Graphics = Graphics;
 }
 
 CanvasUI::~CanvasUI()

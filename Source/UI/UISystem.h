@@ -6,6 +6,8 @@
 #include <vector>
 #include "CanvasUI.h"
 
+class IGraphics;
+
 class UISystem
 {
 private:
@@ -17,9 +19,13 @@ private:
 
 	static std::vector<CanvasUI*> Canvases;
 
+	static IGraphics* Graphics;
+
 public:
 
-	static void Init();
+	static void Init(IGraphics* graphics);
+
+	static void SetUpMainMenuCanvas();
 
 	static void SetUpGameCanvas();
 
