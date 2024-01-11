@@ -16,6 +16,8 @@
 #include <math.h>
 
 #define CLAMP(v, x, y) fmin(fmax(v, x), y)
+const std::string MainMenuCanvasID = "MainMenuCanvas";
+const std::string PauseMenuCanvasID = "PauseMenuCanvas";
 
 IApplication* GetApplication(IGraphics* Graphics, IInput* Input)
 {
@@ -24,7 +26,47 @@ IApplication* GetApplication(IGraphics* Graphics, IInput* Input)
 
 Game::Game(IGraphics* GraphicsIn, IInput* InputIn) : IApplication(GraphicsIn, InputIn), State()
 {
+	Button* StartButton = UISystem::GetCanvasUIByID(MainMenuCanvasID)->GetUIObjectByID<Button>("Start_B");
+	if (StartButton)
+	{
+		StartButton->AddSelectEventListener([this]()
+		{
+			SoundManager::PlayOneShot("Button_Click");
+			Load();
+		});
+	}
 
+	Button* QuitButton = UISystem::GetCanvasUIByID(MainMenuCanvasID)->GetUIObjectByID<Button>("Quit_B");
+	if (QuitButton)
+	{
+		QuitButton->AddSelectEventListener([]()
+		{
+			SoundManager::PlayOneShot("Button_Click");
+			PostQuitMessage(0);
+		});
+	}
+
+	Button* ResumeButton = UISystem::GetCanvasUIByID(PauseMenuCanvasID)->GetUIObjectByID<Button>("Resume_B");
+	if (ResumeButton)
+	{
+		ResumeButton->AddSelectEventListener([this]()
+		{
+			SoundManager::PlayOneShot("Button_Click");
+			SetIsPaused(false);
+		});
+	}
+
+	Button* QuitButton2 = UISystem::GetCanvasUIByID(PauseMenuCanvasID)->GetUIObjectByID<Button>("Quit_B");
+	if (QuitButton2)
+	{
+		QuitButton2->AddSelectEventListener([]()
+			{
+			SoundManager::PlayOneShot("Button_Click");
+			PostQuitMessage(0);
+		});
+	}
+
+	UISystem::EnableCanvasByID(MainMenuCanvasID);
 }
 
 Game::~Game()
@@ -47,14 +89,16 @@ void Game::Update()
 {
 	switch (State)
 	{
-	case Setup:
+		case Setup:
 
-		break;
-	case Playing:
-		UpdateRingSelection();
-		UpdateSelectedRingRotation();
-		break;
-	default:	break;
+			break;
+		case Playing:
+			if (IsPaused) return;
+
+			UpdateRingSelection();
+			UpdateSelectedRingRotation();
+			break;
+		default:	break;
 	}
 }
 
@@ -129,6 +173,12 @@ void Game::SetupEachRing()
 
 void Game::UpdateRingSelection()
 {
+	if (Input->IsPressed(InputAction::SpecialLeft))
+	{
+		SetIsPaused(true);
+		return;
+	}
+	
 	if (Input->IsPressed(InputAction::ShoulderButtonLeft))
 	{
 		// Change ring selection towards outer
@@ -153,7 +203,7 @@ void Game::UpdateRingSelection()
 		SwitchToNextRingHolder(1);
 	}
 
-	if (Input->IsPressed(InputAction::DefaultSelect))
+	if (Input->IsPressed(InputAction::ButtonBottom))
 	{
 		RingHolders[CurrentRingHolderIndex]->CheckForSuccess();
 	}
@@ -199,4 +249,18 @@ void Game::TransferWater()
 
 	if (IsConnected)
 	WaterTank2->UpdateWaterLevel(1);
+}
+
+void Game::SetIsPaused(bool isPaused)
+{
+	IsPaused = isPaused;
+
+	if (IsPaused)
+	{
+		UISystem::EnableCanvasByID("PauseMenuCanvas");
+	}
+	else
+	{
+		UISystem::EnableCanvasByID("GameCanvas");
+	}
 }

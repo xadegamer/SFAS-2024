@@ -6,10 +6,10 @@
 #include "Engine/ITexture.h"
 #include "Engine/IShader.h"
 
-CanvasUI::CanvasUI(IGraphics* Graphics, std::string id, bool isActive)
+CanvasUI::CanvasUI(IGraphics* Graphics, std::string id)
 {
 	Id = id;
-	Active = isActive;
+	Active = false;
 	UiObjects = std::vector<UIObject*>();
 	this->Graphics = Graphics;
 }

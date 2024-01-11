@@ -16,6 +16,7 @@ Image::Image(std::string Id, IGraphics* Graphics, std::wstring texturePath, Vect
 	sprite = Graphics->CreateBillboard(shader, Layer);
 	sprite->SetPosition(pos.x, pos.y);
 	sprite->SetScale(scale.x, scale.y);
+	Disable();
 }
 
 void Image::Enable()

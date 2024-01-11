@@ -20,14 +20,18 @@ void DirectXInput::Update()
 	CurrentState[static_cast<unsigned int>(InputAction::ButtonRight)] = State.Gamepad.wButtons & XINPUT_GAMEPAD_B ? 1.0f : 0.0f;
 	CurrentState[static_cast<unsigned int>(InputAction::ButtonTop)] = State.Gamepad.wButtons & XINPUT_GAMEPAD_Y ? 1.0f : 0.0f;
 	CurrentState[static_cast<unsigned int>(InputAction::ButtonBottom)] = State.Gamepad.wButtons & XINPUT_GAMEPAD_A ? 1.0f : 0.0f;
+
 	CurrentState[static_cast<unsigned int>(InputAction::DirectionPadLeft)] = State.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT ? 1.0f : 0.0f;
 	CurrentState[static_cast<unsigned int>(InputAction::DirectionPadRight)] = State.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT ? 1.0f : 0.0f;
 	CurrentState[static_cast<unsigned int>(InputAction::DirectionPadTop)] = State.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP ? 1.0f : 0.0f;
 	CurrentState[static_cast<unsigned int>(InputAction::DirectionPadBottom)] = State.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN ? 1.0f : 0.0f;
+
 	CurrentState[static_cast<unsigned int>(InputAction::LeftStickPress)] = State.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_THUMB ? 1.0f : 0.0f;
 	CurrentState[static_cast<unsigned int>(InputAction::RightStickPress)] = State.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_THUMB ? 1.0f : 0.0f;
+
 	CurrentState[static_cast<unsigned int>(InputAction::ShoulderButtonLeft)] = State.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER ? 1.0f : 0.0f;
 	CurrentState[static_cast<unsigned int>(InputAction::ShoulderButtonRight)] = State.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER ? 1.0f : 0.0f;
+
 	CurrentState[static_cast<unsigned int>(InputAction::SpecialLeft)] = State.Gamepad.wButtons & XINPUT_GAMEPAD_BACK ? 1.0f : 0.0f;
 	CurrentState[static_cast<unsigned int>(InputAction::SpecialRight)] = State.Gamepad.wButtons & XINPUT_GAMEPAD_START ? 1.0f : 0.0f;
 

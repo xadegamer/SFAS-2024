@@ -36,6 +36,7 @@ private:
 	WaterTank* WaterTank1;
 	WaterTank* WaterTank2;
 
+	bool IsPaused;
 	bool IsConnected;
 
 	void StartGame();
@@ -50,5 +51,7 @@ private:
 	void OnFailure();
 
 	void TransferWater();
+
+	void SetIsPaused(bool isPaused);
 };
 

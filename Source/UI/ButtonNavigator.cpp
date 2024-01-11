@@ -26,13 +26,20 @@ void ButtonNavigator::Update(float deltaTime)
 	}
 }
 
+void ButtonNavigator::Enable()
+{
+	UIObject::Enable();
+
+	for (size_t i = 0; i < Buttons.size(); i++)
+	{
+		Buttons[i]->ToggleHighlight(i == CurrentButtonIndex);
+	}
+}
+
 void ButtonNavigator::AddButton(Button* button)
 {
 	Buttons.push_back(button);
-	if (Buttons.size() == 1)
-	{
-		Buttons[0]->ToggleHighlight(true);
-	}
+	button->ToggleHighlight(false);
 }
 
 void ButtonNavigator::Navigate(int direction)

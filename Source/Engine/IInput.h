@@ -31,8 +31,8 @@ enum InputAction
 
 	NumActions,
 
-	DefaultSelect = ButtonBottom,
-	DefaultBack = ButtonRight,
+	//DefaultSelect = ButtonBottom,
+	//DefaultBack = ButtonRight,
 
 };
 

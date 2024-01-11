@@ -21,7 +21,7 @@ private:
 	IGraphics* Graphics;
 
 public:
-	CanvasUI(IGraphics* Graphics, std::string id, bool isActive = false);
+	CanvasUI(IGraphics* Graphics, std::string id);
 	~CanvasUI();
 
 	void AddUIObject(UIObject* uiObject);

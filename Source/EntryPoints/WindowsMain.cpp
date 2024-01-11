@@ -81,31 +81,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	IApplication* Application = GetApplication(Graphics, Input);
 
-	Button* StartButton = UISystem::GetCanvasUIByID(MainMenuCanvasID)->GetUIObjectByID<Button>("Start_B");
-	if (StartButton)
-	{
-		StartButton->AddSelectEventListener([Application]()
-		{
-				SoundManager::PlayOneShot("Button_Click");
-			Application->Load();
-		});
-	}
-
-	Button* QuitButton = UISystem::GetCanvasUIByID(MainMenuCanvasID)->GetUIObjectByID<Button>("Quit_B");
-	if (QuitButton)
-	{
-		QuitButton->AddSelectEventListener([]()
-		{
-				SoundManager::PlayOneShot("Button_Click");
-			PostQuitMessage(0);
-		});
-	}
-
 	SoundManager::Initialize();
 
-	SoundManager::PlayMusic("MainMenu");
-
 	Time::Initialize();
+
+	SoundManager::PlayMusic("MainMenu");
 
 	if (Graphics && Graphics->IsValid() && Application)
 	{

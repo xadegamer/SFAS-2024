@@ -37,6 +37,12 @@ public:
 
 	static void SetUpGameCanvas();
 
+	static void PauseMenu();
+
+	static void GameOverMenu();
+
+	static void WinMenu();
+
 	static void Update(float deltaTime);
 
 	static void EnableCanvasByID(std::string id);

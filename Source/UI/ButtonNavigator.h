@@ -20,6 +20,7 @@ public:
 	ButtonNavigator() = default;
 
 	void Update(float deltaTime) override;
+	void Enable() override;
 
 	void AddButton(Button* button);
 	void Navigate(int direction);
