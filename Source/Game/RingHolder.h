@@ -42,5 +42,7 @@ public:
 	void Deactivate();
 
 	float GetSelectedRingRotation();
+
+	float ConvertRotation(float rotation);
 };
 

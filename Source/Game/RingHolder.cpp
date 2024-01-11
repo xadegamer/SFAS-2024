@@ -2,6 +2,7 @@
 
 #include "Engine/IRenderable.h"
 #include "Engine/IGraphics.h"
+#include "Engine/Time.h"
 
 #include <ctime>
 #include <math.h>
@@ -9,8 +10,7 @@
 #define CLAMP(v, x, y) fmin(fmax(v, x), y)
 constexpr float Pie = 3.14159265359f;
 constexpr float TwoPies = Pie * 2.0f;
-constexpr float DeltaTime = 0.016f;
-constexpr float SpinSpeed = 0.1f;
+constexpr float SpinSpeed = 5.0f;
 constexpr float WinTolerance = Pie / 90.0f;
 
 RingHolder::RingHolder(IGraphics* Graphics, std::wstring  ringName) : Rings(), Arrow(nullptr), SelectedRing()
@@ -76,7 +76,7 @@ void RingHolder::UpdateRingSelection(int dir)
 
 void RingHolder::UpdateSelectedRingRotation(float input)
 {
-	float delta = input * SpinSpeed * DeltaTime;
+	float delta = input * SpinSpeed * Time::GetDeltaTime();
 	float rotation = Rings[static_cast<int>(SelectedRing)]->GetTransform().Rotation;
 	float newRotation = static_cast<float>(fmod(rotation + delta, TwoPies));
 	Rings[static_cast<int>(SelectedRing)]->SetRotation(newRotation);
@@ -138,5 +138,19 @@ void RingHolder::Deactivate()
 
 float RingHolder::GetSelectedRingRotation()
 {
-	return Rings[static_cast<int>(SelectedRing)]->GetTransform().Rotation;
+	//return abs(Rings[static_cast<int>(SelectedRing)]->GetTransform().Rotation * 60.0f);
+
+	return ConvertRotation (abs(Rings[static_cast<int>(SelectedRing)]->GetTransform().Rotation));
+}
+
+float RingHolder::ConvertRotation(float rotation)
+{   
+	//if (rotation < 0 || rotation > 6) return 0.0f;
+ //   return rotation * 60.0f;
+
+	float degrees = rotation * 60.0f;
+	if (degrees > 180.0) {
+		degrees -= 360.0;
+	}
+	return degrees;
 }
