@@ -143,10 +143,12 @@
     <ClCompile Include="Source\Engine\IRenderable.cpp" />
     <ClCompile Include="Source\Engine\IShader.cpp" />
     <ClCompile Include="Source\Engine\ITexture.cpp" />
+    <ClCompile Include="Source\Engine\ParticleSystem.cpp" />
     <ClCompile Include="Source\Engine\Time.cpp" />
     <ClCompile Include="Source\EntryPoints\WindowsMain.cpp" />
     <ClCompile Include="Source\Game\AnimatedSprite.cpp" />
     <ClCompile Include="Source\Game\Game.cpp" />
+    <ClCompile Include="Source\Game\Particle.cpp" />
     <ClCompile Include="Source\Game\RingHolder.cpp" />
     <ClCompile Include="Source\Game\SoundManager.cpp" />
     <ClCompile Include="Source\Game\WaterTank.cpp" />
@@ -170,10 +172,13 @@
     <ClInclude Include="Source\Engine\IRenderable.h" />
     <ClInclude Include="Source\Engine\IShader.h" />
     <ClInclude Include="Source\Engine\ITexture.h" />
+    <ClInclude Include="Source\Engine\ParticleSystem.h" />
+    <ClInclude Include="Source\Engine\Pool.h" />
     <ClInclude Include="Source\Engine\Time.h" />
     <ClInclude Include="Source\Engine\Transform2D.h" />
     <ClInclude Include="Source\Game\AnimatedSprite.h" />
     <ClInclude Include="Source\Game\Game.h" />
+    <ClInclude Include="Source\Game\Particle.h" />
     <ClInclude Include="Source\Game\RingHolder.h" />
     <ClInclude Include="Source\Game\SoundManager.h" />
     <ClInclude Include="Source\Game\TypeHelpers.h" />

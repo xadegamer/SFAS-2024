@@ -5,6 +5,7 @@
 #include "Engine/IGraphics.h"
 #include "Engine/Time.h"
 #include "Game/AnimatedSprite.h"
+#include "Engine/ParticleSystem.h"
 
 #include "UI/UISystem.h"
 
@@ -40,6 +41,8 @@ WaterTank::WaterTank(IGraphics* Graphics)
 	waterSpeed = 5.0f;
 
 	triggerdEvent = false;
+
+	waterSplashInterval = 0.5f;
 }
 
 WaterTank::~WaterTank()
@@ -73,6 +76,11 @@ void WaterTank::UpdateWaterLevel(float input)
 
 	SetWaterLevel (newWaterLevel);
 
+	if (input == -1 && !IsConnected)
+	{
+		SplashWater();
+	}
+
 	ValidateWaterLevel();
 
 	//UISystem::GetActiveCanvas()->GetUIObjectByID<Text>("DebugText")->SetText(std::to_wstring(TankFill->GetTransform().PositionY));
@@ -97,6 +105,23 @@ void WaterTank::SetWaterLevel(float level)
 	TankWaterAnimation->SetPosition(TankWaterAnimation->GetXPosition(), level);
 }
 
+void WaterTank::SplashWater()
+{
+	if (TankWaterAnimation->GetYPosition() == FullWaterLevel || TankWaterAnimation->GetYPosition() == NoWaterLevel) return;
+
+	if (waterSplashTimer > 0)
+	{
+		waterSplashTimer -= Time::GetDeltaTime();
+	}
+	else
+	{
+		waterSplashTimer = waterSplashInterval;
+		float xPosition = GetPositionX() + 70;
+		float yPosition = GetPositionY() - 70;
+		ParticleSystem::Emit(Vector2(xPosition, yPosition), Vector2(0.2f, 0.2f), ParticleDirection::Cicular, 50, 100, 1.0f);
+	}
+}
+
 float WaterTank::GetNormalizedWaterLevel()
 {
 	float currentWaterLevel = TankWaterAnimation->GetYPosition();
@@ -107,4 +132,14 @@ float WaterTank::GetNormalizedWaterLevel()
 void WaterTank::Reset()
 {
 	triggerdEvent = false;
-}	
+}
+float WaterTank::GetPositionX()
+{
+	return TankBody->GetTransform().PositionX;
+}
+
+float WaterTank::GetPositionY()
+{
+	return TankBody->GetTransform().PositionY;
+}
+

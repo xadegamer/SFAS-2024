@@ -22,8 +22,11 @@ private:
 	int FullWaterLevel;
 	int NoWaterLevel;
 	bool triggerdEvent;
-
 	float waterSpeed;
+	bool IsConnected;
+
+	float waterSplashTimer;
+	float waterSplashInterval;
 
 public:
 
@@ -40,6 +43,8 @@ public:
 
 	void SetWaterLevel(float level);
 
+	void SplashWater();
+
 	float GetNormalizedWaterLevel();
 
 	void Reset();
@@ -49,4 +54,9 @@ public:
 
 	inline void SetOnFullEvent(std::function <void()> onFullEvent) { OnFullEvent = onFullEvent; }
 	inline void SetOnEmptyEvent(std::function <void()> onEmptyEvent) { OnEmptyEvent = onEmptyEvent; }
+
+	inline void SetIsConnected(bool isConnected) { IsConnected = isConnected; }
+
+	float GetPositionX();
+	float GetPositionY();
 };

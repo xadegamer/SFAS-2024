@@ -12,6 +12,7 @@
 #include "UI/UISystem.h"
 #include "Game/SoundManager.h"
 #include "Engine/Time.h"
+#include "Engine/ParticleSystem.h"
 
 const char WindowClassName[] = "Star";
 const char WindowTitle[] = "Search for a Star 2024";
@@ -85,6 +86,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	Time::Initialize();
 
+	ParticleSystem::Init(Graphics);
+
 	SoundManager::PlayMusic("MainMenu");
 
 	if (Graphics && Graphics->IsValid() && Application)
@@ -98,10 +101,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 
 			Time::Update();
-
 			Input->Update();
 			Application->Update();
 			Graphics->Update();
+			ParticleSystem::Update(Time::GetDeltaTime());
 			UISystem::Update(0.0f);
 			SoundManager::Update();
 		}
@@ -120,6 +123,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 	SoundManager::Clear();
+
+	ParticleSystem::Clear();
 
 	return static_cast<int>(msg.wParam);
 }

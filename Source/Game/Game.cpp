@@ -12,6 +12,8 @@
 #include "SoundManager.h"
 #include "UI/UISystem.h"
 
+#include "Engine/ParticleSystem.h"
+
 #include <ctime>
 #include <math.h>
 
@@ -137,7 +139,7 @@ void Game::Update()
 			UpdateRingSelection();
 			UpdateSelectedRingRotation();
 			break;
-		default:	break;
+		default: break;
 	}
 }
 
@@ -185,7 +187,7 @@ void Game::SetUpGame()
 
 	WaterTank1 = new WaterTank(Graphics);
 	WaterTank1->SetPosition(-300, 0);
-	WaterTank1->SetOnEmptyEvent(std::bind(&Game::OnFailure, this));
+	WaterTank1->SetOnEmptyEvent(std::bind(&Game::OnFirstTankEmpty, this));
 
 	WaterTank2 = new WaterTank(Graphics);
 	WaterTank2->SetPosition(300, 0);
@@ -286,13 +288,13 @@ void Game::SwitchToNextRingHolder(int direction)
 void Game::OnSuccess()
 {
 	IsConnected = true;
+	WaterTank1->UpdateWaterLevel(1);
 }
 
-void Game::OnFailure()
+void Game::OnFirstTankEmpty()
 {
 	IsConnected = false;
 
-	// to chnage
 	if (WaterTank2->GetNormalizedWaterLevel() == 0)
 	{
 		State = GameState::GameOver;

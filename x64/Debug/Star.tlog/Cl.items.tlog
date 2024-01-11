@@ -9,10 +9,12 @@ D:\Competition\SFAS-2024\Source\Engine\Implementation\XInput\DirectXInput.cpp;D:
 D:\Competition\SFAS-2024\Source\Engine\IRenderable.cpp;D:\Competition\SFAS-2024\x64\Debug\IRenderable.obj
 D:\Competition\SFAS-2024\Source\Engine\IShader.cpp;D:\Competition\SFAS-2024\x64\Debug\IShader.obj
 D:\Competition\SFAS-2024\Source\Engine\ITexture.cpp;D:\Competition\SFAS-2024\x64\Debug\ITexture.obj
+D:\Competition\SFAS-2024\Source\Engine\ParticleSystem.cpp;D:\Competition\SFAS-2024\x64\Debug\ParticleSystem.obj
 D:\Competition\SFAS-2024\Source\Engine\Time.cpp;D:\Competition\SFAS-2024\x64\Debug\Time.obj
 D:\Competition\SFAS-2024\Source\EntryPoints\WindowsMain.cpp;D:\Competition\SFAS-2024\x64\Debug\WindowsMain.obj
 D:\Competition\SFAS-2024\Source\Game\AnimatedSprite.cpp;D:\Competition\SFAS-2024\x64\Debug\AnimatedSprite.obj
 D:\Competition\SFAS-2024\Source\Game\Game.cpp;D:\Competition\SFAS-2024\x64\Debug\Game.obj
+D:\Competition\SFAS-2024\Source\Game\Particle.cpp;D:\Competition\SFAS-2024\x64\Debug\Particle.obj
 D:\Competition\SFAS-2024\Source\Game\RingHolder.cpp;D:\Competition\SFAS-2024\x64\Debug\RingHolder.obj
 D:\Competition\SFAS-2024\Source\Game\SoundManager.cpp;D:\Competition\SFAS-2024\x64\Debug\SoundManager.obj
 D:\Competition\SFAS-2024\Source\Game\WaterTank.cpp;D:\Competition\SFAS-2024\x64\Debug\WaterTank.obj

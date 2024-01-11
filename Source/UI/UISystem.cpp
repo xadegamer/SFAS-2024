@@ -1,6 +1,5 @@
 #include "UISystem.h"
 
-
 #include "Game/TypeHelpers.h"
 #include "Engine/IGraphics.h"
 #include "Engine/IInput.h"

@@ -49,7 +49,7 @@ private:
 	void SwitchToNextRingHolder(int direction);
 
 	void OnSuccess();
-	void OnFailure();
+	void OnFirstTankEmpty();
 
 	void TransferWater();
 
