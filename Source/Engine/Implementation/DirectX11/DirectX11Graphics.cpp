@@ -305,13 +305,13 @@ IRenderable* DirectX11Graphics::CreateBillboard(IShader* ShaderIn, int layer)
 
         float vertex_data_array[] =
         {
-            halfWidth,  halfHeight, 0.0f,  1.0f, 1.0f,
-            halfWidth, -halfHeight, 0.0f,  1.0f, 0.0f,
-           -halfWidth, -halfHeight, 0.0f,  0.0f, 0.0f,
+            halfWidth,  halfHeight, 0.0f,  1.0f, 0.0f,
+            halfWidth, -halfHeight, 0.0f,  1.0f, 1.0f,
+           -halfWidth, -halfHeight, 0.0f,  0.0f, 1.0f,
 
-           -halfWidth, -halfHeight, 0.0f,  0.0f, 0.0f,
-           -halfWidth,  halfHeight, 0.0f,  0.0f, 1.0f,
-            halfWidth,  halfHeight, 0.0f,  1.0f, 1.0f,
+           -halfWidth, -halfHeight, 0.0f,  0.0f, 1.0f,
+           -halfWidth,  halfHeight, 0.0f,  0.0f, 0.0f,
+            halfWidth,  halfHeight, 0.0f,  1.0f, 0.0f,
         };
 
         ID3D11Buffer* VertexBuffer;
