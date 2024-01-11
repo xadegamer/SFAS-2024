@@ -40,6 +40,10 @@ public:
 
 	void SetWaterLevel(float level);
 
+	float GetNormalizedWaterLevel();
+
+	void Reset();
+
 	inline void SetWaterSpeed(float speed) { waterSpeed = speed; }
 	inline float GetWaterSpeed() { return waterSpeed; }
 

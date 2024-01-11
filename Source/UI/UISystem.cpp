@@ -38,6 +38,7 @@ void UISystem::Init(IGraphics* graphics, IInput* input)
 	SetUpGameCanvas();
 	PauseMenu();
 	GameOverMenu();
+	WinMenu();
 }
 
 void UISystem::SetUpMainMenuCanvas()
@@ -83,7 +84,7 @@ void UISystem::SetUpGameCanvas()
 	CanvasUI* gameCanvas = new CanvasUI(Graphics,"GameCanvas");
 	Canvases.push_back(gameCanvas);
 
-	Text* text = new Text("ScoreText", L"Score", Screen_TopLeftCorner + Vector2(30,30), Vector2(.5f, .5f));
+	Text* text = new Text("ScoreText", L"Score", Screen_TopLeftCorner + Vector2(40,20), Vector2(.5f, .5f));
 	gameCanvas->AddUIObject(text);
 
 	Text* debugText = new Text("DebugText", L"Debug", Screen_Mid + Vector2(0, 200), Vector2(.5f, .5f));
@@ -128,10 +129,74 @@ void UISystem::PauseMenu()
 
 void UISystem::GameOverMenu()
 {
+	float aspectRatio = (float)kDisplayBufferWidth / (float)kDisplayBufferHeight;
+
+	CanvasUI* gameOverMenuCanvas = new CanvasUI(Graphics, "GameOverCanvas");
+	Canvases.push_back(gameOverMenuCanvas);
+
+	Image* bg = new Image("BG", Graphics, L"Resource/Textures/BG_DeepBlue.dds");
+	gameOverMenuCanvas->AddUIObject(bg);
+
+	Text* text = new Text("Title Text", L"GameOver", Screen_Mid + Vector2(0, -200), Vector2(.5f, .5f));
+	text->SetColor(Color_White);
+	gameOverMenuCanvas->AddUIObject(text);
+
+	Button* resumeButton = new Button("Restart_B", Graphics, Resolution_Mid + Vector2(0, 100), Vector2(2.5f, .5f));
+	resumeButton->AddText("Text", L"Restart", Screen_Mid + Vector2(0, -110), Vector2(.5f, .5f), Color_Red);
+	resumeButton->AddHighlightEventListener([]()
+	{
+		SoundManager::PlayOneShot("Button_Hover");
+	});
+	gameOverMenuCanvas->AddUIObject(resumeButton);
+
+	Button* quitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0, -10), Vector2(2.5f, .5f));
+	quitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 5), Vector2(.5f, .5f), Color_Red);
+	quitButton->AddHighlightEventListener([]()
+	{
+		SoundManager::PlayOneShot("Button_Hover");
+	});
+	gameOverMenuCanvas->AddUIObject(quitButton);
+
+	ButtonNavigator* navigator = new ButtonNavigator(Input);
+	navigator->AddButton(resumeButton);
+	navigator->AddButton(quitButton);
+	gameOverMenuCanvas->AddUIObject(navigator);
 }
 
 void UISystem::WinMenu()
 {
+	float aspectRatio = (float)kDisplayBufferWidth / (float)kDisplayBufferHeight;
+
+	CanvasUI* winMenuCanvas = new CanvasUI(Graphics, "WinMenuCanvas");
+	Canvases.push_back(winMenuCanvas);
+
+	Image* bg = new Image("BG", Graphics, L"Resource/Textures/BG_DeepBlue.dds");
+	winMenuCanvas->AddUIObject(bg);
+
+	Text* text = new Text("Title Text", L"You Win", Screen_Mid + Vector2(0, -200), Vector2(.5f, .5f));
+	text->SetColor(Color_White);
+	winMenuCanvas->AddUIObject(text);
+
+	Button* resumeButton = new Button("Restart_B", Graphics, Resolution_Mid + Vector2(0, 100), Vector2(2.5f, .5f));
+	resumeButton->AddText("Text", L"Restart", Screen_Mid + Vector2(0, -110), Vector2(.5f, .5f), Color_Red);
+	resumeButton->AddHighlightEventListener([]()
+		{
+			SoundManager::PlayOneShot("Button_Hover");
+		});
+	winMenuCanvas->AddUIObject(resumeButton);
+
+	Button* quitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0, -10), Vector2(2.5f, .5f));
+	quitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 5), Vector2(.5f, .5f), Color_Red);
+	quitButton->AddHighlightEventListener([]()
+		{
+			SoundManager::PlayOneShot("Button_Hover");
+		});
+	winMenuCanvas->AddUIObject(quitButton);
+
+	ButtonNavigator* navigator = new ButtonNavigator(Input);
+	navigator->AddButton(resumeButton);
+	navigator->AddButton(quitButton);
+	winMenuCanvas->AddUIObject(navigator);
 }
 
 void UISystem::Update(float deltaTime)

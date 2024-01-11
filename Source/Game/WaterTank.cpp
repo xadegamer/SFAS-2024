@@ -34,10 +34,10 @@ WaterTank::WaterTank(IGraphics* Graphics)
 	TankWaterAnimation->SetScale(1.4, 2);
 	TankMask->SetScale(1.4, 2);
 
-	FullWaterLevel = -200;
-	NoWaterLevel = 0;
+	FullWaterLevel = 0;
+	NoWaterLevel = -200;
 
-	waterSpeed = 15.0f;
+	waterSpeed = 5.0f;
 
 	triggerdEvent = false;
 }
@@ -50,7 +50,7 @@ void WaterTank::SetPosition(float x, float y)
 {
 	TankWaterAnimation->SetPosition(x, y);
 	TankBody->SetPosition(x, y);
-	TankMask->SetPosition(x, y - 200);
+	TankMask->SetPosition(x, y + NoWaterLevel);
 }
 
 void WaterTank::SetScale(float x, float y)
@@ -68,7 +68,8 @@ void WaterTank::UpdateWaterLevel(float input)
 {
 	float currentWaterLevel = TankWaterAnimation->GetYPosition();
 	float newWaterLevel = currentWaterLevel + input * Time::GetDeltaTime() * waterSpeed;
-	newWaterLevel = CLAMP(newWaterLevel, FullWaterLevel,NoWaterLevel);
+
+	newWaterLevel = CLAMP(newWaterLevel, NoWaterLevel, FullWaterLevel);
 
 	SetWaterLevel (newWaterLevel);
 
@@ -95,3 +96,15 @@ void WaterTank::SetWaterLevel(float level)
 {
 	TankWaterAnimation->SetPosition(TankWaterAnimation->GetXPosition(), level);
 }
+
+float WaterTank::GetNormalizedWaterLevel()
+{
+	float currentWaterLevel = TankWaterAnimation->GetYPosition();
+	float normalizedWaterLevel = (currentWaterLevel - NoWaterLevel) / (FullWaterLevel - NoWaterLevel);
+	return normalizedWaterLevel;
+}
+
+void WaterTank::Reset()
+{
+	triggerdEvent = false;
+}	

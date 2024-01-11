@@ -11,9 +11,9 @@
 constexpr float Pie = 3.14159265359f;
 constexpr float TwoPies = Pie * 2.0f;
 constexpr float SpinSpeed = 5.0f;
-constexpr float WinTolerance = Pie / 90.0f;
+constexpr float WinTolerance = 0.5;
 
-RingHolder::RingHolder(IGraphics* Graphics, std::wstring  ringName) : Rings(), Arrow(nullptr), SelectedRing()
+RingHolder::RingHolder(IGraphics* Graphics, std::wstring  ringName) : Rings(), SelectedRing()
 {
 	ITexture* CentreTexture = Graphics->CreateTexture(L"Resource/Textures/Centre_Black.dds");
 
@@ -25,20 +25,17 @@ RingHolder::RingHolder(IGraphics* Graphics, std::wstring  ringName) : Rings(), A
 	ITexture* MiddleTexture = Graphics->CreateTexture (MiddleTRingPath.c_str());
 	ITexture* OuterTexture = Graphics->CreateTexture( OuterTRingPath.c_str());
 
-	ITexture* ArrowTexture = Graphics->CreateTexture(L"Resource/Textures/Arrow.dds");
-
 	IShader* CentreShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", CentreTexture);
 	IShader* InnerShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", InnerTexture);
 	IShader* MiddleShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", MiddleTexture);
 	IShader* OuterShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", OuterTexture);
-	IShader* ArrowShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", ArrowTexture);
+
 
 	Centre = Graphics->CreateBillboard(CentreShader);
 
 	Rings[static_cast<unsigned int>(RingLayer::Inner)] = Graphics->CreateBillboard(InnerShader);
 	Rings[static_cast<unsigned int>(RingLayer::Middle)] = Graphics->CreateBillboard(MiddleShader);
 	Rings[static_cast<unsigned int>(RingLayer::Outer)] = Graphics->CreateBillboard(OuterShader);
-	Arrow = Graphics->CreateBillboard(ArrowShader,2);
 
 	std::srand(static_cast<unsigned int>(std::time(0)));
 
@@ -61,11 +58,8 @@ void RingHolder::SetupRings()
 {
 	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
 	{
-	/*	Rings[Ring]->SetRotation(static_cast<float>(fmod(rand(), Pie)));*/
-		Rings[Ring]->SetRotation(0.0f);
+		Rings[Ring]->SetRotation(static_cast<float>(fmod(rand(), Pie)));
 	}
-
-	Arrow->SetRotation(static_cast<float>(fmod(rand(), Pie)));
 }
 
 void RingHolder::UpdateRingSelection(int dir)
@@ -82,14 +76,13 @@ void RingHolder::UpdateSelectedRingRotation(float input)
 	Rings[static_cast<int>(SelectedRing)]->SetRotation(newRotation);
 }
 
-void RingHolder::CheckForSuccess()
+float RingHolder::CheckForSuccess()
 {
 	float totalRotationDifference = 0.0f;
-	float arrowRotation = Arrow->GetTransform().Rotation + TwoPies;
 
 	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
 	{
-		totalRotationDifference += abs(arrowRotation - (Rings[Ring]->GetTransform().Rotation + TwoPies));
+		totalRotationDifference += abs(Rings[Ring]->GetTransform().Rotation);
 	}
 
 	float averageRotationDifference = totalRotationDifference / NumberOfRings;
@@ -102,6 +95,8 @@ void RingHolder::CheckForSuccess()
 	{
 		//SetupRings();
 	}
+
+	return averageRotationDifference;
 }
 
 void RingHolder::SetPosition(float x, float y)
@@ -111,7 +106,6 @@ void RingHolder::SetPosition(float x, float y)
 		Rings[Ring]->SetPosition(x, y);
 	}
 
-	Arrow->SetPosition(x, y);
 	Centre->SetPosition(x, y);
 }
 
@@ -122,7 +116,6 @@ void RingHolder::SetScale(float x, float y)
 		Rings[Ring]->SetScale(x, y);
 	}
 
-	Arrow->SetScale(x, y);
 	Centre->SetScale(x, y);
 }
 
@@ -138,11 +131,19 @@ void RingHolder::Deactivate()
 
 float RingHolder::GetSelectedRingRotation()
 {
-	//return abs(Rings[static_cast<int>(SelectedRing)]->GetTransform().Rotation * 60.0f);
+	float totalRotationDifference = 0.0f;
 
+	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
+	{
+		totalRotationDifference += abs(Rings[Ring]->GetTransform().Rotation);
+	}
+
+	float averageRotationDifference = totalRotationDifference / NumberOfRings;
+
+	return averageRotationDifference;
+
+	//return abs(Rings[static_cast<int>(SelectedRing)]->GetTransform().Rotation);
 	//return ConvertRotation (abs(Rings[static_cast<int>(SelectedRing)]->GetTransform().Rotation));
-
-	return ConvertRotation(abs(Arrow->GetTransform().Rotation));
 }
 
 float RingHolder::ConvertRotation(float rotation)

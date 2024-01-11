@@ -19,7 +19,6 @@ private:
 
 	IRenderable* Centre;
 	IRenderable* Rings[NumberOfRings];
-	IRenderable* Arrow;
 	RingLayer SelectedRing;
 
 	std::function <void()> OnSuccessEvent;
@@ -33,7 +32,7 @@ public:
 	void SetupRings();
 	void UpdateRingSelection(int input);
 	void UpdateSelectedRingRotation(float input);
-	void CheckForSuccess();
+	float CheckForSuccess();
 
 	void SetPosition(float x, float y);
 	void SetScale(float x, float y);

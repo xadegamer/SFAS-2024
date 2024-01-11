@@ -39,6 +39,7 @@ private:
 	bool IsPaused;
 	bool IsConnected;
 
+	void SetUpGame();
 	void StartGame();
 
 	void SetupEachRing();
