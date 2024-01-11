@@ -11,7 +11,7 @@ class IRenderable;
 class RingHolder;
 class WaterTank;
 
-enum GameState { Setup, Playing};
+enum GameState { Setup, Playing, GameOver, Win};
 
 class Game : public IApplication
 {

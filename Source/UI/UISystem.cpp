@@ -4,6 +4,7 @@
 #include "Game/TypeHelpers.h"
 #include "Engine/IGraphics.h"
 #include "Engine/IInput.h"
+#include "Game/SoundManager.h"
 
 std::vector<CanvasUI*> UISystem::Canvases;
 CanvasUI* UISystem::LastActiveCanvas = nullptr;
@@ -53,10 +54,18 @@ void UISystem::SetUpMainMenuCanvas()
 
 	Button* StartButton = new Button("Start_B", Graphics, Resolution_Mid + Vector2(0, 100), Vector2(2.5f, .5f));
 	StartButton->AddText("Text", L"Start", Screen_Mid + Vector2(0, -110), Vector2(.5f, .5f), Color_Red);
+	StartButton->AddHighlightEventListener([]()
+	{
+			SoundManager::PlayOneShot("Button_Hover");
+	});
 	mainMenuCanvas->AddUIObject(StartButton);
 
 	Button* QuitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0,-10), Vector2(2.5f, .5f));
 	QuitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 5), Vector2(.5f, .5f), Color_Red);
+	QuitButton->AddHighlightEventListener([]()
+		{
+			SoundManager::PlayOneShot("Button_Hover");
+		});
 	mainMenuCanvas->AddUIObject(QuitButton);
 
 	ButtonNavigator* navigator = new ButtonNavigator(Input);

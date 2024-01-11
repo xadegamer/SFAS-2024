@@ -1,19 +1,19 @@
 #pragma once
 
-#include "Engine/IApplication.h"
 #include <functional>
 
 class IGraphics;
 class ITexture;
 class IShader;
 class IRenderable;
+class AnimatedSprite;
 
 class WaterTank
 {
 private:
 
 	IRenderable* TankBody;
-	IRenderable* TankFill;
+	AnimatedSprite* TankWaterAnimation;
 	IRenderable* TankMask;
 
 	std::function <void()> OnFullEvent;
@@ -32,6 +32,8 @@ public:
 
 	void SetPosition(float x, float y);
 	void SetScale(float x, float y);;
+
+	void Update();
 
 	void UpdateWaterLevel(float input);
 	void ValidateWaterLevel();

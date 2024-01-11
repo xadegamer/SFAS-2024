@@ -44,7 +44,12 @@
     <ClCompile Include="Source\Game\WaterTank.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Time.cpp" />
+    <ClCompile Include="Source\Engine\Time.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\AnimatedSprite.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\IApplication.h" />
@@ -91,7 +96,12 @@
     <ClInclude Include="Source\Game\WaterTank.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Time.h" />
+    <ClInclude Include="Source\Engine\Time.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\AnimatedSprite.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -102,6 +112,9 @@
     </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{5fcb65dc-254e-49a5-b064-28e46dc85b79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{c94c0587-7070-4545-a4c3-90bf2068627e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

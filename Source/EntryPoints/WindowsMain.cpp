@@ -86,6 +86,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		StartButton->AddSelectEventListener([Application]()
 		{
+				SoundManager::PlayOneShot("Button_Click");
 			Application->Load();
 		});
 	}
@@ -95,6 +96,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		QuitButton->AddSelectEventListener([]()
 		{
+				SoundManager::PlayOneShot("Button_Click");
 			PostQuitMessage(0);
 		});
 	}

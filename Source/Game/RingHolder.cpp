@@ -140,7 +140,9 @@ float RingHolder::GetSelectedRingRotation()
 {
 	//return abs(Rings[static_cast<int>(SelectedRing)]->GetTransform().Rotation * 60.0f);
 
-	return ConvertRotation (abs(Rings[static_cast<int>(SelectedRing)]->GetTransform().Rotation));
+	//return ConvertRotation (abs(Rings[static_cast<int>(SelectedRing)]->GetTransform().Rotation));
+
+	return ConvertRotation(abs(Arrow->GetTransform().Rotation));
 }
 
 float RingHolder::ConvertRotation(float rotation)
@@ -149,8 +151,7 @@ float RingHolder::ConvertRotation(float rotation)
  //   return rotation * 60.0f;
 
 	float degrees = rotation * 60.0f;
-	if (degrees > 180.0) {
+	if (degrees > 180.0)
 		degrees -= 360.0;
-	}
 	return degrees;
 }

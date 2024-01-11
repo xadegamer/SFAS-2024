@@ -9,6 +9,8 @@
 // for text rendering
 #include <SpriteBatch.h>
 #include <SpriteFont.h>
+#include <string>
+#include <map>
 
 struct ID3D11Device;
 struct ID3D11DeviceContext;
@@ -61,5 +63,8 @@ private:
 	// For text rendering
 	std::unique_ptr<DirectX::SpriteBatch> SpriteBatch;
 	std::unique_ptr<DirectX::SpriteFont> SpriteFont;
+
+	// For texture caching
+	std::map<std::wstring, ITexture*> TextureMap;
 };
 

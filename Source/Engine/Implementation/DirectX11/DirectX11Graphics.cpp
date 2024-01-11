@@ -190,6 +190,11 @@ bool DirectX11Graphics::IsValid()
 
 ITexture* DirectX11Graphics::CreateTexture(const wchar_t* filepath)
 {
+    if (TextureMap.find(filepath) != TextureMap.end())
+    {
+		return TextureMap[filepath];
+	}
+
     ITexture* Result = nullptr;
     ID3D11ShaderResourceView* Texture = nullptr;
     ID3D11SamplerState* Sampler = nullptr;
@@ -226,6 +231,7 @@ ITexture* DirectX11Graphics::CreateTexture(const wchar_t* filepath)
         {
             Result = new DirectX11Texture(Context, Texture, Sampler, Description);
             Textures.push_back(Result);
+            TextureMap.insert(std::pair<std::wstring, ITexture*>(filepath, Result));
         }
     }
 

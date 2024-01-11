@@ -4,6 +4,7 @@
 #include "Engine/IRenderable.h"
 #include "Engine/IGraphics.h"
 #include "Engine/Time.h"
+#include "Game/AnimatedSprite.h"
 
 #include "UI/UISystem.h"
 
@@ -13,16 +14,24 @@ WaterTank::WaterTank(IGraphics* Graphics)
 	IShader* TankBodyShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankBodyTexture);
 	TankBody = Graphics->CreateBillboard(TankBodyShader, 1);
 
-	ITexture* TankFillTexture = Graphics->CreateTexture(L"Resource/Textures/Btn.dds");
-	IShader* TankFillShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankFillTexture);
-	TankFill = Graphics->CreateBillboard(TankFillShader, 2);
+	ITexture* TankFill1Texture = Graphics->CreateTexture(L"Resource/Textures/Btn.dds");
+	IShader* TankFill1Shader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankFill1Texture);
+	IRenderable* TankFill1 = Graphics->CreateBillboard(TankFill1Shader, 2);
+
+	ITexture* TankFill2Texture = Graphics->CreateTexture(L"Resource/Textures/100x Light Blue.dds");
+	IShader* TankFill2Shader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankFill2Texture);
+	IRenderable* TankFill2 = Graphics->CreateBillboard(TankFill2Shader, 2);
+
+	TankWaterAnimation = new AnimatedSprite(.25f, true);
+	TankWaterAnimation->AddFrame(TankFill1);
+	TankWaterAnimation->AddFrame(TankFill2);
 
 	ITexture* TankMaskTexture = Graphics->CreateTexture(L"Resource/Textures/BG_GraySmall.dds");
 	IShader* TankMaskShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankMaskTexture);
 	TankMask = Graphics->CreateBillboard(TankMaskShader, 3);
 
 	TankBody->SetScale(1.5, 2);
-	TankFill->SetScale(1.4, 2);
+	TankWaterAnimation->SetScale(1.4, 2);
 	TankMask->SetScale(1.4, 2);
 
 	FullWaterLevel = -200;
@@ -39,20 +48,25 @@ WaterTank::~WaterTank()
 
 void WaterTank::SetPosition(float x, float y)
 {
-	TankFill->SetPosition(x, y);
+	TankWaterAnimation->SetPosition(x, y);
 	TankBody->SetPosition(x, y);
 	TankMask->SetPosition(x, y - 200);
 }
 
 void WaterTank::SetScale(float x, float y)
 {
-	TankFill->SetScale(x, y);
+	TankWaterAnimation->SetScale(x, y);
 	TankBody->SetScale(x, y);
+}
+
+void WaterTank::Update()
+{
+	TankWaterAnimation->Update();
 }
 
 void WaterTank::UpdateWaterLevel(float input)
 {
-	float currentWaterLevel = TankFill->GetTransform().PositionY;
+	float currentWaterLevel = TankWaterAnimation->GetYPosition();
 	float newWaterLevel = currentWaterLevel + input * Time::GetDeltaTime() * waterSpeed;
 	newWaterLevel = CLAMP(newWaterLevel, FullWaterLevel,NoWaterLevel);
 
@@ -65,12 +79,12 @@ void WaterTank::UpdateWaterLevel(float input)
 
 void WaterTank::ValidateWaterLevel()
 {
-	if (TankFill->GetTransform().PositionY == FullWaterLevel && !triggerdEvent)
+	if (TankWaterAnimation->GetYPosition() == FullWaterLevel && !triggerdEvent)
 	{
 		if(OnFullEvent) OnFullEvent();
 		triggerdEvent = true;
 	}
-	else if (TankFill->GetTransform().PositionY == NoWaterLevel && !triggerdEvent)
+	else if (TankWaterAnimation->GetYPosition() == NoWaterLevel && !triggerdEvent)
 	{
 		if (OnEmptyEvent) OnEmptyEvent();
 		triggerdEvent = true;
@@ -79,5 +93,5 @@ void WaterTank::ValidateWaterLevel()
 
 void WaterTank::SetWaterLevel(float level)
 {
-	TankFill->SetPosition(TankFill->GetTransform().PositionX, level);
+	TankWaterAnimation->SetPosition(TankWaterAnimation->GetXPosition(), level);
 }

@@ -121,7 +121,6 @@ void Game::StartGame()
 
 void Game::SetupEachRing()
 {
-
 	for (size_t i = 0; i < RingHolders.size(); i++)
 	{
 		RingHolders[i]->SetupRings();
@@ -158,6 +157,9 @@ void Game::UpdateRingSelection()
 	{
 		RingHolders[CurrentRingHolderIndex]->CheckForSuccess();
 	}
+
+	WaterTank1->Update();
+	WaterTank2->Update();
 
 	TransferWater();
 

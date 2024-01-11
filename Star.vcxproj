@@ -145,6 +145,7 @@
     <ClCompile Include="Source\Engine\ITexture.cpp" />
     <ClCompile Include="Source\Engine\Time.cpp" />
     <ClCompile Include="Source\EntryPoints\WindowsMain.cpp" />
+    <ClCompile Include="Source\Game\AnimatedSprite.cpp" />
     <ClCompile Include="Source\Game\Game.cpp" />
     <ClCompile Include="Source\Game\RingHolder.cpp" />
     <ClCompile Include="Source\Game\SoundManager.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="Source\Engine\ITexture.h" />
     <ClInclude Include="Source\Engine\Time.h" />
     <ClInclude Include="Source\Engine\Transform2D.h" />
+    <ClInclude Include="Source\Game\AnimatedSprite.h" />
     <ClInclude Include="Source\Game\Game.h" />
     <ClInclude Include="Source\Game\RingHolder.h" />
     <ClInclude Include="Source\Game\SoundManager.h" />

@@ -25,6 +25,8 @@ void SoundManager::Initialize()
 
 	LoadSFX("MainMenu", L"Resource\\Audio\\puzzle2.wav");
 	LoadSFX("GameMenu", L"Resource\\Audio\\puzzle1.wav");
+	LoadSFX("Button_Hover", L"Resource\\Audio\\Hover.wav");
+	LoadSFX("Button_Click", L"Resource\\Audio\\Click.wav");
 
 	std::cout << "Sound Handler Initialized" << std::endl;
 	audioEngine->SetMasterVolume(0.1f);

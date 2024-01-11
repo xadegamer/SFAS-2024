@@ -11,6 +11,7 @@ D:\Competition\SFAS-2024\Source\Engine\IShader.cpp;D:\Competition\SFAS-2024\x64\
 D:\Competition\SFAS-2024\Source\Engine\ITexture.cpp;D:\Competition\SFAS-2024\x64\Debug\ITexture.obj
 D:\Competition\SFAS-2024\Source\Engine\Time.cpp;D:\Competition\SFAS-2024\x64\Debug\Time.obj
 D:\Competition\SFAS-2024\Source\EntryPoints\WindowsMain.cpp;D:\Competition\SFAS-2024\x64\Debug\WindowsMain.obj
+D:\Competition\SFAS-2024\Source\Game\AnimatedSprite.cpp;D:\Competition\SFAS-2024\x64\Debug\AnimatedSprite.obj
 D:\Competition\SFAS-2024\Source\Game\Game.cpp;D:\Competition\SFAS-2024\x64\Debug\Game.obj
 D:\Competition\SFAS-2024\Source\Game\RingHolder.cpp;D:\Competition\SFAS-2024\x64\Debug\RingHolder.obj
 D:\Competition\SFAS-2024\Source\Game\SoundManager.cpp;D:\Competition\SFAS-2024\x64\Debug\SoundManager.obj
