@@ -58,7 +58,7 @@ void RingHolder::SetupRings()
 {
 	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
 	{
-		Rings[Ring]->SetRotation(static_cast<float>(fmod(rand(), Pie)));
+		//Rings[Ring]->SetRotation(static_cast<float>(fmod(rand(), Pie)));
 	}
 }
 
@@ -133,9 +133,14 @@ float RingHolder::GetSelectedRingRotation()
 {
 	float totalRotationDifference = 0.0f;
 
+	//for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
+	//{
+	//	totalRotationDifference += abs(Rings[Ring]->GetTransform().Rotation);
+	//}
+
 	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
 	{
-		totalRotationDifference += abs(Rings[Ring]->GetTransform().Rotation);
+		totalRotationDifference += Rings[Ring]->GetTransform().Rotation;
 	}
 
 	float averageRotationDifference = totalRotationDifference / NumberOfRings;
@@ -144,15 +149,16 @@ float RingHolder::GetSelectedRingRotation()
 
 	//return abs(Rings[static_cast<int>(SelectedRing)]->GetTransform().Rotation);
 	//return ConvertRotation (abs(Rings[static_cast<int>(SelectedRing)]->GetTransform().Rotation));
+
+	//return  Rings[static_cast<int>(SelectedRing)]->GetTransform().Rotation + TwoPies;
 }
 
 float RingHolder::ConvertRotation(float rotation)
 {   
-	//if (rotation < 0 || rotation > 6) return 0.0f;
- //   return rotation * 60.0f;
+	return  static_cast<float>(fmod (rotation , TwoPies));
 
-	float degrees = rotation * 60.0f;
-	if (degrees > 180.0)
-		degrees -= 360.0;
-	return degrees;
+	//float degrees = rotation * 60.0f;
+	//if (degrees > 180.0)
+	//	degrees -= 360.0;
+	//return degrees;
 }

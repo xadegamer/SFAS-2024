@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Engine/IApplication.h"
 #include <functional>
 #include <string>
 

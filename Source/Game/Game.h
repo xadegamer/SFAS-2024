@@ -43,6 +43,7 @@ private:
 	void StartGame();
 
 	void SetupEachRing();
+
 	void UpdateRingSelection();
 	void UpdateSelectedRingRotation();
 
