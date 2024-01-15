@@ -174,8 +174,12 @@
     <ClInclude Include="Source\Game\TypeHelpers.h">
       <Filter>Others</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Ring.h" />
-    <ClInclude Include="Source\Game\IGameObject.h" />
+    <ClInclude Include="Source\Game\IGameObject.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Ring.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Game">

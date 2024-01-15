@@ -2,12 +2,6 @@
 
 #include "IGameObject.h"
 
-#include <functional>
-#include <string>
-
-class IGraphics;
-class ITexture;
-class IShader;
 class IRenderable;
 
 class Ring : public IGameObject

@@ -4,7 +4,6 @@
 #include <string>
 #include <iostream>
 
-
 class Text : public UIObject
 {
 private:

@@ -29,9 +29,9 @@ void Ring::SetScale(Vector2 scale)
 
 void Ring::SetRotation(float rotation)
 {
-	rotation = rotation;
-	MainVisual->SetRotation(rotation);
-	HighlightVisual->SetRotation(rotation);
+	Rotation = rotation;
+	MainVisual->SetRotation(Rotation);
+	//HighlightVisual->SetRotation(rotation);
 }
 
 void Ring::SetVisible(bool visible)

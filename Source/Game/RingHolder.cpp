@@ -3,17 +3,18 @@
 #include "Engine/IRenderable.h"
 #include "Engine/IGraphics.h"
 #include "Engine/Time.h"
+#include "Ring.h"
 
 #include <ctime>
 #include <math.h>
 
-constexpr float Pie = 3.14159265359f;
-constexpr float TwoPies = Pie * 2.0f;
-constexpr float SpinSpeed = 5.0f;
-constexpr float WinTolerance = 0.5;
-
 RingHolder::RingHolder(IGraphics* Graphics, std::wstring  ringName) : Rings(), SelectedRing()
 {
+	Pie = 3.14159265359f;
+	TwoPies = Pie * 2.0f;
+	SpinSpeed = 5.0f;
+	WinTolerance = 0.5;
+
 	ITexture* CentreTexture = Graphics->CreateTexture(L"Resource/Textures/Centre_Black.dds");
 
 	std::wstring InnerTRingPath = L"Resource/Textures/" + ringName + L"/1.dds";
@@ -40,13 +41,27 @@ RingHolder::RingHolder(IGraphics* Graphics, std::wstring  ringName) : Rings(), S
 
 	Centre = Graphics->CreateBillboard(CentreShader);
 
-	Rings[static_cast<unsigned int>(RingLayer::Inner)] = Graphics->CreateBillboard(InnerShader);
-	Rings[static_cast<unsigned int>(RingLayer::Middle)] = Graphics->CreateBillboard(MiddleShader);
-	Rings[static_cast<unsigned int>(RingLayer::Outer)] = Graphics->CreateBillboard(OuterShader);
+	for (unsigned int RingIndex = 0; RingIndex < NumberOfRings; ++RingIndex)
+	{
+		std::wstring mainPath = L"Resource/Textures/" + ringName  + L"/" + std::to_wstring(RingIndex + 1) + L".dds";
+		ITexture* mainTexture = Graphics->CreateTexture(mainPath.c_str());
+		IShader* mainShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", mainTexture);
 
-	RingsHighlight[static_cast<unsigned int>(RingLayer::Inner)] = Graphics->CreateBillboard(InnerHighlightShader,2);
-	RingsHighlight[static_cast<unsigned int>(RingLayer::Middle)] = Graphics->CreateBillboard(MiddleHighlightShader,2);
-	RingsHighlight[static_cast<unsigned int>(RingLayer::Outer)] = Graphics->CreateBillboard(OuterHighlightShader,2);
+		std::wstring highlightPath = L"Resource/Textures/" + std::to_wstring(RingIndex + 1) + L"H.dds";
+		ITexture* highlightTexture = Graphics->CreateTexture(highlightPath.c_str());
+		IShader* highlightShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", highlightTexture);
+
+
+		Rings[RingIndex] = new Ring(Graphics->CreateBillboard(mainShader),Graphics->CreateBillboard(highlightShader, 2));
+	}
+
+	//Rings[static_cast<unsigned int>(RingLayer::Inner)] = Graphics->CreateBillboard(InnerShader);
+	//Rings[static_cast<unsigned int>(RingLayer::Middle)] = Graphics->CreateBillboard(MiddleShader);
+	//Rings[static_cast<unsigned int>(RingLayer::Outer)] = Graphics->CreateBillboard(OuterShader);
+
+	//RingsHighlight[static_cast<unsigned int>(RingLayer::Inner)] = Graphics->CreateBillboard(InnerHighlightShader,2);
+	//RingsHighlight[static_cast<unsigned int>(RingLayer::Middle)] = Graphics->CreateBillboard(MiddleHighlightShader,2);
+	//RingsHighlight[static_cast<unsigned int>(RingLayer::Outer)] = Graphics->CreateBillboard(OuterHighlightShader,2);
 
 	std::srand(static_cast<unsigned int>(std::time(0)));
 
@@ -70,22 +85,22 @@ void RingHolder::SetupRings()
 	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
 	{
 		//Rings[Ring]->SetRotation(static_cast<float>(fmod(rand(), Pie)));
-		RingsHighlight [Ring]->SetVisible(Ring == SelectedRing);
+		Rings[Ring]->ToggleHighlight(Ring == SelectedRing);
 	}
 }
 
 void RingHolder::UpdateRingSelection(int dir)
 {
 	int selectionChange = dir;
-	RingsHighlight[static_cast<int>(SelectedRing)]->SetVisible(false);
+	Rings[static_cast<int>(SelectedRing)]->ToggleHighlight(false);
 	SelectedRing = static_cast<RingLayer>(CLAMP(static_cast<int>(SelectedRing) + selectionChange, 0, NumberOfRings - 1));
-	RingsHighlight[static_cast<int>(SelectedRing)]->SetVisible(true);
+	Rings[static_cast<int>(SelectedRing)]->ToggleHighlight(true);
 }
 
 void RingHolder::UpdateSelectedRingRotation(float input)
 {
 	float delta = input * SpinSpeed * Time::GetDeltaTime();
-	float rotation = Rings[static_cast<int>(SelectedRing)]->GetTransform().Rotation;
+	float rotation = Rings[static_cast<int>(SelectedRing)]->GetRotation();
 	float newRotation = static_cast<float>(fmod(rotation + delta, TwoPies));
 	Rings[static_cast<int>(SelectedRing)]->SetRotation(newRotation);
 }
@@ -96,7 +111,7 @@ float RingHolder::CheckForSuccess()
 
 	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
 	{
-		totalRotationDifference += abs(Rings[Ring]->GetTransform().Rotation);
+		totalRotationDifference += abs(Rings[Ring]->GetRotation());
 	}
 
 	float averageRotationDifference = totalRotationDifference / NumberOfRings;
@@ -134,7 +149,7 @@ float RingHolder::GetSelectedRingRotation()
 
 	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
 	{
-		totalRotationDifference += Rings[Ring]->GetTransform().Rotation;
+		totalRotationDifference += Rings[Ring]->GetRotation();
 	}
 
 	float averageRotationDifference = totalRotationDifference / NumberOfRings;
@@ -162,12 +177,7 @@ void RingHolder::SetPosition(Vector2 position)
 	Position = position;
 	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
 	{
-		Rings[Ring]->SetPosition(Position.x, Position.y);
-	}
-
-	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
-	{
-		RingsHighlight[Ring]->SetPosition(Position.x, Position.y);
+		Rings[Ring]->SetPosition(position);
 	}
 
 	Centre->SetPosition(Position.x, Position.y);
@@ -178,12 +188,7 @@ void RingHolder::SetScale(Vector2 scale)
 	Scale = scale;
 	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
 	{
-		Rings[Ring]->SetScale(Scale.x, Scale.y);
-	}
-
-	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
-	{
-		RingsHighlight[Ring]->SetScale(Scale.x, Scale.y);
+		Rings[Ring]->SetScale(scale);
 	}
 
 	Centre->SetScale(Scale.x, Scale.y);
@@ -196,13 +201,6 @@ void RingHolder::SetRotation(float rotation)
 	{
 		Rings[Ring]->SetRotation(Rotation);
 	}
-
-	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
-	{
-		RingsHighlight[Ring]->SetRotation(Rotation);
-	}
-
-	Centre->SetRotation(Rotation);
 }
 
 void RingHolder::SetVisible(bool visible)
@@ -211,11 +209,6 @@ void RingHolder::SetVisible(bool visible)
 	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
 	{
 		Rings[Ring]->SetVisible(Visible);
-	}
-
-	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
-	{
-		RingsHighlight[Ring]->SetVisible(Visible);
 	}
 
 	Centre->SetVisible(Visible);

@@ -176,7 +176,7 @@ void Game::SetUpGame()
 	RingHolder* TestRingHolder3 = new RingHolder(Graphics , L"BottomRight");
 	TestRingHolder3->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
 	TestRingHolder3->SetPosition(Vector2(100, -100));
-	TestRingHolder3->SetScale(Vector2((0.5f, 0.5f));
+	TestRingHolder3->SetScale(Vector2(0.5f, 0.5f));
 
 	RingHolders.push_back(TestRingHolder0);
 	RingHolders.push_back(TestRingHolder1);
