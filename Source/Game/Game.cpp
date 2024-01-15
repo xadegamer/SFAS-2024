@@ -157,26 +157,26 @@ void Game::SetUpGame()
 	// left Ttop
 	RingHolder* TestRingHolder0 = new RingHolder(Graphics , L"TopLeft");
 	TestRingHolder0->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
-	TestRingHolder0->SetPosition(-100, 100);
-	TestRingHolder0->SetScale(0.5f, 0.5f);
+	TestRingHolder0->SetPosition(Vector2(-100, 100));
+	TestRingHolder0->SetScale(Vector2(0.5f, 0.5f));
 
 	// left buttom
 	RingHolder* TestRingHolder1 = new RingHolder(Graphics, L"BottomLeft");
 	TestRingHolder1->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
-	TestRingHolder1->SetPosition(-100, -100);
-	TestRingHolder1->SetScale(0.5f, 0.5f);
+	TestRingHolder1->SetPosition(Vector2 (-100, -100));
+	TestRingHolder1->SetScale(Vector2(0.5f, 0.5f));
 
 	// right top
 	RingHolder* TestRingHolder2 = new RingHolder(Graphics , L"TopRight");
 	TestRingHolder2->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
-	TestRingHolder2->SetPosition(100, 100);
-	TestRingHolder2->SetScale(0.5f, 0.5f);
+	TestRingHolder2->SetPosition(Vector2(100, 100));
+	TestRingHolder2->SetScale(Vector2(0.5f, 0.5f));
 
 	// right buttom
 	RingHolder* TestRingHolder3 = new RingHolder(Graphics , L"BottomRight");
 	TestRingHolder3->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
-	TestRingHolder3->SetPosition(100, -100);
-	TestRingHolder3->SetScale(0.5f, 0.5f);
+	TestRingHolder3->SetPosition(Vector2(100, -100));
+	TestRingHolder3->SetScale(Vector2((0.5f, 0.5f));
 
 	RingHolders.push_back(TestRingHolder0);
 	RingHolders.push_back(TestRingHolder1);

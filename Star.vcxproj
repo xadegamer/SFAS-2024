@@ -149,6 +149,7 @@
     <ClCompile Include="Source\Game\AnimatedSprite.cpp" />
     <ClCompile Include="Source\Game\Game.cpp" />
     <ClCompile Include="Source\Game\Particle.cpp" />
+    <ClCompile Include="Source\Game\Ring.cpp" />
     <ClCompile Include="Source\Game\RingHolder.cpp" />
     <ClCompile Include="Source\Game\SoundManager.cpp" />
     <ClCompile Include="Source\Game\WaterTank.cpp" />
@@ -178,7 +179,9 @@
     <ClInclude Include="Source\Engine\Transform2D.h" />
     <ClInclude Include="Source\Game\AnimatedSprite.h" />
     <ClInclude Include="Source\Game\Game.h" />
+    <ClInclude Include="Source\Game\IGameObject.h" />
     <ClInclude Include="Source\Game\Particle.h" />
+    <ClInclude Include="Source\Game\Ring.h" />
     <ClInclude Include="Source\Game\RingHolder.h" />
     <ClInclude Include="Source\Game\SoundManager.h" />
     <ClInclude Include="Source\Game\TypeHelpers.h" />

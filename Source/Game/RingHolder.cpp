@@ -7,7 +7,6 @@
 #include <ctime>
 #include <math.h>
 
-#define CLAMP(v, x, y) fmin(fmax(v, x), y)
 constexpr float Pie = 3.14159265359f;
 constexpr float TwoPies = Pie * 2.0f;
 constexpr float SpinSpeed = 5.0f;
@@ -30,12 +29,24 @@ RingHolder::RingHolder(IGraphics* Graphics, std::wstring  ringName) : Rings(), S
 	IShader* MiddleShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", MiddleTexture);
 	IShader* OuterShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", OuterTexture);
 
+	ITexture* InnerHighlightTexture = Graphics->CreateTexture(L"Resource/Textures/1H.dds");
+	ITexture* MiddleHighlightTexture = Graphics->CreateTexture(L"Resource/Textures/2H.dds");
+	ITexture* OuterHighlightTexture = Graphics->CreateTexture(L"Resource/Textures/3H.dds");
+
+	IShader* InnerHighlightShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", InnerHighlightTexture);
+	IShader* MiddleHighlightShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", MiddleHighlightTexture);
+	IShader* OuterHighlightShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", OuterHighlightTexture);
+
 
 	Centre = Graphics->CreateBillboard(CentreShader);
 
 	Rings[static_cast<unsigned int>(RingLayer::Inner)] = Graphics->CreateBillboard(InnerShader);
 	Rings[static_cast<unsigned int>(RingLayer::Middle)] = Graphics->CreateBillboard(MiddleShader);
 	Rings[static_cast<unsigned int>(RingLayer::Outer)] = Graphics->CreateBillboard(OuterShader);
+
+	RingsHighlight[static_cast<unsigned int>(RingLayer::Inner)] = Graphics->CreateBillboard(InnerHighlightShader,2);
+	RingsHighlight[static_cast<unsigned int>(RingLayer::Middle)] = Graphics->CreateBillboard(MiddleHighlightShader,2);
+	RingsHighlight[static_cast<unsigned int>(RingLayer::Outer)] = Graphics->CreateBillboard(OuterHighlightShader,2);
 
 	std::srand(static_cast<unsigned int>(std::time(0)));
 
@@ -59,13 +70,16 @@ void RingHolder::SetupRings()
 	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
 	{
 		//Rings[Ring]->SetRotation(static_cast<float>(fmod(rand(), Pie)));
+		RingsHighlight [Ring]->SetVisible(Ring == SelectedRing);
 	}
 }
 
 void RingHolder::UpdateRingSelection(int dir)
 {
 	int selectionChange = dir;
+	RingsHighlight[static_cast<int>(SelectedRing)]->SetVisible(false);
 	SelectedRing = static_cast<RingLayer>(CLAMP(static_cast<int>(SelectedRing) + selectionChange, 0, NumberOfRings - 1));
+	RingsHighlight[static_cast<int>(SelectedRing)]->SetVisible(true);
 }
 
 void RingHolder::UpdateSelectedRingRotation(float input)
@@ -97,26 +111,6 @@ float RingHolder::CheckForSuccess()
 	}
 
 	return averageRotationDifference;
-}
-
-void RingHolder::SetPosition(float x, float y)
-{
-	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
-	{
-		Rings[Ring]->SetPosition(x, y);
-	}
-
-	Centre->SetPosition(x, y);
-}
-
-void RingHolder::SetScale(float x, float y)
-{
-	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
-	{
-		Rings[Ring]->SetScale(x, y);
-	}
-
-	Centre->SetScale(x, y);
 }
 
 void RingHolder::Activate()
@@ -161,4 +155,83 @@ float RingHolder::ConvertRotation(float rotation)
 	//if (degrees > 180.0)
 	//	degrees -= 360.0;
 	//return degrees;
+}
+
+void RingHolder::SetPosition(Vector2 position)
+{
+	Position = position;
+	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
+	{
+		Rings[Ring]->SetPosition(Position.x, Position.y);
+	}
+
+	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
+	{
+		RingsHighlight[Ring]->SetPosition(Position.x, Position.y);
+	}
+
+	Centre->SetPosition(Position.x, Position.y);
+}
+
+void RingHolder::SetScale(Vector2 scale)
+{
+	Scale = scale;
+	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
+	{
+		Rings[Ring]->SetScale(Scale.x, Scale.y);
+	}
+
+	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
+	{
+		RingsHighlight[Ring]->SetScale(Scale.x, Scale.y);
+	}
+
+	Centre->SetScale(Scale.x, Scale.y);
+}
+
+void RingHolder::SetRotation(float rotation)
+{
+	Rotation = rotation;
+	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
+	{
+		Rings[Ring]->SetRotation(Rotation);
+	}
+
+	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
+	{
+		RingsHighlight[Ring]->SetRotation(Rotation);
+	}
+
+	Centre->SetRotation(Rotation);
+}
+
+void RingHolder::SetVisible(bool visible)
+{
+	Visible = visible;
+	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
+	{
+		Rings[Ring]->SetVisible(Visible);
+	}
+
+	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
+	{
+		RingsHighlight[Ring]->SetVisible(Visible);
+	}
+
+	Centre->SetVisible(Visible);
+}
+
+float RingHolder::GetXPosition()
+{
+	return Position.x;
+}
+
+float RingHolder::GetYPosition()
+{
+	return Position.y;
+}
+
+float RingHolder::GetRotation()
+{
+	return Rotation;
 }

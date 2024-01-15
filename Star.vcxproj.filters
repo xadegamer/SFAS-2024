@@ -82,6 +82,9 @@
     <ClCompile Include="Source\EntryPoints\WindowsMain.cpp">
       <Filter>Others</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\Ring.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\Game.h">
@@ -171,6 +174,8 @@
     <ClInclude Include="Source\Game\TypeHelpers.h">
       <Filter>Others</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Ring.h" />
+    <ClInclude Include="Source\Game\IGameObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Game">

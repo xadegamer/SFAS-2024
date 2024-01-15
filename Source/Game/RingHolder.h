@@ -18,6 +18,7 @@ private:
 
 	IRenderable* Centre;
 	IRenderable* Rings[NumberOfRings];
+	IRenderable* RingsHighlight[NumberOfRings];
 	RingLayer SelectedRing;
 
 	std::function <void()> OnSuccessEvent;
