@@ -19,7 +19,6 @@ class RingHolder : public IGameObject
 
 private:
 
-	IRenderable* Centre;
 	Ring* Rings[NumberOfRings];
 	RingLayer SelectedRing;
 
@@ -39,7 +38,8 @@ public:
 	void SetupRings();
 	void UpdateRingSelection(int input);
 	void UpdateSelectedRingRotation(float input);
-	float CheckForSuccess();
+	bool ValidateRings();
+	void CheckForSuccess();
 	void Activate();
 	void Deactivate();
 	float GetSelectedRingRotation();

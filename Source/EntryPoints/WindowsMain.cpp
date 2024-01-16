@@ -16,8 +16,8 @@
 
 const char WindowClassName[] = "Star";
 const char WindowTitle[] = "Search for a Star 2024";
-const int WindowWidth = 1920 / 2;
-const int WindowHeight = 1080 / 2;
+const int WindowWidth = 1920 / 1.5;
+const int WindowHeight = 1080 / 1.5;
 const std::string MainMenuCanvasID = "MainMenuCanvas";
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

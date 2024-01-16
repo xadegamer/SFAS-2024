@@ -29,6 +29,18 @@ void Image::Disable()
 	sprite->SetVisible(false);
 }
 
+void Image::SetPosition(Vector2 pos)
+{
+	UIObject::SetPosition(pos);
+	sprite->SetPosition(pos.x, pos.y);
+}
+
+void Image::SetScale(Vector2 scale)
+{
+UIObject::SetScale(scale);
+	sprite->SetScale(scale.x, scale.y);
+}
+
 void Image::Update(float deltaTime)
 {
 }

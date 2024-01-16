@@ -11,8 +11,8 @@ CanvasUI* UISystem::CurrentCanvas = nullptr;
 IGraphics* UISystem::Graphics = nullptr;
 IInput* UISystem::Input = nullptr;
 
-const uint32_t kDisplayBufferWidth = 1920 / 2;
-const uint32_t kDisplayBufferHeight = 1080 / 2;
+const uint32_t kDisplayBufferWidth = 1920 / 1.5;
+const uint32_t kDisplayBufferHeight = 1080 / 1.5;
 
 const Vector2 Screen_Mid = Vector2(kDisplayBufferWidth / 2, kDisplayBufferHeight / 2);
 const Vector2 Screen_TopRightCorner = Vector2(kDisplayBufferWidth, 0);
@@ -48,9 +48,10 @@ void UISystem::SetUpMainMenuCanvas()
 	Canvases.push_back(mainMenuCanvas);
 
 	Image* bg = new Image("BG", Graphics, L"Resource/Textures/BG_DeepBlue.dds");
+	bg->SetScale(Vector2(1.5f, 1.5f));
 	mainMenuCanvas->AddUIObject(bg);
 
-	Text* text = new Text("Title Text", L"Puzzle Game", Screen_Mid + Vector2(0, -200), Vector2(.5f, .5f));
+	Text* text = new Text("Title Text", L"Get the water", Screen_Mid + Vector2(0, -200), Vector2(.5f, .5f));
 	text->SetColor(Color_White);
 	mainMenuCanvas->AddUIObject(text);
 
@@ -98,6 +99,7 @@ void UISystem::PauseMenu()
 	Canvases.push_back(pauseMenuCanvas);
 
 	Image* bg = new Image("BG", Graphics, L"Resource/Textures/BG_DeepBlue.dds");
+	bg->SetScale(Vector2(1.5f, 1.5f));
 	pauseMenuCanvas->AddUIObject(bg);
 
 	Text* text = new Text("Title Text", L"Paused", Screen_Mid + Vector2(0, -200), Vector2(.5f, .5f));
@@ -134,6 +136,7 @@ void UISystem::GameOverMenu()
 	Canvases.push_back(gameOverMenuCanvas);
 
 	Image* bg = new Image("BG", Graphics, L"Resource/Textures/BG_DeepBlue.dds");
+	bg->SetScale(Vector2(1.5f, 1.5f));
 	gameOverMenuCanvas->AddUIObject(bg);
 
 	Text* text = new Text("Title Text", L"GameOver", Screen_Mid + Vector2(0, -200), Vector2(.5f, .5f));
@@ -170,6 +173,7 @@ void UISystem::WinMenu()
 	Canvases.push_back(winMenuCanvas);
 
 	Image* bg = new Image("BG", Graphics, L"Resource/Textures/BG_DeepBlue.dds");
+	bg->SetScale(Vector2(1.5f, 1.5f));
 	winMenuCanvas->AddUIObject(bg);
 
 	Text* text = new Text("Title Text", L"You Win", Screen_Mid + Vector2(0, -200), Vector2(.5f, .5f));

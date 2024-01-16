@@ -24,6 +24,8 @@ public:
 
 	void Enable() override;
 	void Disable() override;
+	void SetPosition(Vector2 pos) override;
+	void SetScale(Vector2 scale) override;
 
 	void Update(float deltaTime) override;
 };

@@ -19,17 +19,13 @@ public:
 	virtual void Update(float deltaTime) = 0;
 	virtual void Enable();
 	virtual void Disable();
+	virtual void SetScale(Vector2 scale);
+	virtual void SetPosition(Vector2 pos);
+	virtual void SetLayer(int layer);
 
 	inline bool IsEnabled() { return Enabled; };
-
-	inline void SetLayer(int layer) { Layer = layer; };
 	inline int GetLayer() { return Layer; };
-
 	inline std::string GetID() { return Id; };
-
-	inline Vector2& GetPosition() { return Position; }
-	inline void SetPosition(const Vector2& pos) { Position = pos; }
-
-	inline Vector2& GetScale() { return Scale; }
-	inline void SetScale(const Vector2& scale) { this->Scale = scale; }
+	inline Vector2 GetPosition() { return Position; }
+	inline Vector2 GetScale() { return Scale; }
 };

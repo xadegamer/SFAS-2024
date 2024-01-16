@@ -153,6 +153,7 @@ void Game::SetUpGame()
 	ITexture* BGTexture = Graphics->CreateTexture(L"Resource/Textures/BG_Gray.dds");
 	IShader* BGShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", BGTexture);
 	CentrebGG = Graphics->CreateBillboard(BGShader,0);
+	CentrebGG->SetScale(1.5f, 1.5f);
 
 	// left Ttop
 	RingHolder* TestRingHolder0 = new RingHolder(Graphics , L"TopLeft");
@@ -215,6 +216,8 @@ void Game::SetupEachRing()
 	{
 		RingHolders[i]->SetupRings();
 	}
+
+	RingHolders[CurrentRingHolderIndex]->Activate();
 }
 
 void Game::UpdateRingSelection()
@@ -263,8 +266,8 @@ void Game::UpdateRingSelection()
 		std::wstring str = std::to_wstring(random);*/
 
 		//UISystem::GetActiveCanvas()->GetUIObjectByID<Text>("ScoreText")->SetText(str);
-		debugText->SetText(std::to_wstring(RingHolders[CurrentRingHolderIndex]->GetSelectedRingRotation()));
-
+	/*	debugText->SetText(std::to_wstring(RingHolders[CurrentRingHolderIndex]->GetSelectedRingRotation()));*/
+		debugText->SetText(std::to_wstring(RingHolders[CurrentRingHolderIndex]->ValidateRings()));
 		//debugText->SetText(std::to_wstring(WaterTank1->GetNormalizedWaterLevel()));
 	}
 }
