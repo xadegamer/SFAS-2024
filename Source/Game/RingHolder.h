@@ -22,7 +22,6 @@ private:
 	Ring* Rings[NumberOfRings];
 	RingLayer SelectedRing;
 
-	float Pie;
 	float TwoPies;
 	float SpinSpeed;
 	float WinTolerance;

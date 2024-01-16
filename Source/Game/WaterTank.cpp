@@ -23,13 +23,25 @@ WaterTank::WaterTank(IGraphics* Graphics)
 	IShader* TankFill2Shader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankFill2Texture);
 	IRenderable* TankFill2 = Graphics->CreateBillboard(TankFill2Shader, 2);
 
-	TankWaterAnimation = new AnimatedSprite(.25f, true);
-	TankWaterAnimation->AddFrame(TankFill1);
-	TankWaterAnimation->AddFrame(TankFill2);
-
 	ITexture* TankMaskTexture = Graphics->CreateTexture(L"Resource/Textures/BG_GraySmall.dds");
 	IShader* TankMaskShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankMaskTexture);
 	TankMask = Graphics->CreateBillboard(TankMaskShader, 3);
+
+	ITexture* ClockBGTexture = Graphics->CreateTexture(L"Resource/Textures/ClockBG.dds");
+	IShader* ClockBGShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", ClockBGTexture);
+	ClockBG = Graphics->CreateBillboard(ClockBGShader, 4);
+	ClockBG->SetScale(.2, .2);
+
+	ITexture* ClockNeedleTexture = Graphics->CreateTexture(L"Resource/Textures/ClockNeedle.dds");
+	IShader* ClockNeedleShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", ClockNeedleTexture);
+	ClockNeedle = Graphics->CreateBillboard(ClockNeedleShader, 5);
+	ClockNeedle->SetScale(.2, .2);
+	// 3.8 ClockNeedle->SetRotation(2.3);
+
+
+	TankWaterAnimation = new AnimatedSprite(.25f, true);
+	TankWaterAnimation->AddFrame(TankFill1);
+	TankWaterAnimation->AddFrame(TankFill2);
 
 	TankBody->SetScale(1.5, 2);
 	TankWaterAnimation->SetScale(Vector2(1.4, 2));
@@ -43,6 +55,9 @@ WaterTank::WaterTank(IGraphics* Graphics)
 	triggerdEvent = false;
 
 	waterSplashInterval = 0.5f;
+
+	ClockOffset = -100.0f;
+	ClockNeedleRotationOffset = 125.0f;
 }
 
 WaterTank::~WaterTank()
@@ -53,8 +68,12 @@ void WaterTank::SetPosition(Vector2 position)
 {
 	Position = position;
 	TankWaterAnimation->SetPosition(Position);
+
 	TankBody->SetPosition(Position.x, Position.y);
 	TankMask->SetPosition(Position.x, Position.y + NoWaterLevel);
+
+	ClockBG->SetPosition(Position.x, Position.y + ClockOffset);
+	ClockNeedle->SetPosition(Position.x, Position.y + ClockOffset);
 }
 
 void WaterTank::SetScale(Vector2 scale)
@@ -91,6 +110,7 @@ void WaterTank::UpdateWaterLevel(float input)
 	newWaterLevel = CLAMP(newWaterLevel, NoWaterLevel, FullWaterLevel);
 
 	SetWaterLevel (newWaterLevel);
+	SetClockRotation();
 
 	if (input == -1 && !IsConnected)
 	{
@@ -136,6 +156,13 @@ void WaterTank::SplashWater()
 		float yPosition = GetYPosition() - 70;
 		ParticleSystem::Emit(Vector2(xPosition, yPosition), Vector2(0.2f, 0.2f), ParticleDirection::Cicular, 50, 100, 1.0f);
 	}
+}
+
+void WaterTank::SetClockRotation()
+{
+	float normalised = GetNormalizedWaterLevel() * -1;
+	float degrees = normalised * 270;
+	ClockNeedle->SetRotation(DEG2RAD(degrees) + DEG2RAD(ClockNeedleRotationOffset));
 }
 
 float WaterTank::GetNormalizedWaterLevel()

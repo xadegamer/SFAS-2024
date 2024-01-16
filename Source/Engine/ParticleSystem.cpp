@@ -5,8 +5,6 @@
 #include "Engine/IShader.h"
 #include "Engine/IRenderable.h"
 
-const float PI = 3.14159265358979323846f;
-
 Pool<Particle>* ParticleSystem::ParticlePool;
 IGraphics* ParticleSystem::Graphics;
 

@@ -10,8 +10,7 @@
 
 RingHolder::RingHolder(IGraphics* Graphics, std::wstring  ringName) : Rings(), SelectedRing()
 {
-	Pie = 3.14159265359f;
-	TwoPies = Pie * 2.0f;
+	TwoPies = PI * 2.0f;
 	SpinSpeed = 5.0f;
 	WinTolerance = 0.1;
 
@@ -72,7 +71,7 @@ void RingHolder::SetupRings()
 {
 	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
 	{
-		Rings[Ring]->SetRotation(static_cast<float>(fmod(rand(), Pie)));
+		//Rings[Ring]->SetRotation(static_cast<float>(fmod(rand(), PI)));
 		Rings[Ring]->ToggleHighlight(false);
 	}
 }

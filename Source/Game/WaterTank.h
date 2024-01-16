@@ -16,6 +16,9 @@ private:
 	IRenderable* TankBody;
 	AnimatedSprite* TankWaterAnimation;
 	IRenderable* TankMask;
+	IRenderable* ClockBG;
+	IRenderable* ClockNeedle;
+
 
 	std::function <void()> OnFullEvent;
 	std::function <void()> OnEmptyEvent;
@@ -28,6 +31,9 @@ private:
 
 	float waterSplashTimer;
 	float waterSplashInterval;
+
+	float ClockOffset;
+	float ClockNeedleRotationOffset;
 
 public:
 
@@ -48,9 +54,14 @@ public:
 
 	void SplashWater();
 
+	void SetClockRotation();
+
 	float GetNormalizedWaterLevel();
 
 	void Reset();
+
+	float TestClock(float input);
+
 
 	inline void SetWaterSpeed(float speed) { waterSpeed = speed; }
 	inline float GetWaterSpeed() { return waterSpeed; }
