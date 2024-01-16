@@ -2,8 +2,9 @@
 #include <iostream>
 
 std::unique_ptr<DirectX::AudioEngine> SoundManager::audioEngine = nullptr;
-std::map<Name, std::unique_ptr<DirectX::SoundEffect>> SoundManager::soundEffects;
-std::map<Name, std::unique_ptr<DirectX::SoundEffectInstance>> SoundManager::soundEffectInstances;
+std::map<std::string, std::unique_ptr<DirectX::SoundEffect>> SoundManager::soundEffects;
+std::map<std::string, std::unique_ptr<DirectX::SoundEffectInstance>> SoundManager::soundEffectInstances;
+std::string SoundManager::currentMusic = "";
 
 void SoundManager::Initialize()
 {
@@ -38,13 +39,13 @@ void SoundManager::Update()
 	audioEngine->Update();
 }
 
-void SoundManager::LoadSFX(Name name, std::wstring filePath)
+void SoundManager::LoadSFX(std::string name, std::wstring filePath)
 {
 	std::unique_ptr<DirectX::SoundEffect> soundEffect = std::make_unique<DirectX::SoundEffect>(audioEngine.get(), filePath.c_str());
 	soundEffects[name] = std::move(soundEffect);
 }
 
-void SoundManager::PlayOneShot(Name name)
+void SoundManager::PlayOneShot(std::string name)
 {
 	if (!soundEffects[name].get())
 	{
@@ -55,8 +56,13 @@ void SoundManager::PlayOneShot(Name name)
 	soundEffects[name]->Play();
 }
 
-void SoundManager::PlayMusic(Name name)
+void SoundManager::PlayMusic(std::string name)
 {
+	if (currentMusic != "")
+	{
+		soundEffectInstances[currentMusic]->Stop();
+	}
+
 	if (!soundEffects[name])
 	{
 		std::cout << "Music not found" << std::endl;
@@ -66,9 +72,11 @@ void SoundManager::PlayMusic(Name name)
 	soundEffectInstances[name] = soundEffects[name]->CreateInstance();
 
 	soundEffectInstances[name]->Play(true);
+
+	currentMusic = name;
 }
 
-void SoundManager::StopMusic(Name name)
+void SoundManager::StopMusic(std::string name)
 {
 	if (!soundEffectInstances[name])
 	{
@@ -79,7 +87,7 @@ void SoundManager::StopMusic(Name name)
 	soundEffectInstances[name]->Stop();
 }
 
-void SoundManager::SetVolume(Name name, float volume)
+void SoundManager::SetVolume(std::string name, float volume)
 {
 	if (!soundEffectInstances[name])
 	{

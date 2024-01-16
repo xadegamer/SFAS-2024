@@ -43,7 +43,6 @@ public:
 	void Activate();
 	void Deactivate();
 	float GetSelectedRingRotation();
-	float ConvertRotation(float rotation);
 
 	virtual void SetPosition(Vector2 position) override;
 	virtual void SetScale(Vector2 scale) override;

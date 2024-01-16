@@ -195,8 +195,8 @@ void Game::SetUpGame()
 
 	State = GameState::Setup;
 
-	SoundManager::StopMusic("MainMenu");
 	SoundManager::PlayMusic("GameMenu");
+	SoundManager::SetVolume("GameMenu", 0.2f);
 }
 
 void Game::StartGame()

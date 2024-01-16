@@ -56,10 +56,10 @@ RingHolder::RingHolder(IGraphics* Graphics, std::wstring  ringName) : Rings(), S
 
 RingHolder::~RingHolder()
 {
-	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
+	for (unsigned int ringIndex = 0; ringIndex < NumberOfRings; ++ringIndex)
 	{
-		delete Rings[Ring];
-		Rings[Ring] = nullptr;
+		delete Rings[ringIndex];
+		Rings[ringIndex] = nullptr;
 	}
 }
 
@@ -72,7 +72,7 @@ void RingHolder::SetupRings()
 {
 	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
 	{
-		//Rings[Ring]->SetRotation(static_cast<float>(fmod(rand(), Pie)));
+		Rings[Ring]->SetRotation(static_cast<float>(fmod(rand(), Pie)));
 		Rings[Ring]->ToggleHighlight(false);
 	}
 }
@@ -95,10 +95,10 @@ void RingHolder::UpdateSelectedRingRotation(float input)
 
 bool RingHolder::ValidateRings()
 {
-	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
+	for (unsigned int ringIndex = 0; ringIndex < NumberOfRings; ++ringIndex)
 	{
-		float absRotation = abs(Rings[Ring]->GetRotation());
-		if (absRotation > WinTolerance)
+		float rotation = abs(Rings[ringIndex]->GetRotation());
+		if (rotation > WinTolerance)
 		{
 			return false;
 		}
@@ -114,7 +114,11 @@ void RingHolder::CheckForSuccess()
 	}
 	else
 	{
-		//SetupRings();	
+		for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
+		{
+			Rings[Ring]->SetRotation(0);
+			Rings[Ring]->ToggleHighlight(false);
+		}
 	}
 }
 
@@ -138,11 +142,6 @@ float RingHolder::GetSelectedRingRotation()
 {
 	float totalRotationDifference = 0.0f;
 
-	//for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
-	//{
-	//	totalRotationDifference += abs(Rings[Ring]->GetTransform().Rotation);
-	//}
-
 	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
 	{
 		totalRotationDifference += abs(Rings[Ring]->GetRotation());
@@ -150,23 +149,9 @@ float RingHolder::GetSelectedRingRotation()
 
 	float averageRotationDifference = totalRotationDifference / NumberOfRings;
 
-	//return averageRotationDifference;
-
 	return abs(Rings[static_cast<int>(SelectedRing)]->GetRotation());
-	//return ConvertRotation (abs(Rings[static_cast<int>(SelectedRing)]->GetTransform().Rotation));
-
-	//return  Rings[static_cast<int>(SelectedRing)]->GetTransform().Rotation + TwoPies;
 }
 
-float RingHolder::ConvertRotation(float rotation)
-{   
-	return  static_cast<float>(fmod (rotation , TwoPies));
-
-	//float degrees = rotation * 60.0f;
-	//if (degrees > 180.0)
-	//	degrees -= 360.0;
-	//return degrees;
-}
 
 void RingHolder::SetPosition(Vector2 position)
 {

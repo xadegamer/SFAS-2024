@@ -8,6 +8,5 @@ typedef DirectX::SimpleMath::Matrix Matrix;
 typedef DirectX::SimpleMath::Vector2 Vector2;
 typedef DirectX::SimpleMath::Vector3 Vector3;
 typedef DirectX::SimpleMath::Vector4 Vector4;
-typedef std::string Name;
 
 #define CLAMP(v, x, y) fmin(fmax(v, x), y)
