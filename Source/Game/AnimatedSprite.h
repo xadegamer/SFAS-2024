@@ -1,12 +1,13 @@
 #pragma once
 
+#include "IGameObject.h"
 #include <vector>
 
 class ITexture;
 class IShader;
 class IRenderable;
 
-class AnimatedSprite
+class AnimatedSprite : public IGameObject
 {
 private:
 
@@ -31,12 +32,9 @@ public:
 	void Play();
 	void Stop();
 
-	void SetVisibilty(bool active);
-	void SetPosition(float x, float y);
-	void SetScale(float x, float y);
-	float GetXPosition();
-	float GetYPosition();
-
-	inline bool GetIsVisible() { return Visible; }
+	virtual void SetPosition(Vector2 position) override;
+	virtual void SetScale(Vector2 scale) override;
+	virtual void SetRotation(float rotation) override;
+	virtual void SetVisible(bool visible) override;
 };
 

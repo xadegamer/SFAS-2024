@@ -186,11 +186,11 @@ void Game::SetUpGame()
 	RingHolders[CurrentRingHolderIndex]->Activate();
 
 	WaterTank1 = new WaterTank(Graphics);
-	WaterTank1->SetPosition(-300, 0);
+	WaterTank1->SetPosition(Vector2 (-300, 0) );
 	WaterTank1->SetOnEmptyEvent(std::bind(&Game::OnFirstTankEmpty, this));
 
 	WaterTank2 = new WaterTank(Graphics);
-	WaterTank2->SetPosition(300, 0);
+	WaterTank2->SetPosition(Vector2(300, 0));
 
 	State = GameState::Setup;
 

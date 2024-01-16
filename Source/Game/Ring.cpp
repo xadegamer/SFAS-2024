@@ -31,26 +31,10 @@ void Ring::SetRotation(float rotation)
 {
 	Rotation = rotation;
 	MainVisual->SetRotation(Rotation);
-	//HighlightVisual->SetRotation(rotation);
 }
 
 void Ring::SetVisible(bool visible)
 {
 	MainVisual->SetVisible(visible);
 	HighlightVisual->SetVisible(visible);
-}
-
-float Ring::GetXPosition()
-{
-	return Position.x;
-}
-
-float Ring::GetYPosition()
-{
-	return Position.y;
-}
-
-float Ring::GetRotation()
-{
-	return Rotation;
 }

@@ -62,38 +62,39 @@ void AnimatedSprite::Stop()
 	CanPlay = false;
 }
 
-void AnimatedSprite::SetVisibilty(bool active)
+void AnimatedSprite::SetPosition(Vector2 position)
 {
-	Visible = active;
+	Position = position;
+	for (int i = 0; i < FrameCount; i++)
+	{
+		Frames[i]->SetPosition(position.x, position.y);
+	}
+}
+
+void AnimatedSprite::SetScale(Vector2 scale)
+{
+	Scale = scale;
+	for (int i = 0; i < FrameCount; i++)
+	{
+		Frames[i]->SetScale(scale.x, scale.y);
+	}
+}
+
+void AnimatedSprite::SetRotation(float rotation)
+{
+	Rotation = rotation;
+	for (int i = 0; i < FrameCount; i++)
+	{
+		Frames[i]->SetRotation(rotation);
+	}
+}
+
+void AnimatedSprite::SetVisible(bool visible)
+{
+	Visible = visible;
 
 	for (int i = 0; i < FrameCount; i++)
 	{
 		Frames[i]->SetVisible(true);
 	}
-}
-
-void AnimatedSprite::SetPosition(float x, float y)
-{
-	for (int i = 0; i < FrameCount; i++)
-	{
-		Frames[i]->SetPosition(x, y);
-	}
-}
-
-void AnimatedSprite::SetScale(float x, float y)
-{
-	for (int i = 0; i < FrameCount; i++)
-	{
-		Frames[i]->SetScale(x, y);
-	}
-}
-
-float AnimatedSprite::GetXPosition()
-{
-	return Frames[CurrentFrame]->GetTransform().PositionX;
-}
-
-float AnimatedSprite::GetYPosition()
-{
-	return Frames[CurrentFrame]->GetTransform().PositionY;
 }

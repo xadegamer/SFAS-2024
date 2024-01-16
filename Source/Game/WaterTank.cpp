@@ -32,7 +32,7 @@ WaterTank::WaterTank(IGraphics* Graphics)
 	TankMask = Graphics->CreateBillboard(TankMaskShader, 3);
 
 	TankBody->SetScale(1.5, 2);
-	TankWaterAnimation->SetScale(1.4, 2);
+	TankWaterAnimation->SetScale(Vector2(1.4, 2));
 	TankMask->SetScale(1.4, 2);
 
 	FullWaterLevel = 0;
@@ -49,17 +49,33 @@ WaterTank::~WaterTank()
 {
 }
 
-void WaterTank::SetPosition(float x, float y)
+void WaterTank::SetPosition(Vector2 position)
 {
-	TankWaterAnimation->SetPosition(x, y);
-	TankBody->SetPosition(x, y);
-	TankMask->SetPosition(x, y + NoWaterLevel);
+	Position = position;
+	TankWaterAnimation->SetPosition(Position);
+	TankBody->SetPosition(Position.x, Position.y);
+	TankMask->SetPosition(Position.x, Position.y + NoWaterLevel);
 }
 
-void WaterTank::SetScale(float x, float y)
+void WaterTank::SetScale(Vector2 scale)
 {
-	TankWaterAnimation->SetScale(x, y);
-	TankBody->SetScale(x, y);
+	Scale = scale;
+	TankWaterAnimation->SetScale(scale);
+	TankBody->SetScale(scale.x, scale.y);
+}
+
+void WaterTank::SetRotation(float rotation)
+{
+	Rotation = rotation;
+	TankWaterAnimation->SetRotation(rotation);
+	TankBody->SetRotation(rotation);
+}
+
+void WaterTank::SetVisible(bool visible)
+{
+	TankWaterAnimation->SetVisible(visible);
+	TankBody->SetVisible(visible);
+	TankMask->SetVisible(visible);
 }
 
 void WaterTank::Update()
@@ -102,7 +118,7 @@ void WaterTank::ValidateWaterLevel()
 
 void WaterTank::SetWaterLevel(float level)
 {
-	TankWaterAnimation->SetPosition(TankWaterAnimation->GetXPosition(), level);
+	TankWaterAnimation->SetPosition(Vector2(TankWaterAnimation->GetXPosition(), level));
 }
 
 void WaterTank::SplashWater()
@@ -116,8 +132,8 @@ void WaterTank::SplashWater()
 	else
 	{
 		waterSplashTimer = waterSplashInterval;
-		float xPosition = GetPositionX() + 70;
-		float yPosition = GetPositionY() - 70;
+		float xPosition = GetXPosition() + 70;
+		float yPosition = GetYPosition() - 70;
 		ParticleSystem::Emit(Vector2(xPosition, yPosition), Vector2(0.2f, 0.2f), ParticleDirection::Cicular, 50, 100, 1.0f);
 	}
 }
@@ -133,13 +149,3 @@ void WaterTank::Reset()
 {
 	triggerdEvent = false;
 }
-float WaterTank::GetPositionX()
-{
-	return TankBody->GetTransform().PositionX;
-}
-
-float WaterTank::GetPositionY()
-{
-	return TankBody->GetTransform().PositionY;
-}
-

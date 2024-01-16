@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IGameObject.h"
 #include <functional>
 
 class IGraphics;
@@ -8,7 +9,7 @@ class IShader;
 class IRenderable;
 class AnimatedSprite;
 
-class WaterTank
+class WaterTank : public IGameObject
 {
 private:
 
@@ -31,10 +32,12 @@ private:
 public:
 
 	WaterTank(IGraphics* Graphics);
-	virtual ~WaterTank();
+	~WaterTank();
 
-	void SetPosition(float x, float y);
-	void SetScale(float x, float y);;
+	virtual void SetPosition(Vector2 position) override;
+	virtual void SetScale(Vector2 scale) override;
+	virtual void SetRotation(float rotation) override;
+	virtual void SetVisible(bool visible) override;
 
 	void Update();
 
@@ -56,7 +59,4 @@ public:
 	inline void SetOnEmptyEvent(std::function <void()> onEmptyEvent) { OnEmptyEvent = onEmptyEvent; }
 
 	inline void SetIsConnected(bool isConnected) { IsConnected = isConnected; }
-
-	float GetPositionX();
-	float GetPositionY();
 };

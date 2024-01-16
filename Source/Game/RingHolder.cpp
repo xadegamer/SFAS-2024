@@ -213,18 +213,3 @@ void RingHolder::SetVisible(bool visible)
 
 	Centre->SetVisible(Visible);
 }
-
-float RingHolder::GetXPosition()
-{
-	return Position.x;
-}
-
-float RingHolder::GetYPosition()
-{
-	return Position.y;
-}
-
-float RingHolder::GetRotation()
-{
-	return Rotation;
-}

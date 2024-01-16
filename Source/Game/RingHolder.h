@@ -49,11 +49,5 @@ public:
 	virtual void SetScale(Vector2 scale) override;
 	virtual void SetRotation(float rotation) override;
 	virtual void SetVisible(bool visible) override;
-
-	virtual float GetXPosition() override;
-	virtual float GetYPosition() override;
-	virtual float GetRotation() override;
-
-
 };
 
