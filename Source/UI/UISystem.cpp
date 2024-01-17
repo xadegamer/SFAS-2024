@@ -11,8 +11,8 @@ CanvasUI* UISystem::CurrentCanvas = nullptr;
 IGraphics* UISystem::Graphics = nullptr;
 IInput* UISystem::Input = nullptr;
 
-const uint32_t kDisplayBufferWidth = 1920 / 1.5;
-const uint32_t kDisplayBufferHeight = 1080 / 1.5;
+const uint32_t kDisplayBufferWidth = 1920 / 1.2;
+const uint32_t kDisplayBufferHeight = 1080 / 1.2;
 
 const Vector2 Screen_Mid = Vector2(kDisplayBufferWidth / 2, kDisplayBufferHeight / 2);
 const Vector2 Screen_TopRightCorner = Vector2(kDisplayBufferWidth, 0);
@@ -48,7 +48,7 @@ void UISystem::SetUpMainMenuCanvas()
 	Canvases.push_back(mainMenuCanvas);
 
 	Image* bg = new Image("BG", Graphics, L"Resource/Textures/BG_DeepBlue.dds");
-	bg->SetScale(Vector2(1.5f, 1.5f));
+	bg->SetScale(Vector2(2.0f, 2.0f));
 	mainMenuCanvas->AddUIObject(bg);
 
 	Text* text = new Text("Title Text", L"Get the water", Screen_Mid + Vector2(0, -200), Vector2(.5f, .5f));

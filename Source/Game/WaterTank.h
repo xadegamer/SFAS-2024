@@ -15,7 +15,13 @@ private:
 
 	IRenderable* TankBody;
 	AnimatedSprite* TankWaterAnimation;
-	IRenderable* TankMask;
+	IRenderable* TankWaterBg;
+	IRenderable* TankWaterOverlay;
+	IRenderable* TankBodyMask;
+	IRenderable* TankLowerMask;
+
+	IRenderable* WaterLevelMarker;
+
 	IRenderable* ClockBG;
 	IRenderable* ClockNeedle;
 
@@ -34,10 +40,11 @@ private:
 
 	float ClockOffset;
 	float ClockNeedleRotationOffset;
+	float WaterOffset;
 
 public:
 
-	WaterTank(IGraphics* Graphics);
+	WaterTank(IGraphics* Graphics, bool start);
 	~WaterTank();
 
 	virtual void SetPosition(Vector2 position) override;
@@ -58,10 +65,9 @@ public:
 
 	float GetNormalizedWaterLevel();
 
+	float GetWaterPosition(float normalizedWaterLevel);
+
 	void Reset();
-
-	float TestClock(float input);
-
 
 	inline void SetWaterSpeed(float speed) { waterSpeed = speed; }
 	inline float GetWaterSpeed() { return waterSpeed; }

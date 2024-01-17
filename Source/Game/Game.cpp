@@ -153,30 +153,30 @@ void Game::SetUpGame()
 	ITexture* BGTexture = Graphics->CreateTexture(L"Resource/Textures/BG_Gray.dds");
 	IShader* BGShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", BGTexture);
 	CentrebGG = Graphics->CreateBillboard(BGShader,0);
-	CentrebGG->SetScale(1.5f, 1.5f);
+	CentrebGG->SetScale(2.0f, 2.0f);
 
 	// left Ttop
 	RingHolder* TestRingHolder0 = new RingHolder(Graphics , L"TopLeft");
 	TestRingHolder0->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
-	TestRingHolder0->SetPosition(Vector2(-100, 100));
+	TestRingHolder0->SetPosition(Vector2(-150, 150));
 	TestRingHolder0->SetScale(Vector2(0.5f, 0.5f));
 
 	// left buttom
 	RingHolder* TestRingHolder1 = new RingHolder(Graphics, L"BottomLeft");
 	TestRingHolder1->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
-	TestRingHolder1->SetPosition(Vector2 (-100, -100));
+	TestRingHolder1->SetPosition(Vector2 (-150, -150));
 	TestRingHolder1->SetScale(Vector2(0.5f, 0.5f));
 
 	// right top
 	RingHolder* TestRingHolder2 = new RingHolder(Graphics , L"TopRight");
 	TestRingHolder2->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
-	TestRingHolder2->SetPosition(Vector2(100, 100));
+	TestRingHolder2->SetPosition(Vector2(150, 150));
 	TestRingHolder2->SetScale(Vector2(0.5f, 0.5f));
 
 	// right buttom
 	RingHolder* TestRingHolder3 = new RingHolder(Graphics , L"BottomRight");
 	TestRingHolder3->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
-	TestRingHolder3->SetPosition(Vector2(100, -100));
+	TestRingHolder3->SetPosition(Vector2(150, -150));
 	TestRingHolder3->SetScale(Vector2(0.5f, 0.5f));
 
 	RingHolders.push_back(TestRingHolder0);
@@ -186,12 +186,12 @@ void Game::SetUpGame()
 
 	RingHolders[CurrentRingHolderIndex]->Activate();
 
-	WaterTank1 = new WaterTank(Graphics);
-	WaterTank1->SetPosition(Vector2 (-300, 0) );
+	WaterTank1 = new WaterTank(Graphics, true);
+	WaterTank1->SetPosition(Vector2 (-500, 0) );
 	WaterTank1->SetOnEmptyEvent(std::bind(&Game::OnFirstTankEmpty, this));
 
-	WaterTank2 = new WaterTank(Graphics);
-	WaterTank2->SetPosition(Vector2(300, 0));
+	WaterTank2 = new WaterTank(Graphics,false);
+	WaterTank2->SetPosition(Vector2(500, 0));
 
 	State = GameState::Setup;
 

@@ -8,7 +8,7 @@ class UIObject
 
 protected:
 	std::string Id;
-	int Layer = 0;
+	int Layer = 20;
 	bool Enabled;
 
 	Vector2 Position;

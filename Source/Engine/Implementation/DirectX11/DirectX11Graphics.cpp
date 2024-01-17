@@ -13,7 +13,7 @@
 #include <DDSTextureLoader.h>
 
 const int Min_Layer = 0;
-const int Max_Layer = 10;
+const int Max_Layer = 20;
 
 DirectX11Graphics::DirectX11Graphics(HWND hwndIn) : Device(nullptr), Context(nullptr), SwapChain(nullptr), BackbufferView(nullptr), BackbufferTexture(nullptr), Mvp(nullptr), vpMatrix(), FeatureLevel(D3D_FEATURE_LEVEL_11_0), hwnd(hwndIn), width(0), height(0)
 {

@@ -9,43 +9,58 @@
 
 #include "UI/UISystem.h"
 
-WaterTank::WaterTank(IGraphics* Graphics)
+WaterTank::WaterTank(IGraphics* Graphics, bool start)
 {
-	ITexture* TankBodyTexture = Graphics->CreateTexture(L"Resource/Textures/Btn_H.dds");
+	WaterOffset = start ? -70.0f : 90.0f;
+
+	std::wstring TankBodyPath = L"Resource/Textures/WaterTank/" + std::wstring(start ? L"StartWaterTank" : L"EndWaterTank") + L".dds";
+	ITexture* TankBodyTexture = Graphics->CreateTexture(TankBodyPath.c_str());
 	IShader* TankBodyShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankBodyTexture);
 	TankBody = Graphics->CreateBillboard(TankBodyShader, 1);
 
-	ITexture* TankFill1Texture = Graphics->CreateTexture(L"Resource/Textures/Btn.dds");
-	IShader* TankFill1Shader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankFill1Texture);
-	IRenderable* TankFill1 = Graphics->CreateBillboard(TankFill1Shader, 2);
+	ITexture* TankWaterBgTexture = Graphics->CreateTexture(L"Resource/Textures/WaterTank/WaterBG.dds");
+	IShader* TankWaterBgShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankWaterBgTexture);
+	TankWaterBg = Graphics->CreateBillboard(TankWaterBgShader, 2);
 
-	ITexture* TankFill2Texture = Graphics->CreateTexture(L"Resource/Textures/100x Light Blue.dds");
-	IShader* TankFill2Shader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankFill2Texture);
-	IRenderable* TankFill2 = Graphics->CreateBillboard(TankFill2Shader, 2);
+	ITexture* TankWaterAnim1Texture = Graphics->CreateTexture(L"Resource/Textures/WaterTank/WaterAnim1.dds");
+	IShader* TankWater1Shader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankWaterAnim1Texture);
+	IRenderable* TankWater1 = Graphics->CreateBillboard(TankWater1Shader, 3);
 
-	ITexture* TankMaskTexture = Graphics->CreateTexture(L"Resource/Textures/BG_GraySmall.dds");
-	IShader* TankMaskShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankMaskTexture);
-	TankMask = Graphics->CreateBillboard(TankMaskShader, 3);
+	ITexture* TankWaterAnim2Texture = Graphics->CreateTexture(L"Resource/Textures/WaterTank/WaterAnim2.dds");
+	IShader* TankWater2Shader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankWaterAnim2Texture);
+	IRenderable* TankWater2 = Graphics->CreateBillboard(TankWater2Shader, 3);
 
-	ITexture* ClockBGTexture = Graphics->CreateTexture(L"Resource/Textures/ClockBG.dds");
-	IShader* ClockBGShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", ClockBGTexture);
-	ClockBG = Graphics->CreateBillboard(ClockBGShader, 4);
-	ClockBG->SetScale(.2, .2);
+	ITexture* TankWaterAnim3Texture = Graphics->CreateTexture(L"Resource/Textures/WaterTank/WaterAnim3.dds");
+	IShader* TankWater3Shader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankWaterAnim3Texture);
+	IRenderable* TankWater3 = Graphics->CreateBillboard(TankWater3Shader, 3);
 
-	ITexture* ClockNeedleTexture = Graphics->CreateTexture(L"Resource/Textures/ClockNeedle.dds");
-	IShader* ClockNeedleShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", ClockNeedleTexture);
-	ClockNeedle = Graphics->CreateBillboard(ClockNeedleShader, 5);
-	ClockNeedle->SetScale(.2, .2);
-	// 3.8 ClockNeedle->SetRotation(2.3);
+	ITexture* TankWaterAnim4Texture = Graphics->CreateTexture(L"Resource/Textures/WaterTank/WaterAnim4.dds");
+	IShader* TankWater4Shader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankWaterAnim4Texture);
+	IRenderable* TankWater4 = Graphics->CreateBillboard(TankWater4Shader, 3);
 
+	TankWaterAnimation = new AnimatedSprite(.1f, true);
+	TankWaterAnimation->AddFrame(TankWater1);
+	TankWaterAnimation->AddFrame(TankWater2);
+	TankWaterAnimation->AddFrame(TankWater3);
+	TankWaterAnimation->AddFrame(TankWater4);
 
-	TankWaterAnimation = new AnimatedSprite(.25f, true);
-	TankWaterAnimation->AddFrame(TankFill1);
-	TankWaterAnimation->AddFrame(TankFill2);
+	ITexture* WaterLevelMarkerTexture = Graphics->CreateTexture(L"Resource/Textures/WaterTank/WaterLevelMarker.dds");
+	IShader* WaterLevelMarkerShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", WaterLevelMarkerTexture);
+	WaterLevelMarker = Graphics->CreateBillboard(WaterLevelMarkerShader, 4);
 
-	TankBody->SetScale(1.5, 2);
-	TankWaterAnimation->SetScale(Vector2(1.4, 2));
-	TankMask->SetScale(1.4, 2);
+	std::wstring BodyMaskPath = L"Resource/Textures/WaterTank/" + std::wstring(start ? L"StartTankBodyMask" : L"EndTankBodyMask") + L".dds";
+	ITexture* TankBodyMaskTexture = Graphics->CreateTexture(BodyMaskPath.c_str());
+	IShader* TankBodyMaskShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankBodyMaskTexture);
+	TankBodyMask = Graphics->CreateBillboard(TankBodyMaskShader, 4);
+
+	ITexture* TankWaterOverlayTexture = Graphics->CreateTexture(L"Resource/Textures/WaterTank/WaterOverlay.dds");
+	IShader* TankWaterOverlayShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankWaterOverlayTexture);
+	TankWaterOverlay = Graphics->CreateBillboard(TankWaterOverlayShader, 5);
+
+	ITexture* TankLowerMaskTexture = Graphics->CreateTexture(L"Resource/Textures/WaterTank/TankBodyMask.dds");
+	IShader* TankLowerMaskShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankLowerMaskTexture);
+	TankLowerMask = Graphics->CreateBillboard(TankLowerMaskShader, 4);
+	TankLowerMask->SetVisible (false);
 
 	FullWaterLevel = 0;
 	NoWaterLevel = -200;
@@ -56,8 +71,18 @@ WaterTank::WaterTank(IGraphics* Graphics)
 
 	waterSplashInterval = 0.5f;
 
-	ClockOffset = -100.0f;
+	ClockOffset = -180.0f;
 	ClockNeedleRotationOffset = 125.0f;
+
+	ITexture* ClockBGTexture = Graphics->CreateTexture(L"Resource/Textures/WaterTank/ClockBG.dds");
+	IShader* ClockBGShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", ClockBGTexture);
+	ClockBG = Graphics->CreateBillboard(ClockBGShader, 5);
+	ClockBG->SetScale(.2, .2);
+
+	ITexture* ClockNeedleTexture = Graphics->CreateTexture(L"Resource/Textures/WaterTank/ClockNeedle.dds");
+	IShader* ClockNeedleShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", ClockNeedleTexture);
+	ClockNeedle = Graphics->CreateBillboard(ClockNeedleShader, 6);
+	ClockNeedle->SetScale(.2, .2);
 }
 
 WaterTank::~WaterTank()
@@ -67,13 +92,19 @@ WaterTank::~WaterTank()
 void WaterTank::SetPosition(Vector2 position)
 {
 	Position = position;
-	TankWaterAnimation->SetPosition(Position);
 
 	TankBody->SetPosition(Position.x, Position.y);
-	TankMask->SetPosition(Position.x, Position.y + NoWaterLevel);
+	TankBodyMask->SetPosition(Position.x, Position.y);
 
-	ClockBG->SetPosition(Position.x, Position.y + ClockOffset);
-	ClockNeedle->SetPosition(Position.x, Position.y + ClockOffset);
+	TankWaterBg->SetPosition(Position.x + WaterOffset, Position.y);
+	TankWaterAnimation->SetPosition(Position + Vector2(WaterOffset, 0));
+	TankWaterOverlay->SetPosition(Position.x + WaterOffset, Position.y);
+	TankLowerMask->SetPosition(Position.x + WaterOffset, Position.y + NoWaterLevel);
+
+	WaterLevelMarker->SetPosition(Position.x + WaterOffset, Position.y - NoWaterLevel / 2);
+
+	ClockBG->SetPosition(Position.x + WaterOffset, Position.y + ClockOffset);
+	ClockNeedle->SetPosition(Position.x + WaterOffset, Position.y + ClockOffset);
 }
 
 void WaterTank::SetScale(Vector2 scale)
@@ -81,6 +112,12 @@ void WaterTank::SetScale(Vector2 scale)
 	Scale = scale;
 	TankWaterAnimation->SetScale(scale);
 	TankBody->SetScale(scale.x, scale.y);
+	TankLowerMask->SetScale(scale.x, scale.y);
+	TankBodyMask->SetScale(scale.x, scale.y);
+	TankWaterBg->SetScale(scale.x, scale.y);
+	TankWaterOverlay->SetScale(scale.x, scale.y);
+	ClockBG->SetScale(scale.x, scale.y);
+	ClockNeedle->SetScale(scale.x, scale.y);
 }
 
 void WaterTank::SetRotation(float rotation)
@@ -88,13 +125,19 @@ void WaterTank::SetRotation(float rotation)
 	Rotation = rotation;
 	TankWaterAnimation->SetRotation(rotation);
 	TankBody->SetRotation(rotation);
+	TankLowerMask->SetRotation(rotation);
 }
 
 void WaterTank::SetVisible(bool visible)
 {
 	TankWaterAnimation->SetVisible(visible);
 	TankBody->SetVisible(visible);
-	TankMask->SetVisible(visible);
+	TankLowerMask->SetVisible(visible);
+	TankBodyMask->SetVisible(visible);
+	TankWaterBg->SetVisible(visible);
+	TankWaterOverlay->SetVisible(visible);
+	ClockBG->SetVisible(visible);
+	ClockNeedle->SetVisible(visible);
 }
 
 void WaterTank::Update()
@@ -165,11 +208,18 @@ void WaterTank::SetClockRotation()
 	ClockNeedle->SetRotation(DEG2RAD(degrees) + DEG2RAD(ClockNeedleRotationOffset));
 }
 
+
 float WaterTank::GetNormalizedWaterLevel()
 {
 	float currentWaterLevel = TankWaterAnimation->GetYPosition();
 	float normalizedWaterLevel = (currentWaterLevel - NoWaterLevel) / (FullWaterLevel - NoWaterLevel);
 	return normalizedWaterLevel;
+}
+
+float WaterTank::GetWaterPosition(float normalizedWaterLevel)
+{
+	float waterPosition = normalizedWaterLevel * (FullWaterLevel - NoWaterLevel) + NoWaterLevel;
+	return waterPosition;
 }
 
 void WaterTank::Reset()

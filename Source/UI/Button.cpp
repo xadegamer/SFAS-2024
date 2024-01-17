@@ -9,8 +9,9 @@ Button::Button(std::string id, IGraphics* graphics, Vector2 position, Vector2 sc
 	Scale = scale;
 	Enabled = true;
 
-	NormalImage = new Image("BG", graphics, L"Resource/Textures/Btn.dds", position, 7, Scale);
-	HighlightImage = new Image("BG", graphics, L"Resource/Textures/Btn_H.dds", position, 6, Scale + Vector2(0.1f, 0.1f));
+	NormalImage = new Image("BG", graphics, L"Resource/Textures/Btn.dds", position, 13, Scale);
+	HighlightImage = new Image("BG", graphics, L"Resource/Textures/Btn_H.dds", position, 12, Scale + Vector2(0.1f, 0.1f));
+	//HighlightImage = new Image("BG", graphics, L"Resource/Textures/Btn_H.dds", position + Vector2(-10.0f, -10.0f), 12, Scale + Vector2(0.1f, 0.1f));
 
 	HighlightImage->Disable();
 }

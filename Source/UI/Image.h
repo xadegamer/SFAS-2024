@@ -19,7 +19,7 @@ private:
 
 public:
 
-	Image(std::string Id, IGraphics* Graphics, std::wstring texturePath, Vector2 pos = Vector2(0.0f, 0.0f), int layer = 5, Vector2 scale = Vector2(1.0f, 1.0f));
+	Image(std::string Id, IGraphics* Graphics, std::wstring texturePath, Vector2 pos = Vector2(0.0f, 0.0f), int layer = 11, Vector2 scale = Vector2(1.0f, 1.0f));
 	~Image() = default;
 
 	void Enable() override;
