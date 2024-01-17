@@ -267,7 +267,7 @@ void Game::UpdateRingSelection()
 
 		//UISystem::GetActiveCanvas()->GetUIObjectByID<Text>("ScoreText")->SetText(str);
 		//debugText->SetText(std::to_wstring(RingHolders[CurrentRingHolderIndex]->GetSelectedRingRotation()));
-		debugText->SetText(std::to_wstring(RingHolders[CurrentRingHolderIndex]->ValidateRings()));
+		//debugText->SetText(std::to_wstring(RingHolders[CurrentRingHolderIndex]->ValidateRings()));
 		//debugText->SetText(std::to_wstring(WaterTank1->GetNormalizedWaterLevel()));
 	}
 }

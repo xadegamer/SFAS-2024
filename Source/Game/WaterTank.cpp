@@ -63,7 +63,7 @@ WaterTank::WaterTank(IGraphics* Graphics, bool start)
 	TankLowerMask->SetVisible (false);
 
 	FullWaterLevel = 0;
-	NoWaterLevel = -200;
+	NoWaterLevel = -170;
 
 	waterSpeed = 5.0f;
 
@@ -162,7 +162,7 @@ void WaterTank::UpdateWaterLevel(float input)
 
 	ValidateWaterLevel();
 
-	//UISystem::GetActiveCanvas()->GetUIObjectByID<Text>("DebugText")->SetText(std::to_wstring(TankFill->GetTransform().PositionY));
+	//UISystem::GetActiveCanvas()->GetUIObjectByID<Text>("DebugText")->SetText(std::to_wstring(TankWaterAnimation->GetYPosition()));
 }
 
 void WaterTank::ValidateWaterLevel()
