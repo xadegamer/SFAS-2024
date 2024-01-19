@@ -44,6 +44,7 @@ void DirectXInput::Update()
 	CurrentState[static_cast<unsigned int>(InputAction::LeftStickYAxis)] = CalculateAxisValue(State.Gamepad.sThumbLY, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
 	CurrentState[static_cast<unsigned int>(InputAction::RightStickXAxis)] = CalculateAxisValue(State.Gamepad.sThumbRX, XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
 	CurrentState[static_cast<unsigned int>(InputAction::RightStickYAxis)] = CalculateAxisValue(State.Gamepad.sThumbRY, XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
+
 }
 
 float DirectXInput::CalculateTriggerValue(BYTE rawValue, float threshold, float max)

@@ -84,33 +84,28 @@ void UISystem::SetUpMainMenuCanvas()
 	infoPanel->SetScale(Vector2(.8f,.8f));
 	mainMenuCanvas->AddUIObject(infoPanel);
 
-	/////////
-	Image* dPadIcon = new Image("dPadLeftIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Left.dds", Resolution_Mid + Vector2(-400, 420), 16, Vector2(.1f, .1f));
+	///////// Icon + 50, Text + 100
+
+	Image* dPadIcon = new Image("dPadLeftIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Left.dds", Resolution_Mid + Vector2(-300, 420), 16, Vector2(.1f, .1f));
 	mainMenuCanvas->AddUIObject(dPadIcon);
 
-	Text* dPadText = new Text("dPadLeftText", L"Increase Volume", Screen_Mid + Vector2(-300, -420), Vector2(.35, .35));
+	Image* dPadRightIcon = new Image("dPadRightIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Right.dds", Resolution_Mid + Vector2(-250, 420), 16, Vector2(.1f, .1f));
+	mainMenuCanvas->AddUIObject(dPadRightIcon);
+
+	Text* dPadText = new Text("dPadLeftText", L"--- Navigate Volume", Screen_Mid + Vector2(-140, -420), Vector2(.35, .35));
 	mainMenuCanvas->AddUIObject(dPadText);
 
 	/////////
-	Image* dPadRightIcon = new Image("dPadRightIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Right.dds", Resolution_Mid + Vector2(-150, 420), 16, Vector2(.1f, .1f));
-	mainMenuCanvas->AddUIObject(dPadRightIcon);
 
-	Text* dPadRightText = new Text("dPadRightText", L"Increase Volume", Screen_Mid + Vector2(-60, -420), Vector2(.35, .35));
-	mainMenuCanvas->AddUIObject(dPadRightText);
-
-	/////////
-	Image* dPadUpIcon = new Image("dPadUpIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Up.dds", Resolution_Mid + Vector2(60, 420), 16, Vector2(.1f, .1f));
+	Image* dPadUpIcon = new Image("dPadUpIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Up.dds", Resolution_Mid + Vector2(50, 420), 16, Vector2(.1f, .1f));
 	mainMenuCanvas->AddUIObject(dPadUpIcon);
 
-	Text* dPadUpText = new Text("dPadUpText", L"Up Menu", Screen_Mid + Vector2(120, -420), Vector2(.35, .35));
-	mainMenuCanvas->AddUIObject(dPadUpText);
-
-	/////////
-	Image* dPadDownIcon = new Image("dPadUpIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Down.dds", Resolution_Mid + Vector2(200, 420), 16, Vector2(.1f, .1f));
+	Image* dPadDownIcon = new Image("dPadUpIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Down.dds", Resolution_Mid + Vector2(100, 420), 16, Vector2(.1f, .1f));
 	mainMenuCanvas->AddUIObject(dPadDownIcon);
 
-	Text* dPadDownText = new Text("dPadDownText", L"Down Menu", Screen_Mid + Vector2(280, -420), Vector2(.35, .35));
-	mainMenuCanvas->AddUIObject(dPadDownText);
+	Text* dPadUpText = new Text("dPadUpText", L"--- Navigate Menu", Screen_Mid + Vector2(200, -420), Vector2(.35, .35));
+	mainMenuCanvas->AddUIObject(dPadUpText);
+
 
 	//Image* topTextBar = new Image("TopTextBar", Graphics, L"Resource/Textures/TextBoxBig.dds", Vector2(500, -200), 15);
 	//topTextBar->SetScale(Vector2(.8f, .8f));
@@ -149,6 +144,46 @@ void UISystem::SetUpGameCanvas()
 
 	Text* debugText = new Text("DebugText", L"Debug", Screen_Mid + Vector2(0, 200), Vector2(.5f, .5f));
 	gameCanvas->AddUIObject(debugText);
+
+	Image* infoPanel = new Image("InfoPanel", Graphics, L"Resource/Textures/TopTextBox.dds", Vector2(0, 100), 15);
+	infoPanel->SetScale(Vector2(.8f, .8f));
+	gameCanvas->AddUIObject(infoPanel);
+
+	///////// Icon + 50, Text + 100
+	Image* leftBumperIcon = new Image("dPadLeftIcon", Graphics, L"Resource/Textures/Buttons/Left Bumper.dds", Resolution_Mid + Vector2(-400, 420), 16, Vector2(.1f, .1f));
+	gameCanvas->AddUIObject(leftBumperIcon);
+
+	Image* rightBumperIcon = new Image("dPadRightIcon", Graphics, L"Resource/Textures/Buttons/Right Bumper.dds", Resolution_Mid + Vector2(-350, 420), 16, Vector2(.1f, .1f));
+	gameCanvas->AddUIObject(rightBumperIcon);
+
+	Text* rightBumperText = new Text("dPadRightText", L"--- Change Ring", Screen_Mid + Vector2(-250, -420), Vector2(.35, .35));
+	gameCanvas->AddUIObject(rightBumperText);
+
+	/////////
+	Image* dPadUpIcon = new Image("dPadUpIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Up.dds", Resolution_Mid + Vector2(-130, 420), 16, Vector2(.1f, .1f));
+	gameCanvas->AddUIObject(dPadUpIcon);
+
+	Image* dPadDownIcon = new Image("dPadUpIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Down.dds", Resolution_Mid + Vector2(-80, 420), 16, Vector2(.1f, .1f));
+	gameCanvas->AddUIObject(dPadDownIcon);
+
+	Text* dPadDownText = new Text("dPadDownText", L"--- Switch Ring", Screen_Mid + Vector2(20, -420), Vector2(.35, .35));
+	gameCanvas->AddUIObject(dPadDownText);
+
+	/////////
+
+	Image* aIcon = new Image("aIcon", Graphics, L"Resource/Textures/Buttons/A.dds", Resolution_Mid + Vector2(140, 420), 16, Vector2(.1f, .1f));
+	gameCanvas->AddUIObject(aIcon);
+
+	Text* aText = new Text("aText", L"--- Confirm", Screen_Mid + Vector2(220, -420), Vector2(.35, .35));
+	gameCanvas->AddUIObject(aText);
+
+	/////////
+
+	Image* menuIcon = new Image("menuIcon", Graphics, L"Resource/Textures/Buttons/Menu.dds", Resolution_Mid + Vector2(340, 420), 16, Vector2(.1f, .1f));
+	gameCanvas->AddUIObject(menuIcon);
+
+	Text* menuText = new Text("aText", L"--- Pause", Screen_Mid + Vector2(400, -420), Vector2(.35, .35));
+	gameCanvas->AddUIObject(menuText);
 }
 
 void UISystem::PauseMenu()

@@ -248,7 +248,7 @@ void Game::SetupEachRing()
 
 void Game::HandlePauseInput()
 {
-	if (Input->IsPressed(InputAction::SpecialLeft))
+	if (Input->IsPressed(InputAction::SpecialRight))
 	{
 		TogglePause();
 		return;
