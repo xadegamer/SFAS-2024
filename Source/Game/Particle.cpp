@@ -10,8 +10,10 @@ Particle::Particle(IRenderable* sprite) : Sprite(sprite), Direction(), LifeTime(
 
 void Particle::Emit(Vector2 position, Vector2 scale, Vector2 direction, float speed, float lifeTime)
 {
+	Scale = scale;
 	Sprite->SetPosition(position.x, position.y);
 	Sprite->SetScale(scale.x, scale.y);
+	Sprite->SetRotation ( std::atan2( direction.x , -direction.y));
 	Direction = direction;
 	LifeTime = CurrentlifeTime = lifeTime;
 	Speed = speed;
@@ -30,7 +32,7 @@ void Particle::Update(float deltaTime)
 		Vector2 nextPosition = Vector2(Sprite->GetTransform().PositionX + (Direction.x * scaledSpeed), Sprite->GetTransform().PositionY + (Direction.y * scaledSpeed));
 		Sprite->SetPosition(nextPosition.x, nextPosition.y);
 
-		float nextScale = Sprite->GetTransform().ScaleX * normalisedTime;
+		float nextScale = Scale.x * normalisedTime;
 		Sprite->SetScale(nextScale, nextScale);
 	}
 	else

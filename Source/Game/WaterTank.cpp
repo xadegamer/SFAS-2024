@@ -70,7 +70,7 @@ WaterTank::WaterTank(IGraphics* Graphics, bool start)
 
 	triggerdEvent = false;
 
-	waterSplashInterval = 0.5f;
+	waterSplashInterval = 0.25f;
 
 	ClockOffset = -180.0f;
 	ClockNeedleRotationOffset = 125.0f;
@@ -199,7 +199,8 @@ void WaterTank::SplashWater()
 		waterSplashTimer = waterSplashInterval;
 		float xPosition = GetXPosition() + 200;
 		float yPosition = GetYPosition() - 165;
-		ParticleSystem::Emit(Vector2(xPosition, yPosition), Vector2(0.2f, 0.2f), ParticleDirection::Cicular, 50, 100, 1.0f);
+		ParticleSystem::Emit(Vector2(xPosition, yPosition), Vector2(0.2f, 0.2f), ParticleDirection::Cicular, 50, 100, .5f);
+		ParticleSystem::Emit(Vector2(xPosition, yPosition), Vector2(0.2f, 0.2f), Vector2(0, -1), 1, 100, 3.0f);
 	}
 }
 
@@ -239,4 +240,5 @@ void WaterTank::EmptyTank()
 void WaterTank::Reset()
 {
 	triggerdEvent = false;
+	IsConnected = false;	
 }

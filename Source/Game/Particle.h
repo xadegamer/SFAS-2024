@@ -9,6 +9,7 @@ private:
 
 	IRenderable* Sprite;
 
+	Vector2 Scale;
 	Vector2 Direction;
 	float LifeTime;
 	float CurrentlifeTime;
