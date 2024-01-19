@@ -190,7 +190,7 @@ void Game::SetUpGame()
 	// right buttom
 	RingHolder* TestRingHolder3 = new RingHolder(Graphics , L"BottomRight");
 	TestRingHolder3->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
-	TestRingHolder3->SetPosition(Vector2(162, -135));
+	TestRingHolder3->SetPosition(Vector2(150, -147));
 	TestRingHolder3->SetScale(Vector2(0.5f, 0.5f));
 
 	RingHolders.push_back(TestRingHolder0);
@@ -216,9 +216,9 @@ void Game::SetUpGame()
 void Game::StartGame()
 {
 	SetupEachRing();
-	WaterTank1->SetWaterLevel(0);
+	WaterTank1->FillTank();
 	WaterTank1->Reset();
-	WaterTank2->SetWaterLevel(-200);
+	WaterTank2->EmptyTank();
 	WaterTank2->Reset();
 	UISystem::EnableCanvasByID("GameCanvas");
 	State = GameState::Playing;
@@ -282,7 +282,7 @@ void Game::UpdateRingSelection()
 		//UISystem::GetActiveCanvas()->GetUIObjectByID<Text>("ScoreText")->SetText(str);
 		//debugText->SetText(std::to_wstring(RingHolders[CurrentRingHolderIndex]->GetSelectedRingRotation()));
 		//debugText->SetText(std::to_wstring(RingHolders[CurrentRingHolderIndex]->ValidateRings()));
-		//debugText->SetText(std::to_wstring(WaterTank1->GetNormalizedWaterLevel()));
+		debugText->SetText(std::to_wstring(WaterTank2->GetNormalizedWaterLevel()));
 	}
 }
 
@@ -305,7 +305,7 @@ void Game::SwitchToNextRingHolder(int direction)
 void Game::OnSuccess()
 {
 	IsConnected = true;
-	WaterTank1->UpdateWaterLevel(1);
+	WaterTank1->SetIsConnected(true);
 }
 
 void Game::OnFirstTankEmpty()

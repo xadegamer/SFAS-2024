@@ -46,7 +46,8 @@ WaterTank::WaterTank(IGraphics* Graphics, bool start)
 
 	ITexture* WaterLevelMarkerTexture = Graphics->CreateTexture(L"Resource/Textures/WaterTank/WaterLevelMarker.dds");
 	IShader* WaterLevelMarkerShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", WaterLevelMarkerTexture);
-	WaterLevelMarker = Graphics->CreateBillboard(WaterLevelMarkerShader, 4);
+	WaterLevelMarker = Graphics->CreateBillboard(WaterLevelMarkerShader, 6);
+	WaterLevelMarker->SetVisible(!start);
 
 	std::wstring BodyMaskPath = L"Resource/Textures/WaterTank/" + std::wstring(start ? L"StartTankBodyMask" : L"EndTankBodyMask") + L".dds";
 	ITexture* TankBodyMaskTexture = Graphics->CreateTexture(BodyMaskPath.c_str());
@@ -62,8 +63,8 @@ WaterTank::WaterTank(IGraphics* Graphics, bool start)
 	TankLowerMask = Graphics->CreateBillboard(TankLowerMaskShader, 4);
 	TankLowerMask->SetVisible (false);
 
-	FullWaterLevel = 0;
-	NoWaterLevel = -170;
+	FullWaterLevel = 15;
+	NoWaterLevel = -160;
 
 	waterSpeed = 5.0f;
 
@@ -101,7 +102,7 @@ void WaterTank::SetPosition(Vector2 position)
 	TankWaterOverlay->SetPosition(Position.x + WaterOffset, Position.y);
 	TankLowerMask->SetPosition(Position.x + WaterOffset, Position.y + NoWaterLevel);
 
-	WaterLevelMarker->SetPosition(Position.x + WaterOffset, Position.y - NoWaterLevel / 2);
+	WaterLevelMarker->SetPosition(Position.x + WaterOffset, GetWaterPosition(0.5) + 80);
 
 	ClockBG->SetPosition(Position.x + WaterOffset, Position.y + ClockOffset);
 	ClockNeedle->SetPosition(Position.x + WaterOffset, Position.y + ClockOffset);
@@ -195,8 +196,8 @@ void WaterTank::SplashWater()
 	else
 	{
 		waterSplashTimer = waterSplashInterval;
-		float xPosition = GetXPosition() + 70;
-		float yPosition = GetYPosition() - 70;
+		float xPosition = GetXPosition() + 200;
+		float yPosition = GetYPosition() - 165;
 		ParticleSystem::Emit(Vector2(xPosition, yPosition), Vector2(0.2f, 0.2f), ParticleDirection::Cicular, 50, 100, 1.0f);
 	}
 }
@@ -220,6 +221,18 @@ float WaterTank::GetWaterPosition(float normalizedWaterLevel)
 {
 	float waterPosition = normalizedWaterLevel * (FullWaterLevel - NoWaterLevel) + NoWaterLevel;
 	return waterPosition;
+}
+
+void WaterTank::FillTank()
+{
+	SetWaterLevel(FullWaterLevel);
+	SetClockRotation();
+}
+
+void WaterTank::EmptyTank()
+{
+	SetWaterLevel(NoWaterLevel);
+	SetClockRotation();
 }
 
 void WaterTank::Reset()

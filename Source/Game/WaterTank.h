@@ -67,6 +67,10 @@ public:
 
 	float GetWaterPosition(float normalizedWaterLevel);
 
+	void FillTank();
+
+	void EmptyTank();
+
 	void Reset();
 
 	inline void SetWaterSpeed(float speed) { waterSpeed = speed; }
