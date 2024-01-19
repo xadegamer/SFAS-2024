@@ -178,19 +178,19 @@ void Game::SetUpGame()
 	// left buttom
 	RingHolder* TestRingHolder1 = new RingHolder(Graphics, L"BottomLeft");
 	TestRingHolder1->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
-	TestRingHolder1->SetPosition(Vector2 (-150, -150));
+	TestRingHolder1->SetPosition(Vector2 (-148, -144));
 	TestRingHolder1->SetScale(Vector2(0.5f, 0.5f));
 
 	// right top
 	RingHolder* TestRingHolder2 = new RingHolder(Graphics , L"TopRight");
 	TestRingHolder2->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
-	TestRingHolder2->SetPosition(Vector2(150, 150));
+	TestRingHolder2->SetPosition(Vector2(146.7, 147));
 	TestRingHolder2->SetScale(Vector2(0.5f, 0.5f));
 
 	// right buttom
 	RingHolder* TestRingHolder3 = new RingHolder(Graphics , L"BottomRight");
 	TestRingHolder3->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
-	TestRingHolder3->SetPosition(Vector2(150, -150));
+	TestRingHolder3->SetPosition(Vector2(162, -135));
 	TestRingHolder3->SetScale(Vector2(0.5f, 0.5f));
 
 	RingHolders.push_back(TestRingHolder0);
@@ -201,11 +201,11 @@ void Game::SetUpGame()
 	RingHolders[CurrentRingHolderIndex]->Activate();
 
 	WaterTank1 = new WaterTank(Graphics, true);
-	WaterTank1->SetPosition(Vector2 (-500, 0) );
+	WaterTank1->SetPosition(Vector2 (-495, 17) );
 	WaterTank1->SetOnEmptyEvent(std::bind(&Game::OnFirstTankEmpty, this));
 
 	WaterTank2 = new WaterTank(Graphics,false);
-	WaterTank2->SetPosition(Vector2(500, 0));
+	WaterTank2->SetPosition(Vector2(498, 17));
 
 	State = GameState::Setup;
 
