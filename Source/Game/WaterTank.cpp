@@ -65,10 +65,6 @@ WaterTank::WaterTank(IGraphics* Graphics, bool start)
 	IShader* TankWaterOverlayShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankWaterOverlayTexture);
 	TankWaterOverlay = Graphics->CreateBillboard(TankWaterOverlayShader, 5);
 
-	ITexture* TankLowerMaskTexture = Graphics->CreateTexture(L"Resource/Textures/WaterTank/BackgroundWaterCover.dds");
-	IShader* TankLowerMaskShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankLowerMaskTexture);
-	TankLowerMask = Graphics->CreateBillboard(TankLowerMaskShader, 4);
-
 	FullWaterLevel = 15;
 	NoWaterLevel = -160;
 
@@ -121,7 +117,6 @@ void WaterTank::SetScale(Vector2 scale)
 	Scale = scale;
 	TankWaterAnimation->SetScale(scale);
 	TankBody->SetScale(scale.x, scale.y);
-	TankLowerMask->SetScale(scale.x, scale.y);
 	TankBodyMask->SetScale(scale.x, scale.y);
 	TankWaterBg->SetScale(scale.x, scale.y);
 	TankWaterOverlay->SetScale(scale.x, scale.y);
@@ -134,14 +129,12 @@ void WaterTank::SetRotation(float rotation)
 	Rotation = rotation;
 	TankWaterAnimation->SetRotation(rotation);
 	TankBody->SetRotation(rotation);
-	TankLowerMask->SetRotation(rotation);
 }
 
 void WaterTank::SetVisible(bool visible)
 {
 	TankWaterAnimation->SetVisible(visible);
 	TankBody->SetVisible(visible);
-	TankLowerMask->SetVisible(visible);
 	TankBodyMask->SetVisible(visible);
 	TankWaterBg->SetVisible(visible);
 	TankWaterOverlay->SetVisible(visible);

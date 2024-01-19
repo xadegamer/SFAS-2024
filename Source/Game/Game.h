@@ -33,6 +33,7 @@ private:
 	IRenderable* CentrebGG;
 	WaterTank* WaterTank1;
 	WaterTank* WaterTank2;
+	IRenderable* TankLowerMask;
 	bool IsConnected;
 	int MusicVolume;
 

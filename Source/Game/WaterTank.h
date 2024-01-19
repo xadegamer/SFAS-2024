@@ -17,8 +17,7 @@ private:
 	AnimatedSprite* TankWaterAnimation;
 	IRenderable* TankWaterBg;
 	IRenderable* TankWaterOverlay;
-	IRenderable* TankBodyMask;
-	IRenderable* TankLowerMask;
+	IRenderable* TankBodyMask;;
 
 	IRenderable* WaterLevelMarker1;
 	IRenderable* WaterLevelMarker2;

@@ -60,7 +60,8 @@ void ParticleSystem::Return(Particle* particle)
 
 Particle* ParticleSystem::OnParticleCreate()
 {
-	ITexture* texture = Graphics->CreateTexture(L"Resource/Textures/100x Light Blue.dds");
+	//ITexture* texture = Graphics->CreateTexture(L"Resource/Textures/100x Light Blue.dds");
+	ITexture* texture = Graphics->CreateTexture(L"Resource/Textures/WaterDrop.dds");
 	IShader* shader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", texture);
 	Particle* newParticle = new Particle(Graphics->CreateBillboard(shader, 10));;
 	newParticle->SetActive(false);

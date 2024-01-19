@@ -213,6 +213,10 @@ void Game::SetUpGame()
 	WaterTank2 = new WaterTank(Graphics,false);
 	WaterTank2->SetPosition(Vector2(498, 17));
 
+	ITexture* TankLowerMaskTexture = Graphics->CreateTexture(L"Resource/Textures/WaterTank/BackgroundWaterCover.dds");
+	IShader* TankLowerMaskShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankLowerMaskTexture);
+	TankLowerMask = Graphics->CreateBillboard(TankLowerMaskShader, 4);
+
 	State = GameState::Setup;
 
 	SoundManager::PlayMusic("GameMenu");
@@ -239,7 +243,7 @@ void Game::SetupEachRing()
 		RingHolders[i]->SetupRings();
 	}
 
-	RingHolders[CurrentRingHolderIndex]->Activate();
+	RingHolders[CurrentRingHolderIndex]->Activate();                        
 }
 
 void Game::HandlePauseInput()
@@ -284,6 +288,17 @@ void Game::UpdateRingSelection()
 void Game::UpdateSelectedRingRotation()
 {
 	if (IsConnected) return;	
+
+
+	//if (Input->IsHeld(InputAction::TriggerLeft))
+	//{
+	//	RingHolders[CurrentRingHolderIndex]->UpdateSelectedRingRotation(-1);
+	//}
+	//else if (Input->IsPressed(InputAction::TriggerRight))
+	//{
+	//	RingHolders[CurrentRingHolderIndex]->UpdateSelectedRingRotation(1);
+	//}
+
 	RingHolders[CurrentRingHolderIndex]->UpdateSelectedRingRotation(Input->GetValue(InputAction::RightStickXAxis));
 }
 

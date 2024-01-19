@@ -71,7 +71,7 @@ void RingHolder::SetupRings()
 {
 	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
 	{
-		//Rings[Ring]->SetRotation(static_cast<float>(fmod(rand(), PI)));
+		Rings[Ring]->SetRotation(static_cast<float>(fmod(rand(), PI)));
 		Rings[Ring]->ToggleHighlight(false);
 	}
 }
@@ -109,15 +109,13 @@ void RingHolder::CheckForSuccess()
 {
 	if (ValidateRings())
 	{
-		if (OnSuccessEvent) OnSuccessEvent();
-	}
-	else
-	{
 		for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
 		{
 			Rings[Ring]->SetRotation(0);
 			Rings[Ring]->ToggleHighlight(false);
 		}
+
+		if (OnSuccessEvent) OnSuccessEvent();
 	}
 }
 

@@ -80,6 +80,62 @@ void UISystem::SetUpMainMenuCanvas()
 	navigator->AddButton(QuitButton);
 	mainMenuCanvas->AddUIObject(navigator);
 
+	Image* infoPanel = new Image("InfoPanel", Graphics, L"Resource/Textures/TopTextBox.dds", Vector2(0, 100), 15);
+	infoPanel->SetScale(Vector2(.8f,.8f));
+	mainMenuCanvas->AddUIObject(infoPanel);
+
+	/////////
+	Image* dPadIcon = new Image("dPadLeftIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Left.dds", Resolution_Mid + Vector2(-400, 420), 16, Vector2(.1f, .1f));
+	mainMenuCanvas->AddUIObject(dPadIcon);
+
+	Text* dPadText = new Text("dPadLeftText", L"Increase Volume", Screen_Mid + Vector2(-300, -420), Vector2(.35, .35));
+	mainMenuCanvas->AddUIObject(dPadText);
+
+	/////////
+	Image* dPadRightIcon = new Image("dPadRightIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Right.dds", Resolution_Mid + Vector2(-150, 420), 16, Vector2(.1f, .1f));
+	mainMenuCanvas->AddUIObject(dPadRightIcon);
+
+	Text* dPadRightText = new Text("dPadRightText", L"Increase Volume", Screen_Mid + Vector2(-60, -420), Vector2(.35, .35));
+	mainMenuCanvas->AddUIObject(dPadRightText);
+
+	/////////
+	Image* dPadUpIcon = new Image("dPadUpIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Up.dds", Resolution_Mid + Vector2(60, 420), 16, Vector2(.1f, .1f));
+	mainMenuCanvas->AddUIObject(dPadUpIcon);
+
+	Text* dPadUpText = new Text("dPadUpText", L"Up Menu", Screen_Mid + Vector2(120, -420), Vector2(.35, .35));
+	mainMenuCanvas->AddUIObject(dPadUpText);
+
+	/////////
+	Image* dPadDownIcon = new Image("dPadUpIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Down.dds", Resolution_Mid + Vector2(200, 420), 16, Vector2(.1f, .1f));
+	mainMenuCanvas->AddUIObject(dPadDownIcon);
+
+	Text* dPadDownText = new Text("dPadDownText", L"Down Menu", Screen_Mid + Vector2(280, -420), Vector2(.35, .35));
+	mainMenuCanvas->AddUIObject(dPadDownText);
+
+	//Image* topTextBar = new Image("TopTextBar", Graphics, L"Resource/Textures/TextBoxBig.dds", Vector2(500, -200), 15);
+	//topTextBar->SetScale(Vector2(.8f, .8f));
+	//mainMenuCanvas->AddUIObject(topTextBar);
+
+	//std::wstring controls =
+
+	//	L"Up/Down Direction to navigate UI\n\n" \
+	//	L"Left/Right Direction to music volume\n\n";
+
+	//	L"Up/Down Direction to navigate between Rings\n\n" \
+	//	L"Left/Right Bomper to music volume\n\n";
+
+	//std::wstring infoTextString =
+
+	//	L"Get the water from the water tank and fill the bucket with it. \n\n" \
+	//	L"Use the left and right arrow keys to move the bucket. \n\n" \
+	//	L"Use the up arrow key to jump. \n\n" \
+	//	L"Use the space bar to transfer water from the tank to the bucket. \n\n" \
+	//	L"Use the left control key to transfer water from the bucket to the tank. \n\n" \
+	//	L"Use the escape key to pause the game. \n\n" \
+	//	L"Use the enter key to select a button. \n\n";
+	//Text* infoText = new Text("Info Text",infoTextString, Screen_BottomRightCorner + Vector2(0, 0), Vector2(.5, .5));
+	//mainMenuCanvas->AddUIObject(infoText);
+
 	CurrentCanvas = mainMenuCanvas;
 }
 
