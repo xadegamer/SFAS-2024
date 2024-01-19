@@ -9,10 +9,10 @@ class SoundManager
 {
 private:
 
-	static std::unique_ptr<DirectX::AudioEngine> audioEngine;
-	static std::map<std::string, std::unique_ptr<DirectX::SoundEffect>> soundEffects;
-	static std::map<std::string, std::unique_ptr<DirectX::SoundEffectInstance>> soundEffectInstances;
-	static std::string currentMusic;
+	static std::unique_ptr<DirectX::AudioEngine> AudioEngine;
+	static std::map<std::string, std::unique_ptr<DirectX::SoundEffect>> SoundEffects;
+	static std::map<std::string, std::unique_ptr<DirectX::SoundEffectInstance>> SoundEffectInstances;
+	static std::string CurrentMusic;
 
 public:
 	SoundManager() = delete;
@@ -27,7 +27,8 @@ public:
 	static void PlayMusic(std::string name);
 	static void StopMusic(std::string name);
 			    
-	static void SetVolume(std::string name, float volume);
+	static void SetMusicVolume(float volume);
+	static void SetSoundEffectVolume(std::string name, float volume);
 
 	static void Clear();
 };

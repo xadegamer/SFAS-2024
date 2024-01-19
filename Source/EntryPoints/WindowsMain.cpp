@@ -89,6 +89,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ParticleSystem::Init(Graphics);
 
 	SoundManager::PlayMusic("MainMenu");
+	//SoundManager::SetVolume("MainMenu", 0.1f);
 
 	if (Graphics && Graphics->IsValid() && Application)
 	{

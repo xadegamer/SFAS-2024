@@ -55,6 +55,10 @@ void UISystem::SetUpMainMenuCanvas()
 	text->SetColor(Color_White);
 	mainMenuCanvas->AddUIObject(text);
 
+	Text* audioVolumeText = new Text("VolumeText", L"Volume", Screen_Mid + Vector2(0, 300), Vector2(.5f, .5f));
+	audioVolumeText->SetColor(Color_White);
+	mainMenuCanvas->AddUIObject(audioVolumeText);
+
 	Button* StartButton = new Button("Start_B", Graphics, Resolution_Mid + Vector2(0, 100), Vector2(2.5f, .5f));
 	StartButton->AddText("Text", L"Start", Screen_Mid + Vector2(0, -110), Vector2(.5f, .5f), Color_Red);
 	StartButton->AddHighlightEventListener([]()

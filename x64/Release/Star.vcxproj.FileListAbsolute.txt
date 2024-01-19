@@ -1,0 +1,5 @@
+D:\Competition\SFAS-2024\x64\Release\Star.vcxproj.CopyComplete
+D:\Competition\SFAS-2024\x64\Release\Star.exe
+D:\Competition\SFAS-2024\x64\Release\xapobaseredist.pdb
+D:\Competition\SFAS-2024\x64\Release\xaudio2_9redist.pdb
+D:\Competition\SFAS-2024\x64\Release\xaudio2_9redist.dll

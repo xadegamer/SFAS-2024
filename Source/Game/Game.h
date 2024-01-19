@@ -11,7 +11,7 @@ class IRenderable;
 class RingHolder;
 class WaterTank;
 
-enum GameState { Setup, Playing, GameOver, Win};
+enum GameState { Setup, Playing, Paused, GameOver, Win};
 
 class Game : public IApplication
 {
@@ -30,14 +30,11 @@ private:
 	GameState State;
 	std::vector<RingHolder*> RingHolders;
 	int CurrentRingHolderIndex;
-
 	IRenderable* CentrebGG;
-
 	WaterTank* WaterTank1;
 	WaterTank* WaterTank2;
-
-	bool IsPaused;
 	bool IsConnected;
+	int MusicVolume;
 
 	void SetUpGame();
 	void StartGame();
@@ -54,6 +51,10 @@ private:
 
 	void TransferWater();
 
-	void SetIsPaused(bool isPaused);
+	void TogglePause();
+
+	void HandleVolumeChange();
+
+	void SetMusicVolume(float value);
 };
 

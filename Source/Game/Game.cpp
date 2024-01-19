@@ -26,8 +26,10 @@ IApplication* GetApplication(IGraphics* Graphics, IInput* Input)
 	return new Game(Graphics, Input);
 }
 
-Game::Game(IGraphics* GraphicsIn, IInput* InputIn) : IApplication(GraphicsIn, InputIn), State(), RingHolders(), CurrentRingHolderIndex(0), CentrebGG(), WaterTank1(), WaterTank2(), IsPaused(false), IsConnected(false)
+Game::Game(IGraphics* GraphicsIn, IInput* InputIn) : IApplication(GraphicsIn, InputIn), State(), RingHolders(), CurrentRingHolderIndex(0), CentrebGG(), WaterTank1(), WaterTank2(), IsConnected(false)
 {
+	MusicVolume = 50.0f;
+
 	Button* StartButton = UISystem::GetCanvasUIByID(MainMenuCanvasID)->GetUIObjectByID<Button>("Start_B");
 	if (StartButton)
 	{
@@ -54,7 +56,7 @@ Game::Game(IGraphics* GraphicsIn, IInput* InputIn) : IApplication(GraphicsIn, In
 		ResumeButton->AddSelectEventListener([this]()
 		{
 			SoundManager::PlayOneShot("Button_Click");
-			SetIsPaused(false);
+			TogglePause();
 		});
 	}
 
@@ -109,6 +111,8 @@ Game::Game(IGraphics* GraphicsIn, IInput* InputIn) : IApplication(GraphicsIn, In
 	}
 
 	UISystem::EnableCanvasByID(MainMenuCanvasID);
+
+	SetMusicVolume(MusicVolume);
 }
 
 Game::~Game()
@@ -132,12 +136,14 @@ void Game::Update()
 	switch (State)
 	{
 		case Setup:
-
+			HandleVolumeChange();
 			break;
 		case Playing:
-			if (IsPaused) return;
 			UpdateRingSelection();
 			UpdateSelectedRingRotation();
+			break;
+		case Paused:
+
 			break;
 		default: break;
 	}
@@ -145,7 +151,15 @@ void Game::Update()
 
 void Game::Cleanup()
 {
+	for (size_t i = 0; i < RingHolders.size(); i++)
+	{
+		delete RingHolders[i];
+	}
 
+	RingHolders.clear();
+
+	delete WaterTank1;
+	delete WaterTank2;
 }
 
 void Game::SetUpGame()
@@ -196,7 +210,7 @@ void Game::SetUpGame()
 	State = GameState::Setup;
 
 	SoundManager::PlayMusic("GameMenu");
-	SoundManager::SetVolume("GameMenu", 0.2f);
+	//SoundManager::SetMusicVolume(0.2f);
 }
 
 void Game::StartGame()
@@ -224,7 +238,7 @@ void Game::UpdateRingSelection()
 {
 	if (Input->IsPressed(InputAction::SpecialLeft))
 	{
-		SetIsPaused(true);
+		TogglePause();
 		return;
 	}
 	
@@ -318,16 +332,35 @@ void Game::TransferWater()
 	WaterTank2->UpdateWaterLevel(1);
 }
 
-void Game::SetIsPaused(bool isPaused)
+void Game::TogglePause()
 {
-	IsPaused = isPaused;
-
-	if (IsPaused)
+	if (State != GameState::Paused)
 	{
+		State = GameState::Paused;
 		UISystem::EnableCanvasByID("PauseMenuCanvas");
 	}
 	else
 	{
+		State = GameState::Playing;
 		UISystem::EnableCanvasByID("GameCanvas");
 	}
+}
+
+void Game::HandleVolumeChange()
+{
+	if (Input->IsPressed(InputAction::DirectionPadLeft))
+	{
+		SetMusicVolume(MusicVolume - 10);
+	}
+	else if (Input->IsPressed(InputAction::DirectionPadRight))
+	{
+		SetMusicVolume(MusicVolume + 10);
+	}
+}
+
+void Game::SetMusicVolume(float value)
+{
+	MusicVolume = CLAMP(value, 0, 100);
+	SoundManager::SetMusicVolume((float)MusicVolume / 100);
+	UISystem::GetCanvasUIByID(MainMenuCanvasID)->GetUIObjectByID<Text>("VolumeText")->SetText(L"Volume: " + std::to_wstring(MusicVolume));
 }
