@@ -11,7 +11,7 @@
 RingHolder::RingHolder(IGraphics* Graphics, std::wstring  ringName) : Rings(), SelectedRing()
 {
 	TwoPies = PI * 2.0f;
-	SpinSpeed = 5.0f;
+	SpinSpeed = 2.5f;
 	WinTolerance = 0.1;
 
 	std::wstring InnerTRingPath = L"Resource/Textures/" + ringName + L"/1.dds";

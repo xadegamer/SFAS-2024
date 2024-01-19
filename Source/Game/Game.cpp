@@ -30,6 +30,9 @@ Game::Game(IGraphics* GraphicsIn, IInput* InputIn) : IApplication(GraphicsIn, In
 {
 	MusicVolume = 50.0f;
 
+	WaterTransferSpeed = 30.0f;
+	WaterLickSpeed = 2.0f;
+
 	Button* StartButton = UISystem::GetCanvasUIByID(MainMenuCanvasID)->GetUIObjectByID<Button>("Start_B");
 	if (StartButton)
 	{
@@ -164,10 +167,11 @@ void Game::Cleanup()
 
 void Game::SetUpGame()
 {
-	ITexture* BGTexture = Graphics->CreateTexture(L"Resource/Textures/BG_Gray.dds");
+	ITexture* BGTexture = Graphics->CreateTexture(L"Resource/Textures/Background.dds");
 	IShader* BGShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", BGTexture);
 	CentrebGG = Graphics->CreateBillboard(BGShader,0);
-	CentrebGG->SetScale(2.0f, 2.0f);
+	CentrebGG->SetScale(1.0f, 1.0f);
+	//CentrebGG->SetVisible(true);
 
 	// left Ttop
 	RingHolder* TestRingHolder0 = new RingHolder(Graphics , L"TopLeft");
@@ -215,6 +219,7 @@ void Game::SetUpGame()
 
 void Game::StartGame()
 {
+	WaterSpeed = WaterLickSpeed;
 	SetupEachRing();
 	WaterTank1->FillTank();
 	WaterTank1->Reset();
@@ -306,6 +311,7 @@ void Game::OnSuccess()
 {
 	IsConnected = true;
 	WaterTank1->SetIsConnected(true);
+	WaterSpeed = WaterTransferSpeed;
 }
 
 void Game::OnFirstTankEmpty()
@@ -326,10 +332,10 @@ void Game::OnFirstTankEmpty()
 
 void Game::TransferWater()
 {
-	WaterTank1->UpdateWaterLevel(-1);
+	WaterTank1->UpdateWaterLevel(-1, WaterSpeed);
 
 	if (IsConnected)
-	WaterTank2->UpdateWaterLevel(1);
+	WaterTank2->UpdateWaterLevel(1, WaterSpeed);
 }
 
 void Game::TogglePause()

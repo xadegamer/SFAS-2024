@@ -58,15 +58,12 @@ WaterTank::WaterTank(IGraphics* Graphics, bool start)
 	IShader* TankWaterOverlayShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankWaterOverlayTexture);
 	TankWaterOverlay = Graphics->CreateBillboard(TankWaterOverlayShader, 5);
 
-	ITexture* TankLowerMaskTexture = Graphics->CreateTexture(L"Resource/Textures/WaterTank/TankBodyMask.dds");
+	ITexture* TankLowerMaskTexture = Graphics->CreateTexture(L"Resource/Textures/WaterTank/BackgroundWaterCover.dds");
 	IShader* TankLowerMaskShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", TankLowerMaskTexture);
 	TankLowerMask = Graphics->CreateBillboard(TankLowerMaskShader, 4);
-	TankLowerMask->SetVisible (false);
 
 	FullWaterLevel = 15;
 	NoWaterLevel = -160;
-
-	waterSpeed = 5.0f;
 
 	triggerdEvent = false;
 
@@ -100,9 +97,11 @@ void WaterTank::SetPosition(Vector2 position)
 	TankWaterBg->SetPosition(Position.x + WaterOffset, Position.y);
 	TankWaterAnimation->SetPosition(Position + Vector2(WaterOffset, 0));
 	TankWaterOverlay->SetPosition(Position.x + WaterOffset, Position.y);
-	TankLowerMask->SetPosition(Position.x + WaterOffset, Position.y + NoWaterLevel);
 
-	WaterLevelMarker->SetPosition(Position.x + WaterOffset, GetWaterPosition(0.5) + 80);
+	//TankLowerMask->SetPosition(Position.x + WaterOffset, Position.y + NoWaterLevel);
+	//TankLowerMask->SetPosition(Position.x + 500, Position.y + NoWaterLevel);
+
+	WaterLevelMarker->SetPosition(Position.x + WaterOffset, GetWaterPosition(1) + 80);
 
 	ClockBG->SetPosition(Position.x + WaterOffset, Position.y + ClockOffset);
 	ClockNeedle->SetPosition(Position.x + WaterOffset, Position.y + ClockOffset);
@@ -146,10 +145,10 @@ void WaterTank::Update()
 	TankWaterAnimation->Update();
 }
 
-void WaterTank::UpdateWaterLevel(float input)
+void WaterTank::UpdateWaterLevel(float input, float speed)
 {
 	float currentWaterLevel = TankWaterAnimation->GetYPosition();
-	float newWaterLevel = currentWaterLevel + input * Time::GetDeltaTime() * waterSpeed;
+	float newWaterLevel = currentWaterLevel + input * Time::GetDeltaTime() * speed;
 
 	newWaterLevel = CLAMP(newWaterLevel, NoWaterLevel, FullWaterLevel);
 

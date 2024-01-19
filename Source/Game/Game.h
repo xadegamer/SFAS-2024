@@ -36,6 +36,10 @@ private:
 	bool IsConnected;
 	int MusicVolume;
 
+	float WaterTransferSpeed;
+	float WaterLickSpeed;
+	float WaterSpeed;	
+
 	void SetUpGame();
 	void StartGame();
 
