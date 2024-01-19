@@ -45,8 +45,10 @@ private:
 
 	void SetupEachRing();
 
+	void HandlePauseInput();
 	void UpdateRingSelection();
 	void UpdateSelectedRingRotation();
+	void UpdateTanks();
 
 	void SwitchToNextRingHolder(int direction);
 

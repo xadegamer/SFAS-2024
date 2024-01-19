@@ -47,11 +47,11 @@ void UISystem::SetUpMainMenuCanvas()
 	CanvasUI* mainMenuCanvas = new CanvasUI(Graphics,"MainMenuCanvas");
 	Canvases.push_back(mainMenuCanvas);
 
-	Image* bg = new Image("BG", Graphics, L"Resource/Textures/BG_DeepBlue.dds");
-	bg->SetScale(Vector2(2.0f, 2.0f));
+	Image* bg = new Image("BG", Graphics, L"Resource/Textures/Background.dds");
+	bg->SetScale(Vector2(1.0f, 1.0f));
 	mainMenuCanvas->AddUIObject(bg);
 
-	Text* text = new Text("Title Text", L"Get the water", Screen_Mid + Vector2(0, -200), Vector2(.5f, .5f));
+	Text* text = new Text("Title Text", L"Get the water", Screen_Mid + Vector2(0, -200), Vector2(1, 1));
 	text->SetColor(Color_White);
 	mainMenuCanvas->AddUIObject(text);
 
@@ -59,16 +59,16 @@ void UISystem::SetUpMainMenuCanvas()
 	audioVolumeText->SetColor(Color_White);
 	mainMenuCanvas->AddUIObject(audioVolumeText);
 
-	Button* StartButton = new Button("Start_B", Graphics, Resolution_Mid + Vector2(0, 100), Vector2(2.5f, .5f));
-	StartButton->AddText("Text", L"Start", Screen_Mid + Vector2(0, -110), Vector2(.5f, .5f), Color_Red);
+	Button* StartButton = new Button("Start_B", Graphics, Resolution_Mid + Vector2(0, 100), Vector2(.5, .5f));
+	StartButton->AddText("Text", L"Start", Screen_Mid + Vector2(0, -110), Vector2(.5f, .5f), Color_White);
 	StartButton->AddHighlightEventListener([]()
 	{
 			SoundManager::PlayOneShot("Button_Hover");
 	});
 	mainMenuCanvas->AddUIObject(StartButton);
 
-	Button* QuitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0,-10), Vector2(2.5f, .5f));
-	QuitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 5), Vector2(.5f, .5f), Color_Red);
+	Button* QuitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0,-10), Vector2(.5, .5f));
+	QuitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 5), Vector2(.5f, .5f), Color_White);
 	QuitButton->AddHighlightEventListener([]()
 		{
 			SoundManager::PlayOneShot("Button_Hover");
@@ -102,7 +102,7 @@ void UISystem::PauseMenu()
 	CanvasUI* pauseMenuCanvas = new CanvasUI(Graphics, "PauseMenuCanvas");
 	Canvases.push_back(pauseMenuCanvas);
 
-	Image* bg = new Image("BG", Graphics, L"Resource/Textures/BG_DeepBlue.dds");
+	Image* bg = new Image("BG", Graphics, L"Resource/Textures/Background.dds");
 	bg->SetScale(Vector2(1.5f, 1.5f));
 	pauseMenuCanvas->AddUIObject(bg);
 
@@ -110,16 +110,16 @@ void UISystem::PauseMenu()
 	text->SetColor(Color_White);
 	pauseMenuCanvas->AddUIObject(text);
 
-	Button* resumeButton = new Button("Resume_B", Graphics, Resolution_Mid + Vector2(0, 100), Vector2(2.5f, .5f));
-	resumeButton->AddText("Text", L"Resume", Screen_Mid + Vector2(0, -110), Vector2(.5f, .5f), Color_Red);
+	Button* resumeButton = new Button("Resume_B", Graphics, Resolution_Mid + Vector2(0, 100), Vector2(.5, .5f));
+	resumeButton->AddText("Text", L"Resume", Screen_Mid + Vector2(0, -110), Vector2(.5f, .5f), Color_White);
 	resumeButton->AddHighlightEventListener([]()
 		{
 			SoundManager::PlayOneShot("Button_Hover");
 		});
 	pauseMenuCanvas->AddUIObject(resumeButton);
 
-	Button* quitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0, -10), Vector2(2.5f, .5f));
-	quitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 5), Vector2(.5f, .5f), Color_Red);
+	Button* quitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0, -10), Vector2(.5, .5f));
+	quitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 5), Vector2(.5f, .5f), Color_White);
 	quitButton->AddHighlightEventListener([]()
 		{
 			SoundManager::PlayOneShot("Button_Hover");
@@ -139,7 +139,7 @@ void UISystem::GameOverMenu()
 	CanvasUI* gameOverMenuCanvas = new CanvasUI(Graphics, "GameOverCanvas");
 	Canvases.push_back(gameOverMenuCanvas);
 
-	Image* bg = new Image("BG", Graphics, L"Resource/Textures/BG_DeepBlue.dds");
+	Image* bg = new Image("BG", Graphics, L"Resource/Textures/Background.dds");
 	bg->SetScale(Vector2(1.5f, 1.5f));
 	gameOverMenuCanvas->AddUIObject(bg);
 
@@ -147,16 +147,16 @@ void UISystem::GameOverMenu()
 	text->SetColor(Color_White);
 	gameOverMenuCanvas->AddUIObject(text);
 
-	Button* resumeButton = new Button("Restart_B", Graphics, Resolution_Mid + Vector2(0, 100), Vector2(2.5f, .5f));
-	resumeButton->AddText("Text", L"Restart", Screen_Mid + Vector2(0, -110), Vector2(.5f, .5f), Color_Red);
+	Button* resumeButton = new Button("Restart_B", Graphics, Resolution_Mid + Vector2(0, 100), Vector2(.5, .5f));
+	resumeButton->AddText("Text", L"Restart", Screen_Mid + Vector2(0, -110), Vector2(.5f, .5f), Color_White);
 	resumeButton->AddHighlightEventListener([]()
 	{
 		SoundManager::PlayOneShot("Button_Hover");
 	});
 	gameOverMenuCanvas->AddUIObject(resumeButton);
 
-	Button* quitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0, -10), Vector2(2.5f, .5f));
-	quitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 5), Vector2(.5f, .5f), Color_Red);
+	Button* quitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0, -10), Vector2(.5, .5f));
+	quitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 5), Vector2(.5f, .5f), Color_White);
 	quitButton->AddHighlightEventListener([]()
 	{
 		SoundManager::PlayOneShot("Button_Hover");
@@ -176,7 +176,7 @@ void UISystem::WinMenu()
 	CanvasUI* winMenuCanvas = new CanvasUI(Graphics, "WinMenuCanvas");
 	Canvases.push_back(winMenuCanvas);
 
-	Image* bg = new Image("BG", Graphics, L"Resource/Textures/BG_DeepBlue.dds");
+	Image* bg = new Image("BG", Graphics, L"Resource/Textures/Background.dds");
 	bg->SetScale(Vector2(1.5f, 1.5f));
 	winMenuCanvas->AddUIObject(bg);
 
@@ -184,16 +184,16 @@ void UISystem::WinMenu()
 	text->SetColor(Color_White);
 	winMenuCanvas->AddUIObject(text);
 
-	Button* resumeButton = new Button("Restart_B", Graphics, Resolution_Mid + Vector2(0, 100), Vector2(2.5f, .5f));
-	resumeButton->AddText("Text", L"Restart", Screen_Mid + Vector2(0, -110), Vector2(.5f, .5f), Color_Red);
+	Button* resumeButton = new Button("Restart_B", Graphics, Resolution_Mid + Vector2(0, 100), Vector2(.5, .5f));
+	resumeButton->AddText("Text", L"Restart", Screen_Mid + Vector2(0, -110), Vector2(.5f, .5f), Color_White);
 	resumeButton->AddHighlightEventListener([]()
 		{
 			SoundManager::PlayOneShot("Button_Hover");
 		});
 	winMenuCanvas->AddUIObject(resumeButton);
 
-	Button* quitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0, -10), Vector2(2.5f, .5f));
-	quitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 5), Vector2(.5f, .5f), Color_Red);
+	Button* quitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0, -10), Vector2(.5, .5f));
+	quitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 5), Vector2(.5f, .5f), Color_White);
 	quitButton->AddHighlightEventListener([]()
 		{
 			SoundManager::PlayOneShot("Button_Hover");

@@ -20,7 +20,9 @@ private:
 	IRenderable* TankBodyMask;
 	IRenderable* TankLowerMask;
 
-	IRenderable* WaterLevelMarker;
+	IRenderable* WaterLevelMarker1;
+	IRenderable* WaterLevelMarker2;
+	IRenderable* WaterLevelMarker3;
 
 	IRenderable* ClockBG;
 	IRenderable* ClockNeedle;

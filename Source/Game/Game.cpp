@@ -142,11 +142,13 @@ void Game::Update()
 			HandleVolumeChange();
 			break;
 		case Playing:
+			HandlePauseInput();
 			UpdateRingSelection();
 			UpdateSelectedRingRotation();
+			UpdateTanks();
 			break;
 		case Paused:
-
+			HandlePauseInput();
 			break;
 		default: break;
 	}
@@ -219,6 +221,7 @@ void Game::SetUpGame()
 
 void Game::StartGame()
 {
+	IsConnected = false;
 	WaterSpeed = WaterLickSpeed;
 	SetupEachRing();
 	WaterTank1->FillTank();
@@ -239,14 +242,19 @@ void Game::SetupEachRing()
 	RingHolders[CurrentRingHolderIndex]->Activate();
 }
 
-void Game::UpdateRingSelection()
+void Game::HandlePauseInput()
 {
 	if (Input->IsPressed(InputAction::SpecialLeft))
 	{
 		TogglePause();
 		return;
 	}
-	
+}
+
+void Game::UpdateRingSelection()
+{
+	if (IsConnected) return;
+
 	if (Input->IsPressed(InputAction::ShoulderButtonLeft))
 	{
 		// Change ring selection towards outer
@@ -271,7 +279,16 @@ void Game::UpdateRingSelection()
 	{
 		RingHolders[CurrentRingHolderIndex]->CheckForSuccess();
 	}
+}
 
+void Game::UpdateSelectedRingRotation()
+{
+	if (IsConnected) return;	
+	RingHolders[CurrentRingHolderIndex]->UpdateSelectedRingRotation(Input->GetValue(InputAction::RightStickXAxis));
+}
+
+void Game::UpdateTanks()
+{
 	WaterTank1->Update();
 	WaterTank2->Update();
 
@@ -289,11 +306,6 @@ void Game::UpdateRingSelection()
 		//debugText->SetText(std::to_wstring(RingHolders[CurrentRingHolderIndex]->ValidateRings()));
 		debugText->SetText(std::to_wstring(WaterTank2->GetNormalizedWaterLevel()));
 	}
-}
-
-void Game::UpdateSelectedRingRotation()
-{
-	RingHolders[CurrentRingHolderIndex]->UpdateSelectedRingRotation(Input->GetValue(InputAction::RightStickXAxis));
 }
 
 void Game::SwitchToNextRingHolder(int direction)
@@ -316,8 +328,6 @@ void Game::OnSuccess()
 
 void Game::OnFirstTankEmpty()
 {
-	IsConnected = false;
-
 	if (WaterTank2->GetNormalizedWaterLevel() == 0)
 	{
 		State = GameState::GameOver;

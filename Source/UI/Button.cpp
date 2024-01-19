@@ -9,9 +9,8 @@ Button::Button(std::string id, IGraphics* graphics, Vector2 position, Vector2 sc
 	Scale = scale;
 	Enabled = true;
 
-	NormalImage = new Image("BG", graphics, L"Resource/Textures/Btn.dds", position, 13, Scale);
-	HighlightImage = new Image("BG", graphics, L"Resource/Textures/Btn_H.dds", position, 12, Scale + Vector2(0.1f, 0.1f));
-	//HighlightImage = new Image("BG", graphics, L"Resource/Textures/Btn_H.dds", position + Vector2(-10.0f, -10.0f), 12, Scale + Vector2(0.1f, 0.1f));
+	NormalImage = new Image("BG", graphics, L"Resource/Textures/Button.dds", position, 13, Scale);
+	HighlightImage = new Image("BG", graphics, L"Resource/Textures/ButtonHighlight.dds", position, 14, Scale);
 
 	HighlightImage->Disable();
 }
@@ -56,7 +55,7 @@ void Button::Select()
 
 void Button::AddText(std::string id, std::wstring text, Vector2 position, Vector2 size, Vector4 color)
 {
-	TextToDisplay = new Text(id, text, position, size);
+	TextToDisplay = new Text(id, text, position, size, color);
 }
 
 void Button::SetText(std::wstring text)

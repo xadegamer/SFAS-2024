@@ -46,8 +46,15 @@ WaterTank::WaterTank(IGraphics* Graphics, bool start)
 
 	ITexture* WaterLevelMarkerTexture = Graphics->CreateTexture(L"Resource/Textures/WaterTank/WaterLevelMarker.dds");
 	IShader* WaterLevelMarkerShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", WaterLevelMarkerTexture);
-	WaterLevelMarker = Graphics->CreateBillboard(WaterLevelMarkerShader, 6);
-	WaterLevelMarker->SetVisible(!start);
+
+	WaterLevelMarker1 = Graphics->CreateBillboard(WaterLevelMarkerShader, 6);
+	WaterLevelMarker1->SetVisible(!start);
+
+	WaterLevelMarker2 = Graphics->CreateBillboard(WaterLevelMarkerShader, 6);
+	WaterLevelMarker2->SetVisible(!start);
+
+	WaterLevelMarker3 = Graphics->CreateBillboard(WaterLevelMarkerShader, 6);
+	WaterLevelMarker3->SetVisible(!start);
 
 	std::wstring BodyMaskPath = L"Resource/Textures/WaterTank/" + std::wstring(start ? L"StartTankBodyMask" : L"EndTankBodyMask") + L".dds";
 	ITexture* TankBodyMaskTexture = Graphics->CreateTexture(BodyMaskPath.c_str());
@@ -101,7 +108,9 @@ void WaterTank::SetPosition(Vector2 position)
 	//TankLowerMask->SetPosition(Position.x + WaterOffset, Position.y + NoWaterLevel);
 	//TankLowerMask->SetPosition(Position.x + 500, Position.y + NoWaterLevel);
 
-	WaterLevelMarker->SetPosition(Position.x + WaterOffset, GetWaterPosition(1) + 80);
+	WaterLevelMarker1->SetPosition(Position.x + WaterOffset, GetWaterPosition(1) + 80);
+	WaterLevelMarker2->SetPosition(Position.x + WaterOffset, GetWaterPosition(0.5f) + 80);
+	WaterLevelMarker3->SetPosition(Position.x + WaterOffset, GetWaterPosition(0.25) + 80);
 
 	ClockBG->SetPosition(Position.x + WaterOffset, Position.y + ClockOffset);
 	ClockNeedle->SetPosition(Position.x + WaterOffset, Position.y + ClockOffset);

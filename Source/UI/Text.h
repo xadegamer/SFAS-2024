@@ -12,7 +12,7 @@ private:
 
 public:
 
-	Text(std::string Id, std::wstring text, Vector2 pos, Vector2 scale = Vector2(0.1f, 0.1f));
+	Text(std::string Id, std::wstring text, Vector2 pos, Vector2 scale = Vector2(0.1f, 0.1f), Vector4 color = Vector4(1, 1, 1, 1));
 	~Text() = default;
 	void Update(float deltaTime) override;
 
