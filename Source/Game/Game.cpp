@@ -447,10 +447,13 @@ void Game::OnSuccess()
 	IsConnected = true;
 	WaterTank1->SetIsConnected(true);
 	WaterSpeed = WaterTransferSpeed;
+	SoundManager::PlayAudio ("WaterTransfer", true);
 }
 
 void Game::OnFirstTankEmpty()
 {
+	SoundManager::StopAudio("WaterTransfer");
+
 	if (WaterTank2->GetNormalizedWaterLevel() >= Star1Threshold)
 	{
 		State = GameState::Win;

@@ -6,6 +6,7 @@
 #include "Engine/Time.h"
 #include "Game/AnimatedSprite.h"
 #include "Engine/ParticleSystem.h"
+#include "SoundManager.h"
 
 #include "UI/UISystem.h"
 
@@ -70,7 +71,7 @@ WaterTank::WaterTank(IGraphics* Graphics, bool start)
 
 	triggerdEvent = false;
 
-	waterSplashInterval = 0.25f;
+	waterSplashInterval = 0.5f;
 
 	ClockOffset = -180.0f;
 	ClockNeedleRotationOffset = 125.0f;
@@ -196,9 +197,11 @@ void WaterTank::SplashWater()
 	else
 	{
 		waterSplashTimer = waterSplashInterval;
+
+		SoundManager::PlayOneShot("WaterDrip", true);
 		float xPosition = GetXPosition() + 200;
 		float yPosition = GetYPosition() - 165;
-		ParticleSystem::Emit(Vector2(xPosition, yPosition), Vector2(0.2f, 0.2f), ParticleDirection::Cicular, 50, 100, .5f);
+		//ParticleSystem::Emit(Vector2(xPosition, yPosition), Vector2(0.2f, 0.2f), ParticleDirection::Cicular, 50, 100, .5f);
 		ParticleSystem::Emit(Vector2(xPosition, yPosition), Vector2(0.2f, 0.2f), Vector2(0, -1), 1, 100, 3.0f);
 	}
 }

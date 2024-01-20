@@ -30,10 +30,8 @@ void SoundManager::Initialize()
 	LoadSFX("GameMenu", L"Resource\\Audio\\puzzle1.wav");
 	LoadSFX("Button_Hover", L"Resource\\Audio\\Hover.wav");
 	LoadSFX("Button_Click", L"Resource\\Audio\\Click.wav");
-
-	std::cout << "Sound Handler Initialized" << std::endl;
-	//AudioEngine->SetMasterVolume(0.5f);
-	std::cout << "Volume: " << AudioEngine->GetMasterVolume() << std::endl;
+	LoadSFX("WaterDrip", L"Resource\\Audio\\water_drip.wav");
+	LoadSFX("WaterTransfer", L"Resource\\Audio\\tank-refill.wav");
 }
 
 void SoundManager::Update()
@@ -55,7 +53,7 @@ void SoundManager::PlayOneShot(std::string name, bool randomPitch)
 		return;
 	}
 
-	float randomPitchValue = randomPitch ? RAND_FLOAT (-0.5f, 0.5f) : 0.0f;
+	float randomPitchValue = randomPitch ? RAND_FLOAT (-0.2f, 0.2f) : 0.0f;
 	SoundEffects[name]->Play(SFXVolume, randomPitchValue,0);
 }
 
@@ -80,6 +78,24 @@ void SoundManager::PlayMusic(std::string name)
 }
 
 void SoundManager::StopMusic(std::string name)
+{
+	StopAudio (name);
+}
+
+void SoundManager::PlayAudio(std::string name, bool loop)
+{
+	if (!SoundEffects[name])
+	{
+		std::cout << "Music not found" << std::endl;
+		return;
+	}
+
+	SoundEffectInstances[name] = SoundEffects[name]->CreateInstance();
+	SoundEffectInstances[name]->SetVolume(SFXVolume);
+	SoundEffectInstances[name]->Play(loop);
+}
+
+void SoundManager::StopAudio(std::string name)
 {
 	if (!SoundEffectInstances[name])
 	{

@@ -28,6 +28,9 @@ public:
 			    
 	static void PlayMusic(std::string name);
 	static void StopMusic(std::string name);
+
+	static void PlayAudio(std::string name, bool loop);
+	static void StopAudio(std::string name);
 			    
 	static void SetGlobalVolume(float volume);
 
