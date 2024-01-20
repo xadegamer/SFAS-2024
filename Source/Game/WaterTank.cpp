@@ -84,6 +84,8 @@ WaterTank::WaterTank(IGraphics* Graphics, bool start)
 	IShader* ClockNeedleShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", ClockNeedleTexture);
 	ClockNeedle = Graphics->CreateBillboard(ClockNeedleShader, 6);
 	ClockNeedle->SetScale(.2, .2);
+
+	markerOffset = 80.0f;
 }
 
 WaterTank::~WaterTank()
@@ -101,12 +103,9 @@ void WaterTank::SetPosition(Vector2 position)
 	TankWaterAnimation->SetPosition(Position + Vector2(WaterOffset, 0));
 	TankWaterOverlay->SetPosition(Position.x + WaterOffset, Position.y);
 
-	//TankLowerMask->SetPosition(Position.x + WaterOffset, Position.y + NoWaterLevel);
-	//TankLowerMask->SetPosition(Position.x + 500, Position.y + NoWaterLevel);
-
-	WaterLevelMarker1->SetPosition(Position.x + WaterOffset, GetWaterPosition(1) + 80);
-	WaterLevelMarker2->SetPosition(Position.x + WaterOffset, GetWaterPosition(0.5f) + 80);
-	WaterLevelMarker3->SetPosition(Position.x + WaterOffset, GetWaterPosition(0.25) + 80);
+	WaterLevelMarker1->SetPosition(Position.x + WaterOffset, GetWaterPosition(marker1Position) + markerOffset);
+	WaterLevelMarker2->SetPosition(Position.x + WaterOffset, GetWaterPosition(marker2Position) + markerOffset);
+	WaterLevelMarker3->SetPosition(Position.x + WaterOffset, GetWaterPosition(marker3Position) + markerOffset);
 
 	ClockBG->SetPosition(Position.x + WaterOffset, Position.y + ClockOffset);
 	ClockNeedle->SetPosition(Position.x + WaterOffset, Position.y + ClockOffset);

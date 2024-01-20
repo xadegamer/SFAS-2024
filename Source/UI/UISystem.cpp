@@ -51,7 +51,7 @@ void UISystem::SetUpMainMenuCanvas()
 	bg->SetScale(Vector2(1.0f, 1.0f));
 	mainMenuCanvas->AddUIObject(bg);
 
-	Text* text = new Text("Title Text", L"Get the water", Screen_Mid + Vector2(0, -200), Vector2(1, 1));
+	Text* text = new Text("Title Text", L"Get the water", Screen_Mid + Vector2(0, -200), Vector2(1.5, 1.5));
 	text->SetColor(Color_White);
 	mainMenuCanvas->AddUIObject(text);
 
@@ -59,16 +59,16 @@ void UISystem::SetUpMainMenuCanvas()
 	audioVolumeText->SetColor(Color_White);
 	mainMenuCanvas->AddUIObject(audioVolumeText);
 
-	Button* StartButton = new Button("Start_B", Graphics, Resolution_Mid + Vector2(0, 100), Vector2(.5, .5f));
-	StartButton->AddText("Text", L"Start", Screen_Mid + Vector2(0, -110), Vector2(.5f, .5f), Color_White);
+	Button* StartButton = new Button("Start_B", Graphics, Resolution_Mid + Vector2(0, 0), Vector2(.5, .5f));
+	StartButton->AddText("Text", L"Start", Screen_Mid + Vector2(0, -10), Vector2(.5f, .5f), Color_White);
 	StartButton->AddHighlightEventListener([]()
 	{
 			SoundManager::PlayOneShot("Button_Hover");
 	});
 	mainMenuCanvas->AddUIObject(StartButton);
 
-	Button* QuitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0,-10), Vector2(.5, .5f));
-	QuitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 5), Vector2(.5f, .5f), Color_White);
+	Button* QuitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0,-100), Vector2(.5, .5f));
+	QuitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 90), Vector2(.5f, .5f), Color_White);
 	QuitButton->AddHighlightEventListener([]()
 		{
 			SoundManager::PlayOneShot("Button_Hover");
@@ -139,25 +139,19 @@ void UISystem::SetUpGameCanvas()
 	CanvasUI* gameCanvas = new CanvasUI(Graphics,"GameCanvas");
 	Canvases.push_back(gameCanvas);
 
-	Text* text = new Text("ScoreText", L"Score", Screen_TopLeftCorner + Vector2(40,20), Vector2(.5f, .5f));
-	gameCanvas->AddUIObject(text);
-
-	Text* debugText = new Text("DebugText", L"Debug", Screen_Mid + Vector2(0, 200), Vector2(.5f, .5f));
-	gameCanvas->AddUIObject(debugText);
-
 	Image* infoPanel = new Image("InfoPanel", Graphics, L"Resource/Textures/TopTextBox.dds", Vector2(0, 100), 15);
 	infoPanel->SetScale(Vector2(.8f, .8f));
 	gameCanvas->AddUIObject(infoPanel);
 
 	///////// Icon + 50, Text + 100
-	Image* leftBumperIcon = new Image("dPadLeftIcon", Graphics, L"Resource/Textures/Buttons/Left Bumper.dds", Resolution_Mid + Vector2(-400, 420), 16, Vector2(.1f, .1f));
-	gameCanvas->AddUIObject(leftBumperIcon);
+	Image* leftTriggerIcon = new Image("dPadLeftIcon", Graphics, L"Resource/Textures/Buttons/Left Trigger.dds", Resolution_Mid + Vector2(-400, 420), 16, Vector2(.1f, .1f));
+	gameCanvas->AddUIObject(leftTriggerIcon);
 
-	Image* rightBumperIcon = new Image("dPadRightIcon", Graphics, L"Resource/Textures/Buttons/Right Bumper.dds", Resolution_Mid + Vector2(-350, 420), 16, Vector2(.1f, .1f));
-	gameCanvas->AddUIObject(rightBumperIcon);
+	Image* rightTriggerIcon = new Image("dPadRightIcon", Graphics, L"Resource/Textures/Buttons/Right Trigger.dds", Resolution_Mid + Vector2(-350, 420), 16, Vector2(.1f, .1f));
+	gameCanvas->AddUIObject(rightTriggerIcon);
 
-	Text* rightBumperText = new Text("dPadRightText", L"--- Change Ring", Screen_Mid + Vector2(-250, -420), Vector2(.35, .35));
-	gameCanvas->AddUIObject(rightBumperText);
+	Text* rightTriggerText = new Text("dPadRightText", L"--- Change Ring", Screen_Mid + Vector2(-250, -420), Vector2(.35, .35));
+	gameCanvas->AddUIObject(rightTriggerText);
 
 	/////////
 	Image* dPadUpIcon = new Image("dPadUpIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Up.dds", Resolution_Mid + Vector2(-130, 420), 16, Vector2(.1f, .1f));
@@ -184,6 +178,14 @@ void UISystem::SetUpGameCanvas()
 
 	Text* menuText = new Text("aText", L"--- Pause", Screen_Mid + Vector2(400, -420), Vector2(.35, .35));
 	gameCanvas->AddUIObject(menuText);
+
+	////////
+
+	Text* text = new Text("ScoreText", L"Score", Screen_TopLeftCorner + Vector2(40, 20), Vector2(.5f, .5f));
+	gameCanvas->AddUIObject(text);
+
+	Text* debugText = new Text("DebugText", L"Debug", Screen_Mid + Vector2(0, 300), Vector2(.5f, .5f));
+	gameCanvas->AddUIObject(debugText);
 }
 
 void UISystem::PauseMenu()
@@ -197,20 +199,20 @@ void UISystem::PauseMenu()
 	bg->SetScale(Vector2(1.5f, 1.5f));
 	pauseMenuCanvas->AddUIObject(bg);
 
-	Text* text = new Text("Title Text", L"Paused", Screen_Mid + Vector2(0, -200), Vector2(.5f, .5f));
+	Text* text = new Text("Title Text", L"Paused", Screen_Mid + Vector2(0, -200), Vector2(1.0f, 1.0f));
 	text->SetColor(Color_White);
 	pauseMenuCanvas->AddUIObject(text);
 
-	Button* resumeButton = new Button("Resume_B", Graphics, Resolution_Mid + Vector2(0, 100), Vector2(.5, .5f));
-	resumeButton->AddText("Text", L"Resume", Screen_Mid + Vector2(0, -110), Vector2(.5f, .5f), Color_White);
+	Button* resumeButton = new Button("Resume_B", Graphics, Resolution_Mid + Vector2(0, 0), Vector2(.5, .5f));
+	resumeButton->AddText("Text", L"Resume", Screen_Mid + Vector2(0, -10), Vector2(.5f, .5f), Color_White);
 	resumeButton->AddHighlightEventListener([]()
 		{
 			SoundManager::PlayOneShot("Button_Hover");
 		});
 	pauseMenuCanvas->AddUIObject(resumeButton);
 
-	Button* quitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0, -10), Vector2(.5, .5f));
-	quitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 5), Vector2(.5f, .5f), Color_White);
+	Button* quitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0, -100), Vector2(.5, .5f));
+	quitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 90), Vector2(.5f, .5f), Color_White);
 	quitButton->AddHighlightEventListener([]()
 		{
 			SoundManager::PlayOneShot("Button_Hover");
@@ -234,20 +236,20 @@ void UISystem::GameOverMenu()
 	bg->SetScale(Vector2(1.5f, 1.5f));
 	gameOverMenuCanvas->AddUIObject(bg);
 
-	Text* text = new Text("Title Text", L"GameOver", Screen_Mid + Vector2(0, -200), Vector2(.5f, .5f));
+	Text* text = new Text("Title Text", L"GameOver", Screen_Mid + Vector2(0, -350), Vector2(1.5f, 1.5f));
 	text->SetColor(Color_White);
 	gameOverMenuCanvas->AddUIObject(text);
 
-	Button* resumeButton = new Button("Restart_B", Graphics, Resolution_Mid + Vector2(0, 100), Vector2(.5, .5f));
-	resumeButton->AddText("Text", L"Restart", Screen_Mid + Vector2(0, -110), Vector2(.5f, .5f), Color_White);
+	Button* resumeButton = new Button("Restart_B", Graphics, Resolution_Mid + Vector2(0, 0), Vector2(.5, .5f));
+	resumeButton->AddText("Text", L"Restart", Screen_Mid + Vector2(0, -10), Vector2(.5f, .5f), Color_White);
 	resumeButton->AddHighlightEventListener([]()
 	{
 		SoundManager::PlayOneShot("Button_Hover");
 	});
 	gameOverMenuCanvas->AddUIObject(resumeButton);
 
-	Button* quitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0, -10), Vector2(.5, .5f));
-	quitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 5), Vector2(.5f, .5f), Color_White);
+	Button* quitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0, -100), Vector2(.5, .5f));
+	quitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 90), Vector2(.5f, .5f), Color_White);
 	quitButton->AddHighlightEventListener([]()
 	{
 		SoundManager::PlayOneShot("Button_Hover");
@@ -258,6 +260,16 @@ void UISystem::GameOverMenu()
 	navigator->AddButton(resumeButton);
 	navigator->AddButton(quitButton);
 	gameOverMenuCanvas->AddUIObject(navigator);
+
+
+	Image* star1BG = new Image("Star1BG", Graphics, L"Resource/Textures/Stars/StarBG.dds", Resolution_Mid + Vector2(-200, 200), 16, Vector2(.25f, .25f));
+	gameOverMenuCanvas->AddUIObject(star1BG);
+
+	Image* star2BG = new Image("Star2BG", Graphics, L"Resource/Textures/Stars/StarBG.dds", Resolution_Mid + Vector2(0, 200), 16, Vector2(.5f, .5f));
+	gameOverMenuCanvas->AddUIObject(star2BG);
+
+	Image* star3BG = new Image("Star3BG", Graphics, L"Resource/Textures/Stars/StarBG.dds", Resolution_Mid + Vector2(200, 200), 16, Vector2(.25f, .25f));
+	gameOverMenuCanvas->AddUIObject(star3BG);
 }
 
 void UISystem::WinMenu()
@@ -271,20 +283,20 @@ void UISystem::WinMenu()
 	bg->SetScale(Vector2(1.5f, 1.5f));
 	winMenuCanvas->AddUIObject(bg);
 
-	Text* text = new Text("Title Text", L"You Win", Screen_Mid + Vector2(0, -200), Vector2(.5f, .5f));
+	Text* text = new Text("Title Text", L"You Win", Screen_Mid + Vector2(0, -350), Vector2(1.5f, 1.5f));
 	text->SetColor(Color_White);
 	winMenuCanvas->AddUIObject(text);
 
-	Button* resumeButton = new Button("Restart_B", Graphics, Resolution_Mid + Vector2(0, 100), Vector2(.5, .5f));
-	resumeButton->AddText("Text", L"Restart", Screen_Mid + Vector2(0, -110), Vector2(.5f, .5f), Color_White);
+	Button* resumeButton = new Button("Restart_B", Graphics, Resolution_Mid + Vector2(0, 0), Vector2(.5, .5f));
+	resumeButton->AddText("Text", L"Restart", Screen_Mid + Vector2(0, -10), Vector2(.5f, .5f), Color_White);
 	resumeButton->AddHighlightEventListener([]()
 		{
 			SoundManager::PlayOneShot("Button_Hover");
 		});
 	winMenuCanvas->AddUIObject(resumeButton);
 
-	Button* quitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0, -10), Vector2(.5, .5f));
-	quitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 5), Vector2(.5f, .5f), Color_White);
+	Button* quitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0, -100), Vector2(.5, .5f));
+	quitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 90), Vector2(.5f, .5f), Color_White);
 	quitButton->AddHighlightEventListener([]()
 		{
 			SoundManager::PlayOneShot("Button_Hover");
@@ -295,6 +307,25 @@ void UISystem::WinMenu()
 	navigator->AddButton(resumeButton);
 	navigator->AddButton(quitButton);
 	winMenuCanvas->AddUIObject(navigator);
+
+
+	Image* star1BG = new Image("Star1BG", Graphics, L"Resource/Textures/Stars/StarBG.dds", Resolution_Mid + Vector2(-200, 200), 16, Vector2(.25f, .25f));
+	winMenuCanvas->AddUIObject(star1BG);
+
+	Image* star2BG = new Image("Star2BG", Graphics, L"Resource/Textures/Stars/StarBG.dds", Resolution_Mid + Vector2(0, 200), 16, Vector2(.5f, .5f));
+	winMenuCanvas->AddUIObject(star2BG);
+
+	Image* star3BG = new Image("Star3BG", Graphics, L"Resource/Textures/Stars/StarBG.dds", Resolution_Mid + Vector2(200, 200), 16, Vector2(.25f, .25f));
+	winMenuCanvas->AddUIObject(star3BG);
+
+	Image* star1 = new Image("Star1", Graphics, L"Resource/Textures/Stars/Star.dds", Resolution_Mid + Vector2(-200, 200), 17, Vector2(.25f, .25f));
+	winMenuCanvas->AddUIObject(star1);
+
+	Image* star2 = new Image("Star2", Graphics, L"Resource/Textures/Stars/Star.dds", Resolution_Mid + Vector2(0, 200), 17, Vector2(.5f, .5f));
+	winMenuCanvas->AddUIObject(star2);
+
+	Image* star3 = new Image("Star3", Graphics, L"Resource/Textures/Stars/Star.dds", Resolution_Mid + Vector2(200, 200), 17, Vector2(.25f, .25f));
+	winMenuCanvas->AddUIObject(star3);
 }
 
 void UISystem::Update(float deltaTime)

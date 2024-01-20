@@ -28,4 +28,5 @@ public:
 	inline std::string GetID() { return Id; };
 	inline Vector2 GetPosition() { return Position; }
 	inline Vector2 GetScale() { return Scale; }
+	inline void SetEnabled(bool enabled) { Enabled = enabled;  enabled? Enable() : Disable(); };
 };

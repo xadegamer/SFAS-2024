@@ -30,8 +30,12 @@ Game::Game(IGraphics* GraphicsIn, IInput* InputIn) : IApplication(GraphicsIn, In
 {
 	MusicVolume = 50.0f;
 
-	WaterTransferSpeed = 30.0f;
-	WaterLickSpeed = 2.0f;
+	WaterTransferSpeed = 20.0f;
+	WaterLickSpeed = 1.0f;
+
+	Star1Threshold = 0.25f;
+	Star2Threshold = 0.5f;
+	Star3Threshold = 0.75f;
 
 	Button* StartButton = UISystem::GetCanvasUIByID(MainMenuCanvasID)->GetUIObjectByID<Button>("Start_B");
 	if (StartButton)
@@ -177,25 +181,21 @@ void Game::SetUpGame()
 
 	// left Ttop
 	RingHolder* TestRingHolder0 = new RingHolder(Graphics , L"TopLeft");
-	TestRingHolder0->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
 	TestRingHolder0->SetPosition(Vector2(-150, 150));
 	TestRingHolder0->SetScale(Vector2(0.5f, 0.5f));
 
 	// left buttom
 	RingHolder* TestRingHolder1 = new RingHolder(Graphics, L"BottomLeft");
-	TestRingHolder1->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
 	TestRingHolder1->SetPosition(Vector2 (-148, -144));
 	TestRingHolder1->SetScale(Vector2(0.5f, 0.5f));
 
 	// right top
 	RingHolder* TestRingHolder2 = new RingHolder(Graphics , L"TopRight");
-	TestRingHolder2->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
 	TestRingHolder2->SetPosition(Vector2(146.7, 147));
 	TestRingHolder2->SetScale(Vector2(0.5f, 0.5f));
 
 	// right buttom
 	RingHolder* TestRingHolder3 = new RingHolder(Graphics , L"BottomRight");
-	TestRingHolder3->AddSuccessEventListener(std::bind(&Game::OnSuccess, this));
 	TestRingHolder3->SetPosition(Vector2(150, -147));
 	TestRingHolder3->SetScale(Vector2(0.5f, 0.5f));
 
@@ -211,6 +211,7 @@ void Game::SetUpGame()
 	WaterTank1->SetOnEmptyEvent(std::bind(&Game::OnFirstTankEmpty, this));
 
 	WaterTank2 = new WaterTank(Graphics,false);
+	WaterTank2->SetMarkerPositions(Star1Threshold, Star2Threshold, Star3Threshold);
 	WaterTank2->SetPosition(Vector2(498, 17));
 
 	ITexture* TankLowerMaskTexture = Graphics->CreateTexture(L"Resource/Textures/WaterTank/BackgroundWaterCover.dds");
@@ -259,12 +260,12 @@ void Game::UpdateRingSelection()
 {
 	if (IsConnected) return;
 
-	if (Input->IsPressed(InputAction::ShoulderButtonLeft))
+	if (Input->IsPressed(InputAction::TriggerLeft))
 	{
 		// Change ring selection towards outer
 		RingHolders[CurrentRingHolderIndex]->UpdateRingSelection(-1);
 	}
-	else if (Input->IsPressed(InputAction::ShoulderButtonRight))
+	else if (Input->IsPressed(InputAction::TriggerRight))
 	{
 		// Change ring selection towards inner
 		RingHolders[CurrentRingHolderIndex]->UpdateRingSelection(1);
@@ -281,23 +282,13 @@ void Game::UpdateRingSelection()
 
 	if (Input->IsPressed(InputAction::ButtonBottom))
 	{
-		RingHolders[CurrentRingHolderIndex]->CheckForSuccess();
+		ValidateAllRings();
 	}
 }
 
 void Game::UpdateSelectedRingRotation()
 {
 	if (IsConnected) return;	
-
-
-	//if (Input->IsHeld(InputAction::TriggerLeft))
-	//{
-	//	RingHolders[CurrentRingHolderIndex]->UpdateSelectedRingRotation(-1);
-	//}
-	//else if (Input->IsPressed(InputAction::TriggerRight))
-	//{
-	//	RingHolders[CurrentRingHolderIndex]->UpdateSelectedRingRotation(1);
-	//}
 
 	RingHolders[CurrentRingHolderIndex]->UpdateSelectedRingRotation(Input->GetValue(InputAction::RightStickXAxis));
 }
@@ -309,18 +300,42 @@ void Game::UpdateTanks()
 
 	TransferWater();
 
-	Text* debugText = UISystem::GetActiveCanvas()->GetUIObjectByID<Text>("DebugText");
+	//Text* debugText = UISystem::GetActiveCanvas()->GetUIObjectByID<Text>("DebugText");
 
-	if (debugText)
-	{
-		/*	int random = rand() % 100;
-		std::wstring str = std::to_wstring(random);*/
+	//if (debugText)
+	//{
+	//	/*	int random = rand() % 100;
+	//	std::wstring str = std::to_wstring(random);*/
 
-		//UISystem::GetActiveCanvas()->GetUIObjectByID<Text>("ScoreText")->SetText(str);
-		//debugText->SetText(std::to_wstring(RingHolders[CurrentRingHolderIndex]->GetSelectedRingRotation()));
-		//debugText->SetText(std::to_wstring(RingHolders[CurrentRingHolderIndex]->ValidateRings()));
-		debugText->SetText(std::to_wstring(WaterTank2->GetNormalizedWaterLevel()));
-	}
+	//	std::wstring message = L"";
+	//	Vector4 color = Vector4(1, 1, 1, 1);
+	//	int correctRings = RingHolders[CurrentRingHolderIndex]->GetNumOfCorrectRings();
+
+	//	// set message to far, close , correct using switch
+	//	switch (correctRings)
+	//	{
+	//		case 0:
+	//			message = L"Wrong";
+	//			color = Vector4(1, 0, 0, 1);
+	//			break;
+	//		case 1:
+	//			message = L"Close";
+	//			color = Vector4(1, 1, 0, 1);
+	//			break;
+	//		case 2:
+	//			message = L"Very Close";
+	//			color = Vector4(0, 1, 0, 1);
+	//			break;
+	//			case 3:
+	//			message = L"Correct";
+	//			color = Vector4(0, 1, 0, 1);
+	//		default:
+	//			break;
+	//	}
+	//	debugText->SetText(message);
+	//	debugText->SetColor(color);
+	//	//debugText->SetText(std::to_wstring(WaterTank2->GetNormalizedWaterLevel()));
+	//}
 }
 
 void Game::SwitchToNextRingHolder(int direction)
@@ -334,8 +349,30 @@ void Game::SwitchToNextRingHolder(int direction)
 	RingHolders[CurrentRingHolderIndex]->Activate();
 }
 
+void Game::ValidateAllRings()
+{
+	bool allRingsValid = true;
+	for (size_t i = 0; i < RingHolders.size(); i++)
+	{
+		if (!RingHolders[i]->ValidateRings())
+		{
+			allRingsValid = false;
+			break;
+		}
+	}
+
+	if (allRingsValid)
+	{
+		OnSuccess();
+	}
+}
+
 void Game::OnSuccess()
 {
+	for (size_t i = 0; i < RingHolders.size(); i++)
+	{
+		RingHolders[i]->CorrectRings();
+	}
 	IsConnected = true;
 	WaterTank1->SetIsConnected(true);
 	WaterSpeed = WaterTransferSpeed;
@@ -343,15 +380,21 @@ void Game::OnSuccess()
 
 void Game::OnFirstTankEmpty()
 {
-	if (WaterTank2->GetNormalizedWaterLevel() == 0)
+	if (WaterTank2->GetNormalizedWaterLevel() >= Star1Threshold)
 	{
-		State = GameState::GameOver;
-		UISystem::EnableCanvasByID("GameOverCanvas");
+		State = GameState::Win;
+		float normalizedWaterLevel = WaterTank2->GetNormalizedWaterLevel();
+		CanvasUI* winMenuCanvas = UISystem::GetCanvasUIByID("WinMenuCanvas");
+		UISystem::EnableCanvas(winMenuCanvas);
+		winMenuCanvas->GetUIObjectByID<Image>("Star1")->SetEnabled(normalizedWaterLevel >= Star1Threshold);
+		winMenuCanvas->GetUIObjectByID<Image>("Star2")->SetEnabled(normalizedWaterLevel >= Star2Threshold);
+		winMenuCanvas->GetUIObjectByID<Image>("Star3")->SetEnabled(normalizedWaterLevel >= Star3Threshold);
+
 	}
 	else
 	{
-		State = GameState::Win;
-		UISystem::EnableCanvasByID("WinMenuCanvas");
+		State = GameState::GameOver;
+		UISystem::EnableCanvasByID("GameOverCanvas");
 	}
 }
 

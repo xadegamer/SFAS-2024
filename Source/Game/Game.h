@@ -41,6 +41,10 @@ private:
 	float WaterLickSpeed;
 	float WaterSpeed;	
 
+	float Star1Threshold;
+	float Star2Threshold;
+	float Star3Threshold;
+
 	void SetUpGame();
 	void StartGame();
 
@@ -52,8 +56,9 @@ private:
 	void UpdateTanks();
 
 	void SwitchToNextRingHolder(int direction);
-
+	void ValidateAllRings();
 	void OnSuccess();
+
 	void OnFirstTankEmpty();
 
 	void TransferWater();

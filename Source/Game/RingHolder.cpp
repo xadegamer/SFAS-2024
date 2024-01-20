@@ -7,6 +7,7 @@
 
 #include <ctime>
 #include <math.h>
+#include <stdlib.h>
 
 RingHolder::RingHolder(IGraphics* Graphics, std::wstring  ringName) : Rings(), SelectedRing()
 {
@@ -62,9 +63,13 @@ RingHolder::~RingHolder()
 	}
 }
 
-void RingHolder::AddSuccessEventListener(std::function<void()> onSuccessEvent)
+void RingHolder::CorrectRings()
 {
-	OnSuccessEvent = onSuccessEvent;
+	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
+	{
+		Rings[Ring]->SetRotation(0);
+		Rings[Ring]->ToggleHighlight(false);
+	}
 }
 
 void RingHolder::SetupRings()
@@ -82,6 +87,20 @@ void RingHolder::UpdateRingSelection(int dir)
 	Rings[static_cast<int>(SelectedRing)]->ToggleHighlight(false);
 	SelectedRing = static_cast<RingLayer>(CLAMP(static_cast<int>(SelectedRing) + selectionChange, 0, NumberOfRings - 1));
 	Rings[static_cast<int>(SelectedRing)]->ToggleHighlight(true);
+}
+
+int RingHolder::GetNumOfCorrectRings()
+{
+	int correctRings = 0;
+	for (unsigned int ringIndex = 0; ringIndex < NumberOfRings; ++ringIndex)
+	{
+		float rotation = abs(Rings[ringIndex]->GetRotation());
+		if (rotation < WinTolerance)
+		{
+			++correctRings;
+		}
+	}
+	return correctRings;
 }
 
 void RingHolder::UpdateSelectedRingRotation(float input)
@@ -105,20 +124,6 @@ bool RingHolder::ValidateRings()
 	return true;
 }
 
-void RingHolder::CheckForSuccess()
-{
-	if (ValidateRings())
-	{
-		for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
-		{
-			Rings[Ring]->SetRotation(0);
-			Rings[Ring]->ToggleHighlight(false);
-		}
-
-		if (OnSuccessEvent) OnSuccessEvent();
-	}
-}
-
 void RingHolder::Activate()
 {
 	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
@@ -133,20 +138,6 @@ void RingHolder::Deactivate()
 	{
 		Rings[Ring]->ToggleHighlight(false);
 	}
-}
-
-float RingHolder::GetSelectedRingRotation()
-{
-	float totalRotationDifference = 0.0f;
-
-	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
-	{
-		totalRotationDifference += abs(Rings[Ring]->GetRotation());
-	}
-
-	float averageRotationDifference = totalRotationDifference / NumberOfRings;
-
-	return abs(Rings[static_cast<int>(SelectedRing)]->GetRotation());
 }
 
 

@@ -42,6 +42,11 @@ private:
 	float ClockNeedleRotationOffset;
 	float WaterOffset;
 
+	float markerOffset;
+	float marker1Position;
+	float marker2Position;
+	float marker3Position;
+
 public:
 
 	WaterTank(IGraphics* Graphics, bool start);
@@ -77,4 +82,5 @@ public:
 	inline void SetOnEmptyEvent(std::function <void()> onEmptyEvent) { OnEmptyEvent = onEmptyEvent; }
 
 	inline void SetIsConnected(bool isConnected) { IsConnected = isConnected; }
+	inline void SetMarkerPositions(float marker1, float marker2, float marker3) { marker1Position = marker1; marker2Position = marker2; marker3Position = marker3; }
 };

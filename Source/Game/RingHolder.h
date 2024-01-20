@@ -1,6 +1,5 @@
 #pragma once
 
-#include <functional>
 #include <string>
 
 #include "IGameObject.h"
@@ -26,22 +25,19 @@ private:
 	float SpinSpeed;
 	float WinTolerance;
 
-	std::function <void()> OnSuccessEvent;
-
 public:
 
 	RingHolder(IGraphics* Graphics, std::wstring ringName);
 	virtual ~RingHolder();
 
-	void AddSuccessEventListener(std::function <void()> onSuccessEvent);
 	void SetupRings();
 	void UpdateRingSelection(int input);
 	void UpdateSelectedRingRotation(float input);
 	bool ValidateRings();
-	void CheckForSuccess();
+	void CorrectRings();
 	void Activate();
 	void Deactivate();
-	float GetSelectedRingRotation();
+	int GetNumOfCorrectRings();
 
 	virtual void SetPosition(Vector2 position) override;
 	virtual void SetScale(Vector2 scale) override;
