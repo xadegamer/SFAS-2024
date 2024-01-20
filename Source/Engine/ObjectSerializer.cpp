@@ -9,11 +9,12 @@ void ObjectSerializer::Example()
     object_to_save.money = 42;
     object_to_save.gem = 100;
     object_to_save.characterID = "Knight";
+    object_to_save.inventory = { 1, 2, 3, 4, 5 };
 
-    SaveToFile(object_to_save, "GameData");
+    SaveToFile(object_to_save, "GameData", false);
 
     MyTestSaveClass loaded_object;
-    if (LoadFromFile(loaded_object, "GameData"))
+    if (LoadFromFile(loaded_object, "GameData", false))
     {
         std::cout << "Loaded Data: " << loaded_object.money << " " << loaded_object.gem << " " << loaded_object.characterID << std::endl;
     }
@@ -22,7 +23,7 @@ void ObjectSerializer::Example()
         std::cerr << "Failed to load GameData." << std::endl;
     }
 
-    SaveToFile(1000, "IntData");
+    SaveToFile(1000, "IntData", false);
 
     int intData = 0;
     if (LoadFromFile(intData, "IntData"))

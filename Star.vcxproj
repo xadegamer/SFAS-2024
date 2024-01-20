@@ -183,6 +183,7 @@
     <ClInclude Include="Source\Game\Game.h" />
     <ClInclude Include="Source\Game\IGameObject.h" />
     <ClInclude Include="Source\Game\Particle.h" />
+    <ClInclude Include="Source\Game\PlayerData.h" />
     <ClInclude Include="Source\Game\Ring.h" />
     <ClInclude Include="Source\Game\RingHolder.h" />
     <ClInclude Include="Source\Game\SoundManager.h" />

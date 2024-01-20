@@ -186,6 +186,9 @@
     <ClInclude Include="Source\Engine\ObjectSerializer.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\PlayerData.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Game">

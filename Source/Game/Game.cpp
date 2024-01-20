@@ -13,6 +13,7 @@
 
 #include "SoundManager.h"
 #include "UI/UISystem.h"
+#include "PlayerData.h"
 
 #include "Engine/ParticleSystem.h"
 
@@ -25,6 +26,7 @@ const std::string PauseMenuCanvasID = "PauseMenuCanvas";
 const std::string GameCanvasID = "GameCanvas";
 const std::string GameOverCanvasID = "GameOverCanvas";
 const std::string WinMenuCanvasID = "WinMenuCanvas";
+const std::string PlayerDataFileName = "PlayerData";
 
 IApplication* GetApplication(IGraphics* Graphics, IInput* Input)
 {
@@ -33,7 +35,7 @@ IApplication* GetApplication(IGraphics* Graphics, IInput* Input)
 
 Game::Game(IGraphics* GraphicsIn, IInput* InputIn) : IApplication(GraphicsIn, InputIn), State(), RingHolderGrid(), CentrebGG(), WaterTank1(), WaterTank2(), IsConnected(false)
 {
-	MusicVolume = 50.0f;
+	LoadPlayerData();
 
 	WaterTransferSpeed = 20.0f;
 	WaterLickSpeed = 1.0f;
@@ -150,7 +152,6 @@ bool Game::IsValid()
 
 bool Game::Load()
 {
-	ObjectSerializer::Example();
 	SetUpGame();
 	StartGame();
 	return true;
@@ -255,6 +256,7 @@ void Game::SetUpGame()
 
 void Game::StartGame()
 {
+	curentSessionTime = 0;
 	IsConnected = false;
 	WaterSpeed = WaterLickSpeed;
 	SetupEachRing();
@@ -424,7 +426,7 @@ void Game::ValidateAllRings()
 		}		
 	}
 
-	if (allRingsValid)
+	if (OnSuccess)
 	{
 		OnSuccess();
 	}
@@ -456,6 +458,9 @@ void Game::OnFirstTankEmpty()
 		winMenuCanvas->GetUIObjectByID<Image>("Star2")->SetEnabled(normalizedWaterLevel >= Star2Threshold);
 		winMenuCanvas->GetUIObjectByID<Image>("Star3")->SetEnabled(normalizedWaterLevel >= Star3Threshold);
 
+		int starts = normalizedWaterLevel >= Star3Threshold ? 3 : normalizedWaterLevel >= Star2Threshold ? 2 : normalizedWaterLevel >= Star1Threshold ? 1 : 0;
+		PlayerDataInstance->AddSession(curentSessionTime, starts);
+		SavedPlayerData();
 	}
 	else
 	{
@@ -537,4 +542,23 @@ void Game::SetMusicVolume(float value)
 		default: break;
 	}
 
+	PlayerDataInstance->SetMusicVolume(MusicVolume);
+	SavedPlayerData();
+}
+
+void Game::LoadPlayerData()
+{
+	PlayerDataInstance = new PlayerData(50);
+
+	if(!ObjectSerializer::LoadFromFile(*PlayerDataInstance, PlayerDataFileName, false))
+	{
+		ObjectSerializer::SaveToFile(*PlayerDataInstance, PlayerDataFileName, false);
+	}
+
+	MusicVolume = PlayerDataInstance->GetMusicVolume();
+}
+
+void Game::SavedPlayerData()
+{
+	ObjectSerializer::SaveToFile(*PlayerDataInstance, PlayerDataFileName, false);
 }

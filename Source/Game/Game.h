@@ -10,6 +10,7 @@ class IShader;
 class IRenderable;
 class RingHolder;
 class WaterTank;
+class PlayerData;
 
 enum GameState { Setup, Playing, Paused, GameOver, Win};
 
@@ -38,6 +39,9 @@ private:
 	WaterTank* WaterTank1;
 	WaterTank* WaterTank2;
 	IRenderable* TankLowerMask;
+
+	PlayerData* PlayerDataInstance;	
+
 	bool IsConnected;
 	int MusicVolume;
 
@@ -76,5 +80,8 @@ private:
 	void TogglePause();
 	void HandleVolumeChange();
 	void SetMusicVolume(float value);
+
+	void LoadPlayerData();
+	void SavedPlayerData();
 };
 
