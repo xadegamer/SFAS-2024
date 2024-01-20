@@ -107,6 +107,19 @@ void UISystem::SetUpMainMenuCanvas()
 	Text* dPadUpText = new Text("dPadUpText", L"--- Navigate Menu", Screen_Mid + Vector2(200, -420), Vector2(.35, .35));
 	mainMenuCanvas->AddUIObject(dPadUpText);
 
+	/////////
+
+
+	std::wstring infoTextString =
+
+		L"Time: 00:00 , Star 2. \n\n" \
+		L"Time: 00:00 , Star 2. \n\n" \
+		L"Time: 00:00 , Star 2. \n\n" \
+		L"Time: 00:00 , Star 2. \n\n" \
+		L"Time: 00:00 , Star 2. \n\n";
+
+	AddLeaderboardUI (mainMenuCanvas);
+
 	CurrentCanvas = mainMenuCanvas;
 }
 
@@ -210,7 +223,10 @@ void UISystem::SetUpGameCanvas()
 
 	////////
 
-	Text* text = new Text("TimeText", L"", Screen_TopLeftCorner + Vector2(100, 100), Vector2(.5f, .5f));
+	Image* clockIcon = new Image("clockIcon", Graphics, L"Resource/Textures/Clock.dds", Resolution_Mid + Vector2(-695, 340), 16, Vector2(.25f, .25f));
+	gameCanvas->AddUIObject(clockIcon);
+
+	Text* text = new Text("TimeText", L"", Screen_TopLeftCorner + Vector2(100, 100), Vector2(.5f, .5f), Color_Red);
 	gameCanvas->AddUIObject(text);
 
 	Text* debugText = new Text("DebugText", L"Debug", Screen_Mid + Vector2(0, 300), Vector2(.5f, .5f));
@@ -338,6 +354,10 @@ void UISystem::GameOverMenu()
 
 	Image* star3BG = new Image("Star3BG", Graphics, L"Resource/Textures/Stars/StarBG.dds", Resolution_Mid + Vector2(200, 200), 16, Vector2(.25f, .25f));
 	gameOverMenuCanvas->AddUIObject(star3BG);
+
+	/////////
+
+	AddLeaderboardUI (gameOverMenuCanvas);
 }
 
 void UISystem::WinMenu()
@@ -397,6 +417,23 @@ void UISystem::WinMenu()
 
 	Text* timetext = new Text("TimeText", L"", Screen_Mid + Vector2(0, -90), Vector2(.75f, .75f));
 	winMenuCanvas->AddUIObject(timetext);
+
+	/////////
+
+	AddLeaderboardUI(winMenuCanvas);
+
+}
+
+void UISystem::AddLeaderboardUI(CanvasUI* canvas)
+{
+	Image* leaderboardBG = new Image("leaderboardBG", Graphics, L"Resource/Textures/TextBoxBig.dds", Resolution_Mid + Vector2(500, -300), 16, Vector2(.8f, .8f));
+	canvas->AddUIObject(leaderboardBG);
+
+	Text* leaderboardHeaderText = new Text("leaderboardHeaderText", L"LeaderBoard", Screen_BottomRightCorner + Vector2(-290, -330), Vector2(1, 1), Color_White);
+	canvas->AddUIObject(leaderboardHeaderText);
+
+	Text* leaderboardText = new Text("leaderboardText", L"", Screen_BottomRightCorner + Vector2(-290, -160), Vector2(.5, .5));
+	canvas->AddUIObject(leaderboardText);
 }
 
 void UISystem::Update(float deltaTime)

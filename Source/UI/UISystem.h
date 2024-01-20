@@ -45,6 +45,8 @@ public:
 
 	static void WinMenu();
 
+	static void AddLeaderboardUI(CanvasUI*);
+
 	static void Update(float deltaTime);
 
 	static void EnableCanvasByID(std::string id);

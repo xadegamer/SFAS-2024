@@ -137,6 +137,7 @@ Game::Game(IGraphics* GraphicsIn, IInput* InputIn) : IApplication(GraphicsIn, In
 	}
 
 	UISystem::EnableCanvasByID(MainMenuCanvasID);
+	UISystem::GetCanvasUIByID(MainMenuCanvasID)->GetUIObjectByID<Text>("leaderboardText")->SetText(GetLeaderboardInfo());
 
 	SetMusicVolume(MusicVolume);
 }
@@ -454,7 +455,7 @@ void Game::OnFirstTankEmpty()
 	{
 		State = GameState::Win;
 		float normalizedWaterLevel = WaterTank2->GetNormalizedWaterLevel();
-		CanvasUI* winMenuCanvas = UISystem::GetCanvasUIByID("WinMenuCanvas");
+		CanvasUI* winMenuCanvas = UISystem::GetCanvasUIByID(WinMenuCanvasID);
 		UISystem::EnableCanvas(winMenuCanvas);
 		winMenuCanvas->GetUIObjectByID<Image>("Star1")->SetEnabled(normalizedWaterLevel >= Star1Threshold);
 		winMenuCanvas->GetUIObjectByID<Image>("Star2")->SetEnabled(normalizedWaterLevel >= Star2Threshold);
@@ -464,12 +465,14 @@ void Game::OnFirstTankEmpty()
 
 		int starts = normalizedWaterLevel >= Star3Threshold ? 3 : normalizedWaterLevel >= Star2Threshold ? 2 : normalizedWaterLevel >= Star1Threshold ? 1 : 0;
 		PlayerDataInstance->AddSession(curentSessionTime, starts);
+		winMenuCanvas->GetUIObjectByID<Text>("leaderboardText")->SetText(GetLeaderboardInfo());
 		SavedPlayerData();
 	}
 	else
 	{
 		State = GameState::GameOver;
-		UISystem::EnableCanvasByID("GameOverCanvas");
+		UISystem::EnableCanvasByID(GameOverCanvasID);
+		UISystem::GetCanvasUIByID(GameOverCanvasID)->GetUIObjectByID<Text>("leaderboardText")->SetText(GetLeaderboardInfo());
 	}
 }
 
@@ -558,6 +561,20 @@ void Game::LoadPlayerData()
 void Game::SavedPlayerData()
 {
 	ObjectSerializer::SaveToFile(*PlayerDataInstance, PlayerDataFileName, false);
+}
+
+std::wstring Game::GetLeaderboardInfo()
+{
+	std::wstring leaderboardInfo = L"";
+	std::vector<SessionData*> sessions = PlayerDataInstance->GetSessions();
+	PlayerDataInstance->SortSessions();
+	for (size_t i = 0; i < sessions.size(); i++)
+	{
+		std::wstring prefix = std::to_wstring(i + 1) + L". ";
+		leaderboardInfo += prefix + GetTimeString(sessions[i]->Time) + L" - " + std::to_wstring(sessions[i]->Stars) + L" Stars \n\n";
+	}
+
+	return leaderboardInfo;
 }
 
 std::wstring Game::GetTimeString(float time)

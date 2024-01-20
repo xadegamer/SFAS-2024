@@ -2,6 +2,8 @@
 
 #include <vector>
 #include <iostream>
+#include <chrono>
+#include <algorithm>
 
 class SessionData
 {
@@ -48,16 +50,21 @@ public:
 		return musicVolume;
 	}
 
+	std::vector<SessionData*> GetSessions()
+	{
+		return sessions;
+	}
+
 	void AddSession(float time, int stars)
 	{
+		if (HasSession(time, stars))
+		{
+			return;
+		}
+
 		if (sessions.size() >= maxSessions)
 		{
 			SessionData* lowestSession = GetLowestSession();
-
-			if (stars == lowestSession->Stars && time == lowestSession->Time)
-			{
-				return;
-			}
 
 			if (stars < lowestSession->Stars)
 			{
@@ -78,6 +85,12 @@ public:
 		session->Time = time;
 		session->Stars = stars;
 		sessions.push_back(session);
+	}
+
+	void SortSessions()
+	{
+		std::sort(sessions.begin(), sessions.end(), [](SessionData* a, SessionData* b) { return a->Stars > b->Stars; });
+		std::sort(sessions.begin(), sessions.end(), [](SessionData* a, SessionData* b) { return a->Time < b->Time; });
 	}
 
 	SessionData* GetLowestSession()
@@ -102,6 +115,18 @@ public:
 			}
 		}
 		return lowestSession;
+	}
+
+	bool HasSession(float time, int stars)
+	{
+		for (SessionData* session : sessions)
+		{
+			if (session->Stars == stars && session->Time == time)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	// Overload the stream operators for saving

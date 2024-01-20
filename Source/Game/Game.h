@@ -84,6 +84,7 @@ private:
 	void LoadPlayerData();
 	void SavedPlayerData();
 
+	std::wstring GetLeaderboardInfo();
 	std::wstring GetTimeString(float time);
 };
 

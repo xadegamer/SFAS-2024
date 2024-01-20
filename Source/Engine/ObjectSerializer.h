@@ -19,11 +19,6 @@ public:
 	ObjectSerializer() = delete;
 	~ObjectSerializer() = delete;
 
-    /// <summary>
-    /// Example for saving and loading
-    /// </summary>
-    static void Example();
-
     template <typename T>
     static void SaveToFile(const T& data, std::string filename, bool encrypt = true)
     {
@@ -75,53 +70,4 @@ public:
     }
 
     static void XOREncryptDecrypt(std::string& data, const std::string& key);
-};
-
-/// <summary>
-/// Example of verload the stream operators for saving and saving
-/// </summary>
-class MyTestSaveClass 
-{
-
-public:
-    int money; 
-    int gem;
-    std::string characterID;
-    std::vector<int> inventory;
-
-    // Overload the stream operators for saving
-    friend std::ostream& operator<<(std::ostream& out, const MyTestSaveClass& obj)
-    {
-        out << obj.money << " " << obj.gem << " " << obj.characterID << " ";
-
-        // Save the size of the vector
-        out << obj.inventory.size() << " ";
-
-        // Save the elements of the vector
-        for (int item : obj.inventory) {
-            out << item << " ";
-        }
-
-        return out;
-    }
-
-    // Overload the stream operators for loading
-    friend std::istream& operator>>(std::istream& in, MyTestSaveClass& obj)
-    {
-        // Load money, gem, and characterID
-        in >> obj.money >> obj.gem >> obj.characterID;
-
-        // Load the size of the inventory vector
-        size_t inventorySize;
-        in >> inventorySize;
-
-        // Resize the inventory vector
-        obj.inventory.resize(inventorySize);
-
-        // Load each element of the inventory vector
-        for (size_t i = 0; i < inventorySize; ++i) {
-            in >> obj.inventory[i];
-        }
-        return in;
-    }
 };
