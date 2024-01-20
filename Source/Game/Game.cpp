@@ -529,7 +529,7 @@ void Game::HandleVolumeChange()
 void Game::SetMusicVolume(float value)
 {
 	MusicVolume = CLAMP(value, 0, 100);
-	SoundManager::SetMusicVolume((float)MusicVolume / 100);
+	SoundManager::SetGlobalVolume((float)MusicVolume / 100);
 
 	switch (State)
 	{

@@ -13,3 +13,4 @@ typedef DirectX::SimpleMath::Vector4 Vector4;
 #define PI 3.14159265358979323846f
 #define DEG2RAD(x) (x * PI / 180.0f)
 #define RAD2DEG(x) (x * 180.0f / PI)
+#define RAND_FLOAT(x, y) (x + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (y - x))))

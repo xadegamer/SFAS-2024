@@ -80,9 +80,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	UISystem::Init(Graphics, Input);
 
-	IApplication* Application = GetApplication(Graphics, Input);
-
 	SoundManager::Initialize();
+
+	IApplication* Application = GetApplication(Graphics, Input);
 
 	Time::Initialize();
 

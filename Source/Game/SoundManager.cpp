@@ -5,7 +5,8 @@ std::unique_ptr<DirectX::AudioEngine> SoundManager::AudioEngine = nullptr;
 std::map<std::string, std::unique_ptr<DirectX::SoundEffect>> SoundManager::SoundEffects;
 std::map<std::string, std::unique_ptr<DirectX::SoundEffectInstance>> SoundManager::SoundEffectInstances;
 std::string SoundManager::CurrentMusic = "";
-float SoundManager::MusicVolume = 1.0f;
+float SoundManager::MusicVolume = 0.5f;
+float SoundManager::SFXVolume = 1.0f;
 
 void SoundManager::Initialize()
 {
@@ -31,7 +32,7 @@ void SoundManager::Initialize()
 	LoadSFX("Button_Click", L"Resource\\Audio\\Click.wav");
 
 	std::cout << "Sound Handler Initialized" << std::endl;
-	AudioEngine->SetMasterVolume(0.1f);
+	//AudioEngine->SetMasterVolume(0.5f);
 	std::cout << "Volume: " << AudioEngine->GetMasterVolume() << std::endl;
 }
 
@@ -46,7 +47,7 @@ void SoundManager::LoadSFX(std::string name, std::wstring filePath)
 	SoundEffects[name] = std::move(soundEffect);
 }
 
-void SoundManager::PlayOneShot(std::string name)
+void SoundManager::PlayOneShot(std::string name, bool randomPitch)
 {
 	if (!SoundEffects[name].get())
 	{
@@ -54,7 +55,8 @@ void SoundManager::PlayOneShot(std::string name)
 		return;
 	}
 
-	SoundEffects[name]->Play();
+	float randomPitchValue = randomPitch ? RAND_FLOAT (-0.5f, 0.5f) : 0.0f;
+	SoundEffects[name]->Play(SFXVolume, randomPitchValue,0);
 }
 
 void SoundManager::PlayMusic(std::string name)
@@ -71,7 +73,7 @@ void SoundManager::PlayMusic(std::string name)
 	}
 
 	SoundEffectInstances[name] = SoundEffects[name]->CreateInstance();
-	SetSoundEffectVolume(name, MusicVolume);
+	SoundEffectInstances[name]->SetVolume(MusicVolume);
 	SoundEffectInstances[name]->Play(true);
 
 	CurrentMusic = name;
@@ -88,21 +90,19 @@ void SoundManager::StopMusic(std::string name)
 	SoundEffectInstances[name]->Stop();
 }
 
-void SoundManager::SetMusicVolume(float volume)
+void SoundManager::SetGlobalVolume(float volume)
 {
-	MusicVolume = volume;
-	SetSoundEffectVolume(CurrentMusic, MusicVolume);
+	AudioEngine->SetMasterVolume(volume);
 }
 
-void SoundManager::SetSoundEffectVolume(std::string name, float volume)
+void SoundManager::Pause()
 {
-	if (!SoundEffectInstances[name])
-	{
-		std::cout << "Sound effect not found" << std::endl;
-		return;
-	}
+	AudioEngine->Suspend();
+}
 
-	SoundEffectInstances[name]->SetVolume(volume);
+void SoundManager::Resume()
+{
+	AudioEngine->Resume();
 }
 
 void SoundManager::Clear()

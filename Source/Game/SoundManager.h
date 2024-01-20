@@ -14,6 +14,7 @@ private:
 	static std::map<std::string, std::unique_ptr<DirectX::SoundEffectInstance>> SoundEffectInstances;
 	static std::string CurrentMusic;
 	static float MusicVolume;
+	static float SFXVolume;
 
 public:
 	SoundManager() = delete;
@@ -23,13 +24,15 @@ public:
 	static void Update();
 			    
 	static void LoadSFX(std::string name, std::wstring filePath);
-	static void PlayOneShot(std::string name);
+	static void PlayOneShot(std::string name, bool randomPitch = false);
 			    
 	static void PlayMusic(std::string name);
 	static void StopMusic(std::string name);
 			    
-	static void SetMusicVolume(float volume);
-	static void SetSoundEffectVolume(std::string name, float volume);
+	static void SetGlobalVolume(float volume);
+
+	static void Pause();
+	static void Resume();
 
 	static void Clear();
 };
