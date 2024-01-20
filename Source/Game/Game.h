@@ -27,9 +27,14 @@ public:
 
 private:
 
+	int currentRow = 0; 
+	int currentCol = 0;
+
+	// Create a 2D vector to represent the grid of RingHolders
+	std::vector<std::vector<RingHolder*>> RingHolderGrid;
+	RingHolder* SelectedRingHolder;
+
 	GameState State;
-	std::vector<RingHolder*> RingHolders;
-	int CurrentRingHolderIndex;
 	IRenderable* CentrebGG;
 	WaterTank* WaterTank1;
 	WaterTank* WaterTank2;
@@ -55,7 +60,7 @@ private:
 	void UpdateSelectedRingRotation();
 	void UpdateTanks();
 
-	void SwitchToNextRingHolder(int direction);
+	void SwitchToNextRingHolder(int row, int col);
 	void ValidateAllRings();
 	void OnSuccess();
 

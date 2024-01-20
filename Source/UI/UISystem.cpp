@@ -144,31 +144,35 @@ void UISystem::SetUpGameCanvas()
 	gameCanvas->AddUIObject(infoPanel);
 
 	///////// Icon + 50, Text + 100
-	Image* leftTriggerIcon = new Image("dPadLeftIcon", Graphics, L"Resource/Textures/Buttons/Left Trigger.dds", Resolution_Mid + Vector2(-400, 420), 16, Vector2(.1f, .1f));
+	Image* leftTriggerIcon = new Image("dPadLeftIcon", Graphics, L"Resource/Textures/Buttons/Left Trigger.dds", Resolution_Mid + Vector2(-420, 420), 16, Vector2(.1f, .1f));
 	gameCanvas->AddUIObject(leftTriggerIcon);
 
-	Image* rightTriggerIcon = new Image("dPadRightIcon", Graphics, L"Resource/Textures/Buttons/Right Trigger.dds", Resolution_Mid + Vector2(-350, 420), 16, Vector2(.1f, .1f));
+	Image* rightTriggerIcon = new Image("dPadRightIcon", Graphics, L"Resource/Textures/Buttons/Right Trigger.dds", Resolution_Mid + Vector2(-370, 420), 16, Vector2(.1f, .1f));
 	gameCanvas->AddUIObject(rightTriggerIcon);
 
-	Text* rightTriggerText = new Text("dPadRightText", L"--- Change Ring", Screen_Mid + Vector2(-250, -420), Vector2(.35, .35));
+	Text* rightTriggerText = new Text("dPadRightText", L"- Switch Segment", Screen_Mid + Vector2(-270, -420), Vector2(.35, .35));
 	gameCanvas->AddUIObject(rightTriggerText);
 
 	/////////
-	Image* dPadUpIcon = new Image("dPadUpIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Up.dds", Resolution_Mid + Vector2(-130, 420), 16, Vector2(.1f, .1f));
-	gameCanvas->AddUIObject(dPadUpIcon);
+	Image* dPadIcon = new Image("dPadIcon", Graphics, L"Resource/Textures/Buttons/D-Pad.dds", Resolution_Mid + Vector2(-150, 420), 16, Vector2(.1f, .1f));
+	gameCanvas->AddUIObject(dPadIcon);
 
-	Image* dPadDownIcon = new Image("dPadUpIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Down.dds", Resolution_Mid + Vector2(-80, 420), 16, Vector2(.1f, .1f));
-	gameCanvas->AddUIObject(dPadDownIcon);
-
-	Text* dPadDownText = new Text("dPadDownText", L"--- Switch Ring", Screen_Mid + Vector2(20, -420), Vector2(.35, .35));
+	Text* dPadDownText = new Text("dPadDownText", L"- Switch Ring", Screen_Mid + Vector2(-70, -420), Vector2(.35, .35));
 	gameCanvas->AddUIObject(dPadDownText);
 
 	/////////
+	Image* rightStickIcon = new Image("RightStick", Graphics, L"Resource/Textures/Buttons/Right Stick Left-Right.dds", Resolution_Mid + Vector2(30, 420), 16, Vector2(.1f, .1f));
+	gameCanvas->AddUIObject(rightStickIcon);
 
-	Image* aIcon = new Image("aIcon", Graphics, L"Resource/Textures/Buttons/A.dds", Resolution_Mid + Vector2(140, 420), 16, Vector2(.1f, .1f));
+	Text* rightStickIconText = new Text("dPadDownText", L"- Rotate", Screen_Mid + Vector2(100, -420), Vector2(.35, .35));
+	gameCanvas->AddUIObject(rightStickIconText);
+
+	/////////
+
+	Image* aIcon = new Image("aIcon", Graphics, L"Resource/Textures/Buttons/A.dds", Resolution_Mid + Vector2(180, 420), 16, Vector2(.1f, .1f));
 	gameCanvas->AddUIObject(aIcon);
 
-	Text* aText = new Text("aText", L"--- Confirm", Screen_Mid + Vector2(220, -420), Vector2(.35, .35));
+	Text* aText = new Text("aText", L"- Confirm", Screen_Mid + Vector2(250, -420), Vector2(.35, .35));
 	gameCanvas->AddUIObject(aText);
 
 	/////////
@@ -176,7 +180,7 @@ void UISystem::SetUpGameCanvas()
 	Image* menuIcon = new Image("menuIcon", Graphics, L"Resource/Textures/Buttons/Menu.dds", Resolution_Mid + Vector2(340, 420), 16, Vector2(.1f, .1f));
 	gameCanvas->AddUIObject(menuIcon);
 
-	Text* menuText = new Text("aText", L"--- Pause", Screen_Mid + Vector2(400, -420), Vector2(.35, .35));
+	Text* menuText = new Text("aText", L"- Pause", Screen_Mid + Vector2(400, -420), Vector2(.35, .35));
 	gameCanvas->AddUIObject(menuText);
 
 	////////

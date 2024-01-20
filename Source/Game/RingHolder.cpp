@@ -126,6 +126,7 @@ bool RingHolder::ValidateRings()
 
 void RingHolder::Activate()
 {
+	SelectedRing = RingLayer::Outer;
 	for (unsigned int Ring = 0; Ring < NumberOfRings; ++Ring)
 	{
 		Rings[Ring]->ToggleHighlight(Ring == SelectedRing);
