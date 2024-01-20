@@ -30,6 +30,14 @@ public:
 		sessions = std::vector<SessionData*>();
 	}
 
+	~PlayerData()
+	{
+		for (SessionData* session : sessions)
+		{
+			delete session;
+		}
+	}
+
 	void SetMusicVolume(int volume)
 	{
 		musicVolume = volume;

@@ -2,6 +2,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 #include "Engine/IApplication.h"
 
 class IGraphics;
@@ -75,7 +76,6 @@ private:
 	void TransferWater();
 
 	void HandGameTime();
-	void SetTimeText(float time);
 
 	void TogglePause();
 	void HandleVolumeChange();
@@ -83,5 +83,7 @@ private:
 
 	void LoadPlayerData();
 	void SavedPlayerData();
+
+	std::wstring GetTimeString(float time);
 };
 

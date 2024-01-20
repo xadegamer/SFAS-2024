@@ -194,6 +194,8 @@ void Game::Cleanup()
 
 	delete WaterTank1;
 	delete WaterTank2;
+
+	delete PlayerDataInstance;
 }
 
 void Game::SetUpGame()
@@ -426,7 +428,7 @@ void Game::ValidateAllRings()
 		}		
 	}
 
-	if (OnSuccess)
+	if (true)
 	{
 		OnSuccess();
 	}
@@ -458,6 +460,8 @@ void Game::OnFirstTankEmpty()
 		winMenuCanvas->GetUIObjectByID<Image>("Star2")->SetEnabled(normalizedWaterLevel >= Star2Threshold);
 		winMenuCanvas->GetUIObjectByID<Image>("Star3")->SetEnabled(normalizedWaterLevel >= Star3Threshold);
 
+		winMenuCanvas->GetUIObjectByID<Text>("TimeText")->SetText(GetTimeString(curentSessionTime));
+
 		int starts = normalizedWaterLevel >= Star3Threshold ? 3 : normalizedWaterLevel >= Star2Threshold ? 2 : normalizedWaterLevel >= Star1Threshold ? 1 : 0;
 		PlayerDataInstance->AddSession(curentSessionTime, starts);
 		SavedPlayerData();
@@ -482,7 +486,7 @@ void Game::HandGameTime()
 	if (currentSessionTimer > currentSessionTimerInterval)
 	{
 		curentSessionTime ++;
-		SetTimeText (curentSessionTime);
+		UISystem::GetActiveCanvas()->GetUIObjectByID<Text>("TimeText")->SetText(GetTimeString(curentSessionTime));
 		currentSessionTimer = 0;
 	}
 	else
@@ -491,13 +495,6 @@ void Game::HandGameTime()
 	}
 }
 
-void Game::SetTimeText(float time)
-{
-	int minutes = static_cast<int>(time) / 60;
-	int seconds = static_cast<int>(time) % 60;
-	std::wstring timeString = std::to_wstring(minutes) + L"m:" + std::to_wstring(seconds) + L"s";
-	UISystem::GetActiveCanvas()->GetUIObjectByID<Text>("TimeText")->SetText(timeString);
-}
 
 void Game::TogglePause()
 {
@@ -561,4 +558,12 @@ void Game::LoadPlayerData()
 void Game::SavedPlayerData()
 {
 	ObjectSerializer::SaveToFile(*PlayerDataInstance, PlayerDataFileName, false);
+}
+
+std::wstring Game::GetTimeString(float time)
+{
+	int minutes = static_cast<int>(time) / 60;
+	int seconds = static_cast<int>(time) % 60;
+	std::wstring timeString = std::to_wstring(minutes) + L"m:" + std::to_wstring(seconds) + L"s";
+	return timeString;
 }

@@ -394,6 +394,9 @@ void UISystem::WinMenu()
 
 	Image* star3 = new Image("Star3", Graphics, L"Resource/Textures/Stars/Star.dds", Resolution_Mid + Vector2(200, 200), 17, Vector2(.25f, .25f));
 	winMenuCanvas->AddUIObject(star3);
+
+	Text* timetext = new Text("TimeText", L"", Screen_Mid + Vector2(0, -90), Vector2(.75f, .75f));
+	winMenuCanvas->AddUIObject(timetext);
 }
 
 void UISystem::Update(float deltaTime)
