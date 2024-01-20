@@ -29,7 +29,7 @@ void ButtonNavigator::Update(float deltaTime)
 void ButtonNavigator::Enable()
 {
 	UIObject::Enable();
-
+	CurrentButtonIndex = 0;
 	for (size_t i = 0; i < Buttons.size(); i++)
 	{
 		Buttons[i]->ToggleHighlight(i == CurrentButtonIndex);

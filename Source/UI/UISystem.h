@@ -35,6 +35,8 @@ public:
 
 	static void SetUpMainMenuCanvas();
 
+	static void HowToPlayMenu();
+
 	static void SetUpGameCanvas();
 
 	static void PauseMenu();

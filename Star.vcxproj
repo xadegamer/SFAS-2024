@@ -143,6 +143,7 @@
     <ClCompile Include="Source\Engine\IRenderable.cpp" />
     <ClCompile Include="Source\Engine\IShader.cpp" />
     <ClCompile Include="Source\Engine\ITexture.cpp" />
+    <ClCompile Include="Source\Engine\ObjectSerializer.cpp" />
     <ClCompile Include="Source\Engine\ParticleSystem.cpp" />
     <ClCompile Include="Source\Engine\Time.cpp" />
     <ClCompile Include="Source\EntryPoints\WindowsMain.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="Source\Engine\IRenderable.h" />
     <ClInclude Include="Source\Engine\IShader.h" />
     <ClInclude Include="Source\Engine\ITexture.h" />
+    <ClInclude Include="Source\Engine\ObjectSerializer.h" />
     <ClInclude Include="Source\Engine\ParticleSystem.h" />
     <ClInclude Include="Source\Engine\Pool.h" />
     <ClInclude Include="Source\Engine\Time.h" />

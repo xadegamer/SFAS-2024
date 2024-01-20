@@ -5,6 +5,7 @@ std::unique_ptr<DirectX::AudioEngine> SoundManager::AudioEngine = nullptr;
 std::map<std::string, std::unique_ptr<DirectX::SoundEffect>> SoundManager::SoundEffects;
 std::map<std::string, std::unique_ptr<DirectX::SoundEffectInstance>> SoundManager::SoundEffectInstances;
 std::string SoundManager::CurrentMusic = "";
+float SoundManager::MusicVolume = 1.0f;
 
 void SoundManager::Initialize()
 {
@@ -70,7 +71,7 @@ void SoundManager::PlayMusic(std::string name)
 	}
 
 	SoundEffectInstances[name] = SoundEffects[name]->CreateInstance();
-
+	SetSoundEffectVolume(name, MusicVolume);
 	SoundEffectInstances[name]->Play(true);
 
 	CurrentMusic = name;
@@ -89,7 +90,8 @@ void SoundManager::StopMusic(std::string name)
 
 void SoundManager::SetMusicVolume(float volume)
 {
-	SetSoundEffectVolume(CurrentMusic, volume);
+	MusicVolume = volume;
+	SetSoundEffectVolume(CurrentMusic, MusicVolume);
 }
 
 void SoundManager::SetSoundEffectVolume(std::string name, float volume)

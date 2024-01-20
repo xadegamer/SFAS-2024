@@ -13,6 +13,7 @@ private:
 	static std::map<std::string, std::unique_ptr<DirectX::SoundEffect>> SoundEffects;
 	static std::map<std::string, std::unique_ptr<DirectX::SoundEffectInstance>> SoundEffectInstances;
 	static std::string CurrentMusic;
+	static float MusicVolume;
 
 public:
 	SoundManager() = delete;

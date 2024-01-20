@@ -40,9 +40,6 @@
     <ClCompile Include="Source\Game\Particle.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\ParticleSystem.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Source\UI\Button.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -84,6 +81,12 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Ring.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\ParticleSystem.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\ObjectSerializer.cpp">
+      <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +182,9 @@
     </ClInclude>
     <ClInclude Include="Source\Game\Ring.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\ObjectSerializer.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

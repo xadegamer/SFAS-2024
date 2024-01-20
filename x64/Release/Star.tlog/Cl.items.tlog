@@ -9,6 +9,7 @@ D:\Competition\SFAS-2024\Source\Engine\Implementation\XInput\DirectXInput.cpp;D:
 D:\Competition\SFAS-2024\Source\Engine\IRenderable.cpp;D:\Competition\SFAS-2024\x64\Release\IRenderable.obj
 D:\Competition\SFAS-2024\Source\Engine\IShader.cpp;D:\Competition\SFAS-2024\x64\Release\IShader.obj
 D:\Competition\SFAS-2024\Source\Engine\ITexture.cpp;D:\Competition\SFAS-2024\x64\Release\ITexture.obj
+D:\Competition\SFAS-2024\Source\Engine\ObjectSerializer.cpp;D:\Competition\SFAS-2024\x64\Release\ObjectSerializer.obj
 D:\Competition\SFAS-2024\Source\Engine\ParticleSystem.cpp;D:\Competition\SFAS-2024\x64\Release\ParticleSystem.obj
 D:\Competition\SFAS-2024\Source\Engine\Time.cpp;D:\Competition\SFAS-2024\x64\Release\Time.obj
 D:\Competition\SFAS-2024\Source\EntryPoints\WindowsMain.cpp;D:\Competition\SFAS-2024\x64\Release\WindowsMain.obj

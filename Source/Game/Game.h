@@ -30,7 +30,6 @@ private:
 	int currentRow = 0; 
 	int currentCol = 0;
 
-	// Create a 2D vector to represent the grid of RingHolders
 	std::vector<std::vector<RingHolder*>> RingHolderGrid;
 	RingHolder* SelectedRingHolder;
 
@@ -50,6 +49,10 @@ private:
 	float Star2Threshold;
 	float Star3Threshold;
 
+	float curentSessionTime;
+	float currentSessionTimer;
+	float currentSessionTimerInterval;
+
 	void SetUpGame();
 	void StartGame();
 
@@ -65,13 +68,13 @@ private:
 	void OnSuccess();
 
 	void OnFirstTankEmpty();
-
 	void TransferWater();
 
+	void HandGameTime();
+	void SetTimeText(float time);
+
 	void TogglePause();
-
 	void HandleVolumeChange();
-
 	void SetMusicVolume(float value);
 };
 

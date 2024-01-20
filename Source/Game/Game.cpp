@@ -5,6 +5,8 @@
 #include "Engine/IShader.h"
 #include "Engine/IRenderable.h"
 #include "Engine/IInput.h"
+#include "Engine/Time.h"
+#include "Engine/ObjectSerializer.h"
 
 #include "RingHolder.h"
 #include "WaterTank.h"
@@ -20,6 +22,9 @@
 #define CLAMP(v, x, y) fmin(fmax(v, x), y)
 const std::string MainMenuCanvasID = "MainMenuCanvas";
 const std::string PauseMenuCanvasID = "PauseMenuCanvas";
+const std::string GameCanvasID = "GameCanvas";
+const std::string GameOverCanvasID = "GameOverCanvas";
+const std::string WinMenuCanvasID = "WinMenuCanvas";
 
 IApplication* GetApplication(IGraphics* Graphics, IInput* Input)
 {
@@ -36,6 +41,8 @@ Game::Game(IGraphics* GraphicsIn, IInput* InputIn) : IApplication(GraphicsIn, In
 	Star1Threshold = 0.25f;
 	Star2Threshold = 0.5f;
 	Star3Threshold = 0.75f;
+
+	currentSessionTimerInterval = 1.0f;
 
 	Button* StartButton = UISystem::GetCanvasUIByID(MainMenuCanvasID)->GetUIObjectByID<Button>("Start_B");
 	if (StartButton)
@@ -57,60 +64,70 @@ Game::Game(IGraphics* GraphicsIn, IInput* InputIn) : IApplication(GraphicsIn, In
 		});
 	}
 
-	Button* ResumeButton = UISystem::GetCanvasUIByID(PauseMenuCanvasID)->GetUIObjectByID<Button>("Resume_B");
-	if (ResumeButton)
+	Button* pauseResumeButton = UISystem::GetCanvasUIByID(PauseMenuCanvasID)->GetUIObjectByID<Button>("Resume_B");
+	if (pauseResumeButton)
 	{
-		ResumeButton->AddSelectEventListener([this]()
+		pauseResumeButton->AddSelectEventListener([this]()
 		{
 			SoundManager::PlayOneShot("Button_Click");
 			TogglePause();
 		});
 	}
 
-	Button* QuitButton2 = UISystem::GetCanvasUIByID(PauseMenuCanvasID)->GetUIObjectByID<Button>("Quit_B");
-	if (QuitButton2)
+	Button* pauseRestartButton = UISystem::GetCanvasUIByID(PauseMenuCanvasID)->GetUIObjectByID<Button>("Restart_B");
+	if (pauseRestartButton)
 	{
-		QuitButton2->AddSelectEventListener([]()
+		pauseRestartButton->AddSelectEventListener([this]()
+			{
+				SoundManager::PlayOneShot("Button_Click");
+				StartGame();
+			});
+	}
+
+	Button* pasueQuitButton = UISystem::GetCanvasUIByID(PauseMenuCanvasID)->GetUIObjectByID<Button>("Quit_B");
+	if (pasueQuitButton)
+	{
+		pasueQuitButton->AddSelectEventListener([]()
 			{
 			SoundManager::PlayOneShot("Button_Click");
 			PostQuitMessage(0);
 		});
 	}
 
-	Button* RestartButton = UISystem::GetCanvasUIByID("GameOverCanvas")->GetUIObjectByID<Button>("Restart_B");
-	if (RestartButton)
+	Button* gameoverRestartButton = UISystem::GetCanvasUIByID(GameOverCanvasID)->GetUIObjectByID<Button>("Restart_B");
+	if (gameoverRestartButton)
 	{
-		RestartButton->AddSelectEventListener([this]()
+		gameoverRestartButton->AddSelectEventListener([this]()
 			{
 			SoundManager::PlayOneShot("Button_Click");
 			StartGame();
 		});
 	}
 
-	Button* QuitButton3 = UISystem::GetCanvasUIByID("GameOverCanvas")->GetUIObjectByID<Button>("Quit_B");
-	if (QuitButton3)
+	Button* gameoverQuitButton = UISystem::GetCanvasUIByID(GameOverCanvasID)->GetUIObjectByID<Button>("Quit_B");
+	if (gameoverQuitButton)
 	{
-		QuitButton3->AddSelectEventListener([]()
+		gameoverQuitButton->AddSelectEventListener([]()
 			{
 			SoundManager::PlayOneShot("Button_Click");
 			PostQuitMessage(0);
 		});
 	}
 
-	Button* RestartButton2 = UISystem::GetCanvasUIByID("WinMenuCanvas")->GetUIObjectByID<Button>("Restart_B");
-	if (RestartButton2)
+	Button* winRestartButton = UISystem::GetCanvasUIByID(WinMenuCanvasID)->GetUIObjectByID<Button>("Restart_B");
+	if (winRestartButton)
 	{
-		RestartButton2->AddSelectEventListener([this]()
+		winRestartButton->AddSelectEventListener([this]()
 			{
 			SoundManager::PlayOneShot("Button_Click");
 			StartGame();
 		});
 	}
 
-	Button* QuitButton4 = UISystem::GetCanvasUIByID("WinMenuCanvas")->GetUIObjectByID<Button>("Quit_B");
-	if (QuitButton4)
+	Button* winQuitButton = UISystem::GetCanvasUIByID(WinMenuCanvasID)->GetUIObjectByID<Button>("Quit_B");
+	if (winQuitButton)
 	{
-		QuitButton4->AddSelectEventListener([]()
+		winQuitButton->AddSelectEventListener([]()
 			{
 			SoundManager::PlayOneShot("Button_Click");
 			PostQuitMessage(0);
@@ -133,6 +150,7 @@ bool Game::IsValid()
 
 bool Game::Load()
 {
+	ObjectSerializer::Example();
 	SetUpGame();
 	StartGame();
 	return true;
@@ -146,6 +164,7 @@ void Game::Update()
 			HandleVolumeChange();
 			break;
 		case Playing:
+			HandGameTime();
 			HandlePauseInput();
 			UpdateRingSelection();
 			UpdateSelectedRingRotation();
@@ -153,6 +172,7 @@ void Game::Update()
 			break;
 		case Paused:
 			HandlePauseInput();
+			HandleVolumeChange();
 			break;
 		default: break;
 	}
@@ -452,12 +472,35 @@ void Game::TransferWater()
 	WaterTank2->UpdateWaterLevel(1, WaterSpeed);
 }
 
+void Game::HandGameTime()
+{
+	if (currentSessionTimer > currentSessionTimerInterval)
+	{
+		curentSessionTime ++;
+		SetTimeText (curentSessionTime);
+		currentSessionTimer = 0;
+	}
+	else
+	{
+		currentSessionTimer += Time::GetDeltaTime();
+	}
+}
+
+void Game::SetTimeText(float time)
+{
+	int minutes = static_cast<int>(time) / 60;
+	int seconds = static_cast<int>(time) % 60;
+	std::wstring timeString = std::to_wstring(minutes) + L"m:" + std::to_wstring(seconds) + L"s";
+	UISystem::GetActiveCanvas()->GetUIObjectByID<Text>("TimeText")->SetText(timeString);
+}
+
 void Game::TogglePause()
 {
 	if (State != GameState::Paused)
 	{
 		State = GameState::Paused;
 		UISystem::EnableCanvasByID("PauseMenuCanvas");
+		SetMusicVolume(MusicVolume);
 	}
 	else
 	{
@@ -482,5 +525,16 @@ void Game::SetMusicVolume(float value)
 {
 	MusicVolume = CLAMP(value, 0, 100);
 	SoundManager::SetMusicVolume((float)MusicVolume / 100);
-	UISystem::GetCanvasUIByID(MainMenuCanvasID)->GetUIObjectByID<Text>("VolumeText")->SetText(L"Volume: " + std::to_wstring(MusicVolume));
+
+	switch (State)
+	{
+	case Setup:
+		UISystem::GetCanvasUIByID(MainMenuCanvasID)->GetUIObjectByID<Text>("VolumeText")->SetText(L"Volume: " + std::to_wstring(MusicVolume));
+		break;
+	case Paused:
+		UISystem::GetCanvasUIByID(PauseMenuCanvasID)->GetUIObjectByID<Text>("VolumeText")->SetText(L"Volume: " + std::to_wstring(MusicVolume));
+		break;
+		default: break;
+	}
+
 }

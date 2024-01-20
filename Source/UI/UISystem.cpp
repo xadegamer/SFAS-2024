@@ -34,6 +34,7 @@ void UISystem::Init(IGraphics* graphics, IInput* input)
 	Input = input;
 
 	SetUpMainMenuCanvas();
+	HowToPlayMenu();
 	SetUpGameCanvas();
 	PauseMenu();
 	GameOverMenu();
@@ -51,7 +52,7 @@ void UISystem::SetUpMainMenuCanvas()
 	bg->SetScale(Vector2(1.0f, 1.0f));
 	mainMenuCanvas->AddUIObject(bg);
 
-	Text* text = new Text("Title Text", L"Get the water", Screen_Mid + Vector2(0, -200), Vector2(1.5, 1.5));
+	Text* text = new Text("Title Text", L"Water Works", Screen_Mid + Vector2(0, -200), Vector2(1.5, 1.5));
 	text->SetColor(Color_White);
 	mainMenuCanvas->AddUIObject(text);
 
@@ -106,32 +107,56 @@ void UISystem::SetUpMainMenuCanvas()
 	Text* dPadUpText = new Text("dPadUpText", L"--- Navigate Menu", Screen_Mid + Vector2(200, -420), Vector2(.35, .35));
 	mainMenuCanvas->AddUIObject(dPadUpText);
 
-
-	//Image* topTextBar = new Image("TopTextBar", Graphics, L"Resource/Textures/TextBoxBig.dds", Vector2(500, -200), 15);
-	//topTextBar->SetScale(Vector2(.8f, .8f));
-	//mainMenuCanvas->AddUIObject(topTextBar);
-
-	//std::wstring controls =
-
-	//	L"Up/Down Direction to navigate UI\n\n" \
-	//	L"Left/Right Direction to music volume\n\n";
-
-	//	L"Up/Down Direction to navigate between Rings\n\n" \
-	//	L"Left/Right Bomper to music volume\n\n";
-
-	//std::wstring infoTextString =
-
-	//	L"Get the water from the water tank and fill the bucket with it. \n\n" \
-	//	L"Use the left and right arrow keys to move the bucket. \n\n" \
-	//	L"Use the up arrow key to jump. \n\n" \
-	//	L"Use the space bar to transfer water from the tank to the bucket. \n\n" \
-	//	L"Use the left control key to transfer water from the bucket to the tank. \n\n" \
-	//	L"Use the escape key to pause the game. \n\n" \
-	//	L"Use the enter key to select a button. \n\n";
-	//Text* infoText = new Text("Info Text",infoTextString, Screen_BottomRightCorner + Vector2(0, 0), Vector2(.5, .5));
-	//mainMenuCanvas->AddUIObject(infoText);
-
 	CurrentCanvas = mainMenuCanvas;
+}
+
+void UISystem::HowToPlayMenu()
+{
+	float aspectRatio = (float)kDisplayBufferWidth / (float)kDisplayBufferHeight;
+
+	CanvasUI* howToPlayCanvas = new CanvasUI(Graphics, "HowToPlayCanvas");
+	Canvases.push_back(howToPlayCanvas);
+
+	Image* bg = new Image("BG", Graphics, L"Resource/Textures/Background.dds");
+	bg->SetScale(Vector2(1.5f, 1.5f));
+	howToPlayCanvas->AddUIObject(bg);
+
+	Text* text = new Text("Title Text", L"How To Play", Screen_Mid + Vector2(0, -350), Vector2(1.5f, 1.5f));
+	text->SetColor(Color_White);
+	howToPlayCanvas->AddUIObject(text);
+
+	Button* resumeButton = new Button("Resume_B", Graphics, Resolution_Mid + Vector2(0, 0), Vector2(.5, .5f));
+	resumeButton->AddText("Text", L"Resume", Screen_Mid + Vector2(0, -10), Vector2(.5f, .5f), Color_White);
+	resumeButton->AddHighlightEventListener([]()
+		{
+			SoundManager::PlayOneShot("Button_Hover");
+		});
+	howToPlayCanvas->AddUIObject(resumeButton);
+
+	Button* quitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0, -100), Vector2(.5, .5f));
+	quitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 90), Vector2(.5f, .5f), Color_White);
+	quitButton->AddHighlightEventListener([]()
+		{
+			SoundManager::PlayOneShot("Button_Hover");
+		});
+	howToPlayCanvas->AddUIObject(quitButton);
+
+	ButtonNavigator* navigator = new ButtonNavigator(Input);
+	navigator->AddButton(resumeButton);
+	navigator->AddButton(quitButton);
+	howToPlayCanvas->AddUIObject(navigator);
+
+	std::wstring infoTextString =
+
+		L"Get the water from the water tank and fill the bucket with it. \n\n" \
+		L"Use the left and right arrow keys to move the bucket. \n\n" \
+		L"Use the up arrow key to jump. \n\n" \
+		L"Use the space bar to transfer water from the tank to the bucket. \n\n" \
+		L"Use the left control key to transfer water from the bucket to the tank. \n\n" \
+		L"Use the escape key to pause the game. \n\n" \
+		L"Use the enter key to select a button. \n\n";
+	Text* infoText = new Text("Info Text",infoTextString, Screen_BottomRightCorner + Vector2(0, 0), Vector2(.5, .5));
+	howToPlayCanvas->AddUIObject(infoText);
 }
 
 void UISystem::SetUpGameCanvas()
@@ -185,7 +210,7 @@ void UISystem::SetUpGameCanvas()
 
 	////////
 
-	Text* text = new Text("ScoreText", L"Score", Screen_TopLeftCorner + Vector2(40, 20), Vector2(.5f, .5f));
+	Text* text = new Text("TimeText", L"", Screen_TopLeftCorner + Vector2(100, 100), Vector2(.5f, .5f));
 	gameCanvas->AddUIObject(text);
 
 	Text* debugText = new Text("DebugText", L"Debug", Screen_Mid + Vector2(0, 300), Vector2(.5f, .5f));
@@ -215,8 +240,16 @@ void UISystem::PauseMenu()
 		});
 	pauseMenuCanvas->AddUIObject(resumeButton);
 
-	Button* quitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0, -100), Vector2(.5, .5f));
-	quitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 90), Vector2(.5f, .5f), Color_White);
+	Button* restartButton = new Button("Restart_B", Graphics, Resolution_Mid + Vector2(0, -100), Vector2(.5, .5f));
+	restartButton->AddText("Text", L"Restart", Screen_Mid + Vector2(0, 90), Vector2(.5f, .5f), Color_White);
+	restartButton->AddHighlightEventListener([]()
+		{
+			SoundManager::PlayOneShot("Button_Hover");
+		});
+	pauseMenuCanvas->AddUIObject(restartButton);
+
+	Button* quitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0, -200), Vector2(.5, .5f));
+	quitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 190), Vector2(.5f, .5f), Color_White);
 	quitButton->AddHighlightEventListener([]()
 		{
 			SoundManager::PlayOneShot("Button_Hover");
@@ -225,8 +258,39 @@ void UISystem::PauseMenu()
 
 	ButtonNavigator* navigator = new ButtonNavigator(Input);
 	navigator->AddButton(resumeButton);
+	navigator->AddButton(restartButton);
 	navigator->AddButton(quitButton);
 	pauseMenuCanvas->AddUIObject(navigator);
+
+	Image* infoPanel = new Image("InfoPanel", Graphics, L"Resource/Textures/TopTextBox.dds", Vector2(0, 100), 15);
+	infoPanel->SetScale(Vector2(.8f, .8f));
+	pauseMenuCanvas->AddUIObject(infoPanel);
+
+	///////// Icon + 50, Text + 100
+
+	Image* dPadIcon = new Image("dPadLeftIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Left.dds", Resolution_Mid + Vector2(-300, 420), 16, Vector2(.1f, .1f));
+	pauseMenuCanvas->AddUIObject(dPadIcon);
+
+	Image* dPadRightIcon = new Image("dPadRightIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Right.dds", Resolution_Mid + Vector2(-250, 420), 16, Vector2(.1f, .1f));
+	pauseMenuCanvas->AddUIObject(dPadRightIcon);
+
+	Text* dPadText = new Text("dPadLeftText", L"--- Navigate Volume", Screen_Mid + Vector2(-140, -420), Vector2(.35, .35));
+	pauseMenuCanvas->AddUIObject(dPadText);
+
+	/////////
+
+	Image* dPadUpIcon = new Image("dPadUpIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Up.dds", Resolution_Mid + Vector2(50, 420), 16, Vector2(.1f, .1f));
+	pauseMenuCanvas->AddUIObject(dPadUpIcon);
+
+	Image* dPadDownIcon = new Image("dPadUpIcon", Graphics, L"Resource/Textures/Buttons/D-Pad Down.dds", Resolution_Mid + Vector2(100, 420), 16, Vector2(.1f, .1f));
+	pauseMenuCanvas->AddUIObject(dPadDownIcon);
+
+	Text* dPadUpText = new Text("dPadUpText", L"--- Navigate Menu", Screen_Mid + Vector2(200, -420), Vector2(.35, .35));
+	pauseMenuCanvas->AddUIObject(dPadUpText);
+
+	Text* audioVolumeText = new Text("VolumeText", L"Volume", Screen_Mid + Vector2(0, 300), Vector2(.5f, .5f));
+	audioVolumeText->SetColor(Color_White);
+	pauseMenuCanvas->AddUIObject(audioVolumeText);
 }
 
 void UISystem::GameOverMenu()
