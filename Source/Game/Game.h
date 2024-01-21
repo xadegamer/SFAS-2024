@@ -58,6 +58,9 @@ private:
 	float currentSessionTimer;
 	float currentSessionTimerInterval;
 
+	bool hasStartedWeelSound;
+	bool ShowHint;
+
 	void SetUpGame();
 	void StartGame();
 
@@ -67,6 +70,9 @@ private:
 	void UpdateRingSelection();
 	void UpdateSelectedRingRotation();
 	void UpdateTanks();
+
+	void HandleHintInput();
+	void HandleHint();
 
 	void SwitchToNextRingHolder(int row, int col);
 	void ValidateAllRings();

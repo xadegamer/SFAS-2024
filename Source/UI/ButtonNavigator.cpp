@@ -20,7 +20,7 @@ void ButtonNavigator::Update(float deltaTime)
 	{
 		Navigate(1);
 	}
-	else if (Input->IsPressed(InputAction::ButtonBottom))
+	else if (Input->IsReleased(InputAction::ButtonBottom))
 	{
 		Buttons[CurrentButtonIndex]->Select();
 	}

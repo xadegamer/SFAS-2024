@@ -35,8 +35,6 @@ public:
 
 	static void SetUpMainMenuCanvas();
 
-	static void HowToPlayMenu();
-
 	static void SetUpGameCanvas();
 
 	static void PauseMenu();
@@ -45,7 +43,9 @@ public:
 
 	static void WinMenu();
 
-	static void AddLeaderboardUI(CanvasUI*);
+	static void AddLeaderboardUI(CanvasUI* canvas);
+	static void AddInstructionsUI(CanvasUI* canvas);
+	static void AddHintUI(CanvasUI* canvas);
 
 	static void Update(float deltaTime);
 

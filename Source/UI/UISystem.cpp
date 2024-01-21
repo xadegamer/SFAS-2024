@@ -34,7 +34,6 @@ void UISystem::Init(IGraphics* graphics, IInput* input)
 	Input = input;
 
 	SetUpMainMenuCanvas();
-	HowToPlayMenu();
 	SetUpGameCanvas();
 	PauseMenu();
 	GameOverMenu();
@@ -109,67 +108,11 @@ void UISystem::SetUpMainMenuCanvas()
 
 	/////////
 
-
-	std::wstring infoTextString =
-
-		L"Time: 00:00 , Star 2. \n\n" \
-		L"Time: 00:00 , Star 2. \n\n" \
-		L"Time: 00:00 , Star 2. \n\n" \
-		L"Time: 00:00 , Star 2. \n\n" \
-		L"Time: 00:00 , Star 2. \n\n";
-
 	AddLeaderboardUI (mainMenuCanvas);
 
+	AddHintUI (mainMenuCanvas);
+
 	CurrentCanvas = mainMenuCanvas;
-}
-
-void UISystem::HowToPlayMenu()
-{
-	float aspectRatio = (float)kDisplayBufferWidth / (float)kDisplayBufferHeight;
-
-	CanvasUI* howToPlayCanvas = new CanvasUI(Graphics, "HowToPlayCanvas");
-	Canvases.push_back(howToPlayCanvas);
-
-	Image* bg = new Image("BG", Graphics, L"Resource/Textures/Background.dds");
-	bg->SetScale(Vector2(1.5f, 1.5f));
-	howToPlayCanvas->AddUIObject(bg);
-
-	Text* text = new Text("Title Text", L"How To Play", Screen_Mid + Vector2(0, -350), Vector2(1.5f, 1.5f));
-	text->SetColor(Color_White);
-	howToPlayCanvas->AddUIObject(text);
-
-	Button* resumeButton = new Button("Resume_B", Graphics, Resolution_Mid + Vector2(0, 0), Vector2(.5, .5f));
-	resumeButton->AddText("Text", L"Resume", Screen_Mid + Vector2(0, -10), Vector2(.5f, .5f), Color_White);
-	resumeButton->AddHighlightEventListener([]()
-		{
-			SoundManager::PlayOneShot("Button_Hover");
-		});
-	howToPlayCanvas->AddUIObject(resumeButton);
-
-	Button* quitButton = new Button("Quit_B", Graphics, Resolution_Mid + Vector2(0, -100), Vector2(.5, .5f));
-	quitButton->AddText("Text", L"Quit", Screen_Mid + Vector2(0, 90), Vector2(.5f, .5f), Color_White);
-	quitButton->AddHighlightEventListener([]()
-		{
-			SoundManager::PlayOneShot("Button_Hover");
-		});
-	howToPlayCanvas->AddUIObject(quitButton);
-
-	ButtonNavigator* navigator = new ButtonNavigator(Input);
-	navigator->AddButton(resumeButton);
-	navigator->AddButton(quitButton);
-	howToPlayCanvas->AddUIObject(navigator);
-
-	std::wstring infoTextString =
-
-		L"Get the water from the water tank and fill the bucket with it. \n\n" \
-		L"Use the left and right arrow keys to move the bucket. \n\n" \
-		L"Use the up arrow key to jump. \n\n" \
-		L"Use the space bar to transfer water from the tank to the bucket. \n\n" \
-		L"Use the left control key to transfer water from the bucket to the tank. \n\n" \
-		L"Use the escape key to pause the game. \n\n" \
-		L"Use the enter key to select a button. \n\n";
-	Text* infoText = new Text("Info Text",infoTextString, Screen_BottomRightCorner + Vector2(0, 0), Vector2(.5, .5));
-	howToPlayCanvas->AddUIObject(infoText);
 }
 
 void UISystem::SetUpGameCanvas()
@@ -229,7 +172,7 @@ void UISystem::SetUpGameCanvas()
 	Text* text = new Text("TimeText", L"", Screen_TopLeftCorner + Vector2(100, 100), Vector2(.5f, .5f), Color_Red);
 	gameCanvas->AddUIObject(text);
 
-	Text* debugText = new Text("DebugText", L"Debug", Screen_Mid + Vector2(0, 300), Vector2(.5f, .5f));
+	Text* debugText = new Text("DebugText", L"", Screen_Mid + Vector2(0, 400), Vector2(.5f, .5f));
 	gameCanvas->AddUIObject(debugText);
 }
 
@@ -307,6 +250,10 @@ void UISystem::PauseMenu()
 	Text* audioVolumeText = new Text("VolumeText", L"Volume", Screen_Mid + Vector2(0, 300), Vector2(.5f, .5f));
 	audioVolumeText->SetColor(Color_White);
 	pauseMenuCanvas->AddUIObject(audioVolumeText);
+
+	AddInstructionsUI (pauseMenuCanvas);
+
+	AddHintUI(pauseMenuCanvas);
 }
 
 void UISystem::GameOverMenu()
@@ -434,6 +381,29 @@ void UISystem::AddLeaderboardUI(CanvasUI* canvas)
 
 	Text* leaderboardText = new Text("leaderboardText", L"", Screen_BottomRightCorner + Vector2(-290, -160), Vector2(.5, .5));
 	canvas->AddUIObject(leaderboardText);
+}
+
+void UISystem::AddInstructionsUI(CanvasUI* canvas)
+{
+	Text* instuctionHeaderText = new Text("instuctionHeaderText", L"Instructions", Screen_BottomLeftCorner + Vector2(190, -200), Vector2(1, 1), Color_White);
+	canvas->AddUIObject(instuctionHeaderText);
+
+	std::wstring infoTextString =
+
+		L"Rotate the pipes to connect the water. \n\n" \
+		L"Beat the time and get 1 - 3 Stars \n\n" \
+;
+	Text* instuctionText = new Text("instuctionText", infoTextString, Screen_BottomLeftCorner + Vector2(290, -100), Vector2(.5, .5));
+	canvas->AddUIObject(instuctionText);
+}
+
+void UISystem::AddHintUI(CanvasUI* canvas)
+{
+	Image* hintIcon = new Image("hintBG", Graphics, L"Resource/Textures/Buttons/Y.dds", Resolution_Mid + Vector2(-700, 300), 16, Vector2(.1f, .1f));
+	canvas->AddUIObject(hintIcon);
+
+	Text* hintHeaderText = new Text("hintText", L"Hint Off", Screen_TopLeftCorner + Vector2(100, 200), Vector2(.5, .5), Color_Red);
+	canvas->AddUIObject(hintHeaderText);
 }
 
 void UISystem::Update(float deltaTime)

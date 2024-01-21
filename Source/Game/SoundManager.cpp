@@ -32,6 +32,11 @@ void SoundManager::Initialize()
 	LoadSFX("Button_Click", L"Resource\\Audio\\Click.wav");
 	LoadSFX("WaterDrip", L"Resource\\Audio\\water_drip.wav");
 	LoadSFX("WaterTransfer", L"Resource\\Audio\\tank-refill.wav");
+	LoadSFX("Win", L"Resource\\Audio\\Win sound.wav");
+	LoadSFX("Lose", L"Resource\\Audio\\Lose sound.wav");
+	LoadSFX("RingRotation", L"Resource\\Audio\\RingRotation.wav");
+	LoadSFX("Switch Segment", L"Resource\\Audio\\Switch Segment.wav");
+	LoadSFX("Switch Ring", L"Resource\\Audio\\Switch Ring.wav");
 }
 
 void SoundManager::Update()
@@ -53,7 +58,7 @@ void SoundManager::PlayOneShot(std::string name, bool randomPitch)
 		return;
 	}
 
-	float randomPitchValue = randomPitch ? RAND_FLOAT (-0.2f, 0.2f) : 0.0f;
+	float randomPitchValue = randomPitch ? RAND_FLOAT (-0.1f, 0.1f) : 0.0f;
 	SoundEffects[name]->Play(SFXVolume, randomPitchValue,0);
 }
 

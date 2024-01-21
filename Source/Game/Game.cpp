@@ -164,6 +164,7 @@ void Game::Update()
 	{
 		case Setup:
 			HandleVolumeChange();
+			HandleHintInput();
 			break;
 		case Playing:
 			HandGameTime();
@@ -171,10 +172,12 @@ void Game::Update()
 			UpdateRingSelection();
 			UpdateSelectedRingRotation();
 			UpdateTanks();
+			HandleHint();
 			break;
 		case Paused:
 			HandlePauseInput();
 			HandleVolumeChange();
+			HandleHintInput();
 			break;
 		default: break;
 	}
@@ -335,6 +338,24 @@ void Game::UpdateSelectedRingRotation()
 {
 	if (IsConnected) return;	
 
+
+	if (Input->GetValue(InputAction::RightStickXAxis) != 0)
+	{
+		if (!hasStartedWeelSound)
+		{
+			hasStartedWeelSound = true;
+			SoundManager::PlayAudio("RingRotation", true);
+		}
+	}
+	else
+	{
+		if (hasStartedWeelSound)
+		{
+			hasStartedWeelSound = false;
+			SoundManager::StopAudio("RingRotation");
+		}
+	}
+
 	SelectedRingHolder->UpdateSelectedRingRotation(Input->GetValue(InputAction::RightStickXAxis));
 }
 
@@ -342,40 +363,67 @@ void Game::UpdateTanks()
 {
 	WaterTank1->Update();
 	WaterTank2->Update();
-
 	TransferWater();
+}
+
+void Game::HandleHintInput()
+{
+	if (Input->IsPressed(InputAction::ButtonTop))
+	{
+		Text* hintText = UISystem::GetActiveCanvas()->GetUIObjectByID<Text>("hintText");
+		if (!hintText) return;
+		if (ShowHint)
+		{
+			ShowHint = false;
+			hintText->SetText(L"Hint Off");
+			hintText->SetColor(Vector4(1, 0, 0, 1));
+
+			Text* debugText = UISystem::GetCanvasUIByID(GameCanvasID)->GetUIObjectByID<Text>("DebugText");
+			if (debugText)
+			{
+				debugText->SetText(L"");
+			}
+		}
+		else
+		{
+			ShowHint = true;
+			hintText->SetText(L"Hint On");
+			hintText->SetColor(Vector4(0, 1, 0, 1));
+		}
+	}
+}
+
+void Game::HandleHint()
+{
+	if(!ShowHint) return;
 
 	Text* debugText = UISystem::GetActiveCanvas()->GetUIObjectByID<Text>("DebugText");
-
 	if (debugText)
 	{
-		/*	int random = rand() % 100;
-		std::wstring str = std::to_wstring(random);*/
-
-		std::wstring message = L"";
+		std::wstring message = L"Selected Ring is ";
 		Vector4 color = Vector4(1, 1, 1, 1);
 		int correctRings = SelectedRingHolder->GetNumOfCorrectRings();
 
 		// set message to far, close , correct using switch
 		switch (correctRings)
 		{
-			case 0:
-				message = L"Wrong";
-				color = Vector4(1, 0, 0, 1);
-				break;
-			case 1:
-				message = L"Close";
-				color = Vector4(1, 1, 0, 1);
-				break;
-			case 2:
-				message = L"Very Close";
-				color = Vector4(0, 1, 0, 1);
-				break;
-				case 3:
-				message = L"Correct";
-				color = Vector4(0, 1, 0, 1);
-			default:
-				break;
+		case 0:
+			message += L"Wrong";
+			color = Vector4(1, 0, 0, 1);
+			break;
+		case 1:
+			message += L"Almost Wrong";
+			color = Vector4(1, 1, 0, 1);
+			break;
+		case 2:
+			message += L"Almost Correct";
+			color = Vector4(0, 1, 0, 1);
+			break;
+		case 3:
+			message += L"Very Correct";
+			color = Vector4(0, 1, 0, 1);
+		default:
+			break;
 		}
 		debugText->SetText(message);
 		debugText->SetColor(color);
@@ -412,6 +460,8 @@ void Game::SwitchToNextRingHolder(int row, int col)
 
 	SelectedRingHolder = RingHolderGrid[currentRow][currentCol];
 	SelectedRingHolder->Activate();
+
+	SoundManager::PlayOneShot("Switch Ring",true);
 }
 
 void Game::ValidateAllRings()
@@ -454,7 +504,7 @@ void Game::OnFirstTankEmpty()
 {
 	SoundManager::StopAudio("WaterTransfer");
 
-	if (WaterTank2->GetNormalizedWaterLevel() >= Star1Threshold)
+	if (WaterTank2->GetNormalizedWaterLevel() >= 0.1)
 	{
 		State = GameState::Win;
 		float normalizedWaterLevel = WaterTank2->GetNormalizedWaterLevel();
@@ -470,12 +520,15 @@ void Game::OnFirstTankEmpty()
 		PlayerDataInstance->AddSession(curentSessionTime, starts);
 		winMenuCanvas->GetUIObjectByID<Text>("leaderboardText")->SetText(GetLeaderboardInfo());
 		SavedPlayerData();
+
+		SoundManager::PlayOneShot("Win");
 	}
 	else
 	{
 		State = GameState::GameOver;
 		UISystem::EnableCanvasByID(GameOverCanvasID);
 		UISystem::GetCanvasUIByID(GameOverCanvasID)->GetUIObjectByID<Text>("leaderboardText")->SetText(GetLeaderboardInfo());
+		SoundManager::PlayOneShot("Lose");
 	}
 }
 
@@ -507,6 +560,14 @@ void Game::TogglePause()
 	{
 		State = GameState::Paused;
 		UISystem::EnableCanvasByID("PauseMenuCanvas");
+
+		Text* hintText = UISystem::GetActiveCanvas()->GetUIObjectByID<Text>("hintText");
+		if (hintText)
+		{
+			hintText->SetText(ShowHint ? L"Hint On" : L"Hint Off");
+			hintText->SetColor(ShowHint ? Vector4(0, 1, 0, 1) : Vector4(1, 0, 0, 1));
+		}
+
 		SetMusicVolume(MusicVolume);
 	}
 	else

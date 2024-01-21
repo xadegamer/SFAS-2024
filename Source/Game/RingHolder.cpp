@@ -4,6 +4,8 @@
 #include "Engine/IGraphics.h"
 #include "Engine/Time.h"
 #include "Ring.h"
+#include "SoundManager.h"
+
 
 #include <ctime>
 #include <math.h>
@@ -87,6 +89,7 @@ void RingHolder::UpdateRingSelection(int dir)
 	Rings[static_cast<int>(SelectedRing)]->ToggleHighlight(false);
 	SelectedRing = static_cast<RingLayer>(CLAMP(static_cast<int>(SelectedRing) + selectionChange, 0, NumberOfRings - 1));
 	Rings[static_cast<int>(SelectedRing)]->ToggleHighlight(true);
+	SoundManager::PlayOneShot("Switch Segment", true);
 }
 
 int RingHolder::GetNumOfCorrectRings()
