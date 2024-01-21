@@ -429,7 +429,7 @@ void Game::ValidateAllRings()
 		}		
 	}
 
-	if (true)
+	if (allRingsValid)
 	{
 		OnSuccess();
 	}
@@ -500,7 +500,6 @@ void Game::HandGameTime()
 		currentSessionTimer += Time::GetDeltaTime();
 	}
 }
-
 
 void Game::TogglePause()
 {
