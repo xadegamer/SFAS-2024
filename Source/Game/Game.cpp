@@ -611,9 +611,9 @@ void Game::LoadPlayerData()
 {
 	PlayerDataInstance = new PlayerData(50);
 
-	if(!ObjectSerializer::LoadFromFile(*PlayerDataInstance, PlayerDataFileName, false))
+	if(!ObjectSerializer::LoadFromFile(*PlayerDataInstance, PlayerDataFileName))
 	{
-		ObjectSerializer::SaveToFile(*PlayerDataInstance, PlayerDataFileName, false);
+		ObjectSerializer::SaveToFile(*PlayerDataInstance, PlayerDataFileName);
 	}
 
 	MusicVolume = PlayerDataInstance->GetMusicVolume();
@@ -621,7 +621,7 @@ void Game::LoadPlayerData()
 
 void Game::SavedPlayerData()
 {
-	ObjectSerializer::SaveToFile(*PlayerDataInstance, PlayerDataFileName, false);
+	ObjectSerializer::SaveToFile(*PlayerDataInstance, PlayerDataFileName);
 }
 
 std::wstring Game::GetLeaderboardInfo()
