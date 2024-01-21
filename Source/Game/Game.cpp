@@ -208,7 +208,6 @@ void Game::SetUpGame()
 	IShader* BGShader = Graphics->CreateShader(L"Resource/Shaders/UnlitColor.fx", "VS_Main", "vs_4_0", "PS_Main", "ps_4_0", BGTexture);
 	CentrebGG = Graphics->CreateBillboard(BGShader,0);
 	CentrebGG->SetScale(1.0f, 1.0f);
-	//CentrebGG->SetVisible(true);
 
 	// left Ttop
 	RingHolder* TestRingHolder0 = new RingHolder(Graphics , L"TopLeft");
@@ -257,7 +256,6 @@ void Game::SetUpGame()
 	State = GameState::Setup;
 
 	SoundManager::PlayMusic("GameMenu");
-	//SoundManager::SetMusicVolume(0.2f);
 }
 
 void Game::StartGame()
