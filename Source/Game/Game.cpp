@@ -410,7 +410,7 @@ void Game::HandleHint()
 			color = Vector4(1, 0, 0, 1);
 			break;
 		case 1:
-			message += L"Almost Wrong";
+			message += L"Getting Close";
 			color = Vector4(1, 1, 0, 1);
 			break;
 		case 2:
@@ -418,14 +418,13 @@ void Game::HandleHint()
 			color = Vector4(0, 1, 0, 1);
 			break;
 		case 3:
-			message += L"Very Correct";
+			message += L"Correct";
 			color = Vector4(0, 1, 0, 1);
 		default:
 			break;
 		}
 		debugText->SetText(message);
 		debugText->SetColor(color);
-		//debugText->SetText(std::to_wstring(WaterTank2->GetNormalizedWaterLevel()));
 	}
 }
 
